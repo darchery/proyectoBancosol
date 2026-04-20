@@ -10,4 +10,9 @@ public class BancosolController {
     public String prueba() {
         return "prueba";
     }
+
+    @GetMapping("/gestionTienda")
+    public String gestionTienda() {
+        return "gestionTienda";
+    }
 }
