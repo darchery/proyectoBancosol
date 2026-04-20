@@ -3,23 +3,8 @@ package es.uma.tsaw.proyectobancosol.entity;
 import lombok.Data;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-/**
- * Voluntario individual dentro de una participación.
- * El número de voluntarios en una participación se determina por el número de
- * registros Voluntario asociados a esa ParticipacionVoluntarios.
- * Cada participación tiene un turno.
- * @author bancosol
- */
 @Entity
 @Data
 @Table(name = "VOLUNTARIO")
@@ -31,24 +16,24 @@ public class Voluntario implements Serializable {
     @Column(name = "ID_VOLUNTARIO", nullable = false)
     private Integer idVoluntario;
 
-    @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
     @ManyToOne
+    @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
     private Direccion direccion;
 
-    @JoinColumn(name = "ID_TIENDA", referencedColumnName = "ID_TIENDA")
     @ManyToOne
+    @JoinColumn(name = "ID_TIENDA", referencedColumnName = "ID_TIENDA")
     private Tienda tienda;
 
-    @JoinColumn(name = "ID_TURNO", referencedColumnName = "ID_TURNO")
     @ManyToOne
+    @JoinColumn(name = "ID_TURNO", referencedColumnName = "ID_TURNO")
     private TurnoPorDia turno;
 
-    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     @ManyToOne
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     private Usuario usuario;
 
-    @JoinColumn(name = "ID_PARTICIPACION", referencedColumnName = "ID_PARTICIPACION")
     @ManyToOne
+    @JoinColumn(name = "ID_PARTICIPACION", referencedColumnName = "ID_PARTICIPACION")
     private ParticipacionVoluntarios participacion;
 
     @Column(name = "HORARIOS", length = 200)
@@ -56,7 +41,6 @@ public class Voluntario implements Serializable {
 
     @Override
     public String toString() {
-        return "es.bancosol.campanyas.entity.Voluntario[ idVoluntario=" + idVoluntario + " ]";
+        return "Voluntario[idVoluntario=" + idVoluntario + "]";
     }
-
 }
