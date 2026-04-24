@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Coordinador" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <%
-    List<Coordinador> coordinadores =  (List<Coordinador>) request.getAttribute("coordinador");
+    List<Usuario> coordinadores =  (List<Usuario>) request.getAttribute("coordinador");
 %>
 <body>
 <h1>Lista de Voluntarios</h1>
@@ -16,26 +16,25 @@
 <table class="table table-striped table-bordered table-hover align-middle">
     <tr>
         <th>NOMBRE</th>
-        <th>ENTIDAD</th>
-        <th>DISTRITO</th>
-        <th>TELEFONO</th>
-        <th>CORREO ELECTRONICO</th>
-        <th>TIENDAS</th>
-        <th>USUARIO</th>
-        <th>CONTRASEÑA</th>
+        <th>TELÉFONO</th>
+        <th>CORREO ELECTRÓNICO</th>
+        <th>ROL</th>
+        <th>ID SISTEMA</th>
     </tr>
     <%
-        for (Coordinador c: coordinadores) {
+        for (Usuario c: coordinadores) {
     %>
     <tr>
-
-        <td><%= c.getNombreCompleto() %> </td>
-        <td><%= c.getTienda().getCadena()%> </td>
-        <td><%= c.getTienda().getDistrito() %> </td>
-        <td><%= c.getTelefono()%> </td>
+        <td><strong><%= c.getNombre() %></strong></td>
+        <td><%= (c.getTelefono() != null) ? c.getTelefono() : "-" %></td>
         <td><%= c.getEmail() %></td>
-        <td><%=c.getUsuario() %></td>
-        <td><%=c.getUsuario().getContrasena() %></td>
+        <td>
+                <span class="badge bg-info text-dark">
+                    <%= (c.getRol() != null) ? c.getRol().getNombreRol() : "Sin Rol" %>
+                </span>
+        </td>
+
+        <td><small class="text-muted"><%= c.getIdUsuario() %></small></td>
     </tr>
     <%
         }
