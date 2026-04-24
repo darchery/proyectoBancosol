@@ -24,16 +24,16 @@ public class UsuarioController {
     private final UsuarioRepositorio usuarioRepository;
     private final RolRepositorio rolRepository;
 
-    @GetMapping("/coordinadores")
+    @GetMapping("/coordinadores-capitanes")
     public String listarCoordinadores(Model model) {
-        List<Usuario> coordinadores = usuarioRepository.findByRolNombreRol("Coordinador");
+        List<Usuario> coordinadores = usuarioRepository.findByRolNombreRol(2);
         model.addAttribute("coordinadores", coordinadores);
-        return "lista_coordinadores";
+        return "gestionCoordinadorCapitan";
     }
 
     @GetMapping("/voluntarios")
     public String listarVoluntarios(Model model) {
-        List<Usuario> voluntarios = usuarioRepository.findByRolNombreRol("Voluntario");
+        List<Usuario> voluntarios = usuarioRepository.findByRolNombreRol(4);
         model.addAttribute("voluntarios", voluntarios);
         return "lista_voluntarios";
     }
