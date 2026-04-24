@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 @Data
 @Entity
-@Table(name = "turno_activo", schema = "prueba_s")
+@Table(name = "turno_activo", schema = "public")
 public class TurnoActivo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
