@@ -1,6 +1,9 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
-public class UsuarioController {
+import es.uma.tsaw.proyectobancosol.dao.RolRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+
+public class UsuarioController {/*
     private final UsuarioRepositorio usuarioRepository;
     private final RolRepositorio rolRepository;
 
@@ -24,5 +27,5 @@ public class UsuarioController {
         usuario.setRol(rol);
         usuarioRepository.save(usuario);
         return "redirect:/usuarios/coordinadores";
-    }
+    }*/
 }
