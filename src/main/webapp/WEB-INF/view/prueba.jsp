@@ -1,10 +1,41 @@
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Campañas Bancosol</title>
+    <title>PRUEBA - Tiendas - Bancosol</title>
 </head>
-<body>
-<h1>Gestión de Campañas - Bancosol Alimentos</h1>
 
+<%
+    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
+%>
+
+<body>
+<h1>Listado de Tiendas - Bancosol Alimentos</h1>
+<table>
+    <tr>
+        <th>ID Tienda</th>
+        <th>Direccion</th>
+        <th>Nombre de establecimiento</th>
+        <th>Franquicia</th>
+        <th>Lineales</th>
+        <th>Código postal</th>
+    </tr>
+    <%
+        for(Tienda tienda : tiendas) {
+
+    %>
+        <tr>
+            <td>${tienda.idTienda}</td>
+            <td>${tienda.direccionEstablecimiento}</td>
+            <td>${tienda.nombreEstablecimiento}</td>
+            <td>${tienda.franquicia}</td>
+            <td>${tienda.lineales}</td>
+            <td>${tienda.cp}</td>
+        </tr>
+    <%
+        }
+    %>
+</table>
 </body>
 </html>

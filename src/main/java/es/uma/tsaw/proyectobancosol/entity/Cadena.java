@@ -1,49 +1,22 @@
 package es.uma.tsaw.proyectobancosol.entity;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-/**
- * Cadena de supermercados. Una cadena participa en muchas campañas.
- * @author bancosol
- */
-@Entity
 @Data
-@Table(name = "CADENA")
-public class Cadena implements Serializable {
-
+@Entity
+@Table(name = "cadena", schema = "prueba_s")
+public class Cadena {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID_CADENA", nullable = false)
     private Integer idCadena;
 
-    @Column(name = "NOMBRE_CADENA", nullable = false, length = 100)
+    @Column(name = "nombre_cadena", nullable = false, length = 150)
     private String nombreCadena;
 
-    @Column(name = "PARTICIPA_EN")
-    private Boolean participaEn;
+    @Column(name = "resenya_cadena", length = 150)
+    private String resenyaCadena;
 
-    @OneToMany(mappedBy = "cadena")
-    private List<Tienda> tiendaList;
-
-    @ManyToMany(mappedBy = "cadenaList")
-    private List<Campanya> campanyaList;
-
-    @Override
-    public String toString() {
-        return "es.bancosol.campanyas.entity.Cadena[ idCadena=" + idCadena + " ]";
-    }
-
+    @Column(name = "logo_url")
+    private String logoUrl;
 }
