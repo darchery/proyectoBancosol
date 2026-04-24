@@ -25,13 +25,13 @@ public class Campanya {
 
     @Column(name = "estado", length = 50)
     private String estado;
-}
 
-@ManyToMany
-@JoinTable(
-        name = "campanya_cadena",
-        schema = "prueba_s",
-        joinColumns = @JoinColumn(name = "id_campanya"),
-        inverseJoinColumns = @JoinColumn(name = "id_cadena")
-)
-private List<Cadena> cadenasParticipantes;
+    @ManyToMany
+    @JoinTable(
+            name = "campanya_cadena",
+            schema = "prueba_s",
+            joinColumns = @JoinColumn(name = "id_campanya"),
+            inverseJoinColumns = @JoinColumn(name = "id_cadena")
+    )
+    private List<Cadena> cadenasParticipantes;
+}
