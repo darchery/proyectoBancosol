@@ -1,10 +1,7 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
-
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
-import es.uma.tsaw.proyectobancosol.entity.TiendaCampanya;
+import es.uma.tsaw.proyectobancosol.dao.TiendaRepositorio;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,14 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/tiendas")
 public class TiendaController {
-    private final TiendaRepository tiendaRepository;
+    private final TiendaRepositorio tiendaRepository;
     private final TiendaCampanyaRepositorio tiendaCampanyaRepository;
-    private final UsuarioRepositorio usuarioRepository;
+    private final UsuarioController usuarioRepository;
 
     @GetMapping("/")
     public String listarTienda (Model model){
@@ -34,6 +32,19 @@ public class TiendaController {
         return "tiendas_por_campanya";
     }
 
+    //FALTA UN ASIGNAR RESPONSABLES
+    @PostMapping("/asignar-responsables")
+    public String asignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
+                                      @RequestParam("idCoordinador") UUID idCoordinador,
+                                      @RequestParam("idCapitan") UUID idCapitan) {
+
+        TiendaCampanya tiendaCampanya = tiendaCampanyaRepository.findById(idTiendaCampanya).orElseThrow();
+        tiendaCampanya.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
+        tiendaCampanya.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
+
+        tiendaCampanyaRepository.save(tiendaCampanya);
+        return "redirect:/tiendas/";
+    }
 
 
 }
