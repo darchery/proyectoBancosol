@@ -1,3 +1,7 @@
+package es.uma.tsaw.proyectobancosol.newEntity;
+
+import es.uma.tsaw.proyectobancosol.newEntity.Cadena;
+import es.uma.tsaw.proyectobancosol.newEntity.Direccion;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.UUID;

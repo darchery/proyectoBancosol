@@ -1,0 +1,109 @@
+-- 1. Destruye tu esquema actual y TODO lo que tenga dentro (sin preguntar)
+DROP SCHEMA IF EXISTS prueba_s CASCADE;
+
+-- 2. Lo vuelve a crear totalmente limpio y vacío
+CREATE SCHEMA prueba_s;
+
+-- 3. Se mete dentro del esquema nuevo para empezar a trabajar
+SET search_path TO prueba_s;
+
+-- 1. TABLAS INDEPENDIENTES (Sin claves foráneas)
+
+CREATE TABLE rol (
+    id_rol SERIAL PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE campanya (
+    id_campanya SERIAL PRIMARY KEY,
+    nombre_campanya VARCHAR(255) NOT NULL,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    estado VARCHAR(50)
+);
+
+CREATE TABLE cadena (
+    id_cadena SERIAL PRIMARY KEY,
+    nombre_cadena VARCHAR(150) NOT NULL,
+	resenya_cadena VARCHAR(150),
+    logo_url VARCHAR(255)
+);
+
+CREATE TABLE direccion (
+    id_direccion SERIAL PRIMARY KEY,
+    distrito_local VARCHAR(150),
+    zona_geografica VARCHAR(150)
+);
+
+CREATE TABLE plantilla_turno (
+    id_plantilla SERIAL PRIMARY KEY,
+    dia_semana VARCHAR(20),
+    franja_horaria VARCHAR(50)
+);
+
+-- 2. TABLAS DE PRIMER NIVEL DE DEPENDENCIA
+
+-- UUID conectado a Supabase Auth. Campo 'pwd' eliminado del diagrama por seguridad.
+CREATE TABLE usuario (
+    id_usuario UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    id_rol INT REFERENCES rol(id_rol),
+    nombre VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    telefono VARCHAR(20)
+);
+
+CREATE TABLE campanya_cadena (
+    id_campanya INT REFERENCES campanya(id_campanya) ON DELETE CASCADE,
+    id_cadena INT REFERENCES cadena(id_cadena) ON DELETE CASCADE,
+    PRIMARY KEY (id_campanya, id_cadena)
+);
+
+CREATE TABLE tienda (
+    id_tienda SERIAL PRIMARY KEY,
+    id_cadena INT REFERENCES cadena(id_cadena) ON DELETE CASCADE,
+    id_direccion INT REFERENCES direccion(id_direccion),
+    nombre_establecimiento VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255),
+	franquicia BOOLEAN DEFAULT FALSE,
+	lineales VARCHAR(10),
+    cp VARCHAR(10)
+);
+
+-- 3. TABLAS DE SEGUNDO NIVEL DE DEPENDENCIA
+
+CREATE TABLE entidad_colaboradora (
+    id_entidad SERIAL PRIMARY KEY,
+    id_responsable UUID REFERENCES usuario(id_usuario),
+    nombre_entidad VARCHAR(255) NOT NULL,
+    tipo VARCHAR(100),
+    ligado_bancosol BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE tienda_campanya (
+    id_tienda_campanya SERIAL PRIMARY KEY,
+    id_tienda INT REFERENCES tienda(id_tienda) ON DELETE CASCADE,
+    id_campanya INT REFERENCES campanya(id_campanya) ON DELETE CASCADE,
+    id_coordinador UUID REFERENCES usuario(id_usuario),
+    id_capitan UUID REFERENCES usuario(id_usuario),
+    UNIQUE (id_tienda, id_campanya)
+);
+
+-- 4. TABLAS DE TERCER NIVEL (Flujo de Turnos)
+
+CREATE TABLE turno_activo (
+    id_turno_activo SERIAL PRIMARY KEY,
+    id_tienda_campanya INT REFERENCES tienda_campanya(id_tienda_campanya) ON DELETE CASCADE,
+    id_plantilla INT REFERENCES plantilla_turno(id_plantilla),
+    fecha_exacta DATE NOT NULL,
+    hora_inicio TIME,
+    hora_fin TIME,
+    plazas_disponibles INT DEFAULT 0
+);
+
+CREATE TABLE asignacion_voluntario (
+    id_asignacion SERIAL PRIMARY KEY,
+    id_turno_activo INT REFERENCES turno_activo(id_turno_activo) ON DELETE CASCADE,
+    id_usuario UUID REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    id_entidad INT REFERENCES entidad_colaboradora(id_entidad),
+    asistencia BOOLEAN DEFAULT FALSE
+);
