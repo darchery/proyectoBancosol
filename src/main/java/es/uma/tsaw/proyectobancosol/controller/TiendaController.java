@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @AllArgsConstructor
@@ -34,6 +35,19 @@ public class TiendaController {
         return "tiendas_por_campanya";
     }
 
+    //FALTA UN ASIGNAR RESPONSABLES
+    @PostMapping("/asignar-responsables")
+    public String asignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
+                                      @RequestParam("idCoordinador") UUID idCoordinador,
+                                      @RequestParam("idCapitan") UUID idCapitan) {
+
+        TiendaCampanya tiendaCampanya = tiendaCampanyaRepository.findById(idTiendaCampanya).orElseThrow();
+        tiendaCampanya.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
+        tiendaCampanya.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
+
+        tiendaCampanyaRepository.save(tiendaCampanya);
+        return "redirect:/tiendas/";
+    }
 
 
 }

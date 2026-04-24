@@ -3,7 +3,20 @@ package es.uma.tsaw.proyectobancosol.controller;
 import es.uma.tsaw.proyectobancosol.dao.RolRepositorio;
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
 
-public class UsuarioController {/*
+import es.uma.tsaw.proyectobancosol.entity.Rol;
+import es.uma.tsaw.proyectobancosol.entity.Usuario;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+
+import java.util.List;
+
+@Controller
+@AllArgsConstructor
+@RequestMapping("/usuarios")
+public class UsuarioController {
     private final UsuarioRepositorio usuarioRepository;
     private final RolRepositorio rolRepository;
 
@@ -27,5 +40,5 @@ public class UsuarioController {/*
         usuario.setRol(rol);
         usuarioRepository.save(usuario);
         return "redirect:/usuarios/coordinadores";
-    }*/
+    }
 }
