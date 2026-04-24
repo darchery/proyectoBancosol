@@ -51,7 +51,7 @@ public class Campanya implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "campanya_cadena",
-            schema = "prueba_s",
+            schema = "public",
             joinColumns = @JoinColumn(name = "id_campanya"),
             inverseJoinColumns = @JoinColumn(name = "id_cadena")
     )

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "usuario", schema = "prueba_s")
+@Table(name = "usuario", schema = "public")
 public class Usuario {
     @Id
     @Column(name = "id_usuario", updatable = false, nullable = false)
