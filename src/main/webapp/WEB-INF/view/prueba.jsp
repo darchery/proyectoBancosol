@@ -23,16 +23,15 @@
     </tr>
     <%
         for(Tienda tienda : tiendas) {
-
     %>
-        <tr>
-            <td>${tienda.idTienda}</td>
-            <td>${tienda.direccionEstablecimiento}</td>
-            <td>${tienda.nombreEstablecimiento}</td>
-            <td>${tienda.franquicia}</td>
-            <td>${tienda.lineales}</td>
-            <td>${tienda.cp}</td>
-        </tr>
+    <tr>
+        <td><%= tienda.getIdTienda() %></td>
+        <td><%= tienda.getDireccionEstablecimiento() %></td>
+        <td><%= tienda.getNombreEstablecimiento() %></td>
+        <td><%= tienda.getFranquicia() %></td>
+        <td><%= tienda.getLineales() %></td>
+        <td><%= tienda.getCp() %></td>
+    </tr>
     <%
         }
     %>
