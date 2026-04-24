@@ -1,0 +1,48 @@
+-- Asegurarnos de usar el esquema public
+SET search_path TO public;
+
+-- ==========================================
+-- 1. INSERTAR DIRECCIONES
+-- ==========================================
+-- Variedad: Distintos distritos y zonas geográficas (Málaga capital y provincia)
+INSERT INTO direccion (distrito_local, zona_geografica) VALUES
+('Centro', 'Málaga Capital'),
+('Teatinos-Universidad', 'Málaga Capital'),
+('Carretera de Cádiz', 'Málaga Capital'),
+('San Pedro Alcántara', 'Costa del Sol Occidental'),
+('Centro Histórico', 'Ronda');
+
+-- ==========================================
+-- 2. INSERTAR CADENAS
+-- ==========================================
+-- Variedad: Supermercados grandes, hipermercados y tiendas de conveniencia
+INSERT INTO cadena (nombre_cadena, resenya_cadena, logo_url) VALUES
+('Mercadona', 'Supermercado estándar', 'https://ejemplo.com/logos/mercadona.png'),
+('Carrefour', 'Hipermercado', 'https://ejemplo.com/logos/carrefour.png'),
+('Carrefour Express', 'Tienda de conveniencia', 'https://ejemplo.com/logos/carrefour_express.png'),
+('Dia', 'Supermercado de descuento', 'https://ejemplo.com/logos/dia.png'),
+('Maskom', 'Supermercado regional', NULL); -- Ejemplo sin logo para probar nulos en tu frontend
+
+-- ==========================================
+-- 3. INSERTAR TIENDAS
+-- ==========================================
+-- Variedad: Mezcla de franquicias (TRUE/FALSE), diferentes tamaños de lineales y nulos en direcciones.
+-- Asumimos que los IDs de las inserciones anteriores son 1, 2, 3, 4, 5 secuencialmente.
+INSERT INTO tienda (id_cadena, id_direccion, nombre_establecimiento, direccion, franquicia, lineales, cp) VALUES
+-- Tienda 1: Mercadona grande en el centro (No franquicia)
+(1, 1, 'Mercadona Atarazanas', 'Calle Mercado 12', FALSE, '15', '29005'),
+
+-- Tienda 2: Carrefour Express pequeño en Teatinos (Sí franquicia)
+(3, 2, 'Carrefour Express Bulevar', 'Bulevar Louis Pasteur 33', TRUE, '4', '29010'),
+
+-- Tienda 3: Carrefour grande en Carretera de Cádiz
+(2, 3, 'Carrefour Los Patios', 'Av. de Velázquez 241', FALSE, '25', '29004'),
+
+-- Tienda 4: Dia en San Pedro (Franquicia)
+(4, 4, 'Dia Maxi San Pedro', 'Av. Pablo Ruiz Picasso 1', TRUE, '8', '29670'),
+
+-- Tienda 5: Maskom en Ronda (Sin franquicia, probando un CP distinto)
+(5, 5, 'Maskom Ronda Centro', 'Calle Espinel 45', FALSE, '6', '29400'),
+
+-- Tienda 6: Ejemplo de tienda a la que le falta la dirección física exacta (para probar fallos/nulos)
+(1, 2, 'Mercadona Campus', NULL, FALSE, '12', '29010');
