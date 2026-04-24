@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <%
-    List<EntidadColaboradora> entidadesColaboradoras =  (List<EntidadColaboradora>) request.getAttribute("pelis");
+    List<EntidadColaboradora> entidadesColaboradoras =  (List<EntidadColaboradora>) request.getAttribute("entidades");
 %>
 <body>
 <h1>Lista de Entidades Colaboradoras</h1>
