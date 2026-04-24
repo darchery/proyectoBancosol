@@ -1,5 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
