@@ -5,8 +5,8 @@ import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
 
 import es.uma.tsaw.proyectobancosol.entity.Rol;
 import es.uma.tsaw.proyectobancosol.entity.Usuario;
-import lombok.AllArgsConstructor;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
