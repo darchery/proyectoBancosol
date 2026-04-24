@@ -2,10 +2,24 @@ package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dao.RolRepositorio;
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+import es.uma.tsaw.proyectobancosol.entity.Rol;
+import es.uma.tsaw.proyectobancosol.entity.Usuario;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-public class UsuarioController {/*
+import java.util.List;
+
+public class UsuarioController {
     private final UsuarioRepositorio usuarioRepository;
     private final RolRepositorio rolRepository;
+
+    public UsuarioController(UsuarioRepositorio usuarioRepository, RolRepositorio rolRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.rolRepository = rolRepository;
+    }
 
     @GetMapping("/coordinadores")
     public String listarCoordinadores(Model model) {
@@ -27,5 +41,5 @@ public class UsuarioController {/*
         usuario.setRol(rol);
         usuarioRepository.save(usuario);
         return "redirect:/usuarios/coordinadores";
-    }*/
+    }
 }
