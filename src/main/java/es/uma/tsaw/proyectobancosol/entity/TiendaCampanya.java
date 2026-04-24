@@ -1,6 +1,5 @@
-package es.uma.tsaw.proyectobancosol.newEntity;
+package es.uma.tsaw.proyectobancosol.entity;
 
-import es.uma.tsaw.proyectobancosol.entity.Tienda;
 import jakarta.persistence.*;
 import lombok.Data;
 
