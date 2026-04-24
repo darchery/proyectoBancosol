@@ -24,11 +24,6 @@ public class UsuarioController {
     private final UsuarioRepositorio usuarioRepository;
     private final RolRepositorio rolRepository;
 
-    public UsuarioController(UsuarioRepositorio usuarioRepository, RolRepositorio rolRepository) {
-        this.usuarioRepository = usuarioRepository;
-        this.rolRepository = rolRepository;
-    }
-
     @GetMapping("/coordinadores")
     public String listarCoordinadores(Model model) {
         List<Usuario> coordinadores = usuarioRepository.findByRolNombreRol("Coordinador");
