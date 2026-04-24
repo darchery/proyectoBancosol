@@ -1,7 +1,10 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.TiendaRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
+
+import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+import es.uma.tsaw.proyectobancosol.entity.TiendaCampanya;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,9 +18,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequestMapping("/tiendas")
 public class TiendaController {
-    private final TiendaRepositorio tiendaRepository;
+    private final TiendaRepository tiendaRepository;
     private final TiendaCampanyaRepositorio tiendaCampanyaRepository;
-    private final UsuarioController usuarioRepository;
+    private final UsuarioRepositorio usuarioRepository;
 
     @GetMapping("/")
     public String listarTienda (Model model){
