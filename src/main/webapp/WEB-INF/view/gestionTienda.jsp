@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.TiendaCampanya" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -10,12 +11,6 @@
 
 <%
     List<Tienda> tienda = (List<Tienda>) request.getAttribute("tiendas");
-
-    List<String> coordPrimavera =
-            (List<String>) request.getAttribute("coordinadoresPrimavera");
-
-    List<String> coordGranRecogida =
-            (List<String>) request.getAttribute("coordinadoresGranRecogida");
 %>
 
 <body>
@@ -26,44 +21,35 @@
 
     <tr>
         <th>TIENDA</th>
-        <th>P</th>
-        <th>DOMICILIO</th>
-        <th>LOCALIDAD</th>
-        <th>LINEALES</th>
-        <th>COORDINADOR PRIMAVERA</th>
-        <th>COORDINADOR GRAN RECOGIDA</th>
+        <th>CAMPANYA</th>
+        <th>COORDINADOR</th>
+        <th>CAPITAN</th>
     </tr>
 
     <%
-        for (int i = 0; i < tienda.size(); i++) {
-            Tienda t = tienda.get(i);
+        List<TiendaCampanya> asignaciones = (List<TiendaCampanya>) request.getAttribute("asignaciones");
+        if (asignaciones != null) {
+            for (TiendaCampanya tc : asignaciones) {
     %>
-
     <tr>
-        <td><%= t.getIdTienda() %></td>
-        <td>
-            <input type="checkbox" disabled
-                    <%= Boolean.TRUE.equals(t.getParticipa()) ? "checked" : "" %> />
-        </td>
-        <td><%= t.getDomicilio() %></td>
-        <td> <%= (t.getDireccion() != null) ? t.getDireccion().toString() : "" %> </td>
-        <td><%= t.getLineales() %></td>
+        <td><%= tc.getTienda().getNombreEstablecimiento() %></td>
+
+        <td><%= tc.getCampanya().getNombreCampanya() %></td>
 
         <td>
-            <%= (coordPrimavera != null && i < coordPrimavera.size())
-                    ? coordPrimavera.get(i)
-                    : "-" %>
+            <%= (tc.getCoordinador() != null)
+                    ? tc.getCoordinador().getNombre()
+                    : "<span class='text-danger'>Sin asignar</span>" %>
         </td>
 
         <td>
-            <%= (coordGranRecogida != null && i < coordGranRecogida.size())
-                    ? coordGranRecogida.get(i)
-                    : "-" %>
+            <%= (tc.getCapitan() != null)
+                    ? tc.getCapitan().getNombre()
+                    : "---" %>
         </td>
-
     </tr>
-
     <%
+            }
         }
     %>
 
