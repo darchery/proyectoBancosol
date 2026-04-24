@@ -36,6 +36,7 @@ build/
 # Variables de entorno - NUNCA subir a Git
 .env
 *.env
+env
 
 # Logs
 *.log
