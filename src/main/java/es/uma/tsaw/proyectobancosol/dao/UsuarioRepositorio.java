@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, UUID> {
-    List<Usuario> findByRolNombreRol(String voluntario);
+    List<Usuario> findByRolNombreRol(Integer idrol);
 }

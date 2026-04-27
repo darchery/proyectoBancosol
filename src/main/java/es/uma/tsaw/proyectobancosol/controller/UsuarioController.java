@@ -5,11 +5,15 @@ import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
 
 import es.uma.tsaw.proyectobancosol.entity.Rol;
 import es.uma.tsaw.proyectobancosol.entity.Usuario;
-
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,16 +24,16 @@ public class UsuarioController {
     private final UsuarioRepositorio usuarioRepository;
     private final RolRepositorio rolRepository;
 
-    @GetMapping("/coordinadores")
+    @GetMapping("/coordinadores-capitanes")
     public String listarCoordinadores(Model model) {
-        List<Usuario> coordinadores = usuarioRepository.findByRolNombreRol("Coordinador");
+        List<Usuario> coordinadores = usuarioRepository.findByRolNombreRol(2);
         model.addAttribute("coordinadores", coordinadores);
-        return "lista_coordinadores";
+        return "gestionCoordinadorCapitan";
     }
 
     @GetMapping("/voluntarios")
     public String listarVoluntarios(Model model) {
-        List<Usuario> voluntarios = usuarioRepository.findByRolNombreRol("Voluntario");
+        List<Usuario> voluntarios = usuarioRepository.findByRolNombreRol(4);
         model.addAttribute("voluntarios", voluntarios);
         return "lista_voluntarios";
     }

@@ -30,4 +30,51 @@ public class EntidadColaboradoraController {
         return "gestionColaboradores";
     }
 
+    @GetMapping("/entidades/nueva")
+    public String nueva(Model model) {
+        model.addAttribute("entidad", new EntidadColaboradora());
+        List<Usuario> usuarios = this.usuarioRepositorio.findAll();
+        model.addAttribute("usuarios", usuarios);
+        return "entidad_form";
+    }
+
+    @PostMapping("/entidades/guardar")
+    public String guardar(
+            @RequestParam(value = "idEntidad", required = false) Integer idEntidad,
+            @RequestParam("nombreEntidad") String nombreEntidad,
+            @RequestParam("tipo") String tipo,
+            @RequestParam("ligadoBancosol") Boolean ligadoBancosol,
+            @RequestParam(value = "responsableId", required = false) UUID responsableId) {
+
+        EntidadColaboradora entidad = (idEntidad == null)
+                ? new EntidadColaboradora()
+                : this.entidadColaboradoraRepositorio.findById(idEntidad).get();
+
+        entidad.setNombreEntidad(nombreEntidad);
+        entidad.setTipo(tipo);
+        entidad.setLigadoBancosol(ligadoBancosol);
+
+        if (responsableId != null) {
+            Usuario responsable = this.usuarioRepositorio.findById(responsableId).get();
+            entidad.setResponsable(responsable);
+        }
+
+        this.entidadColaboradoraRepositorio.save(entidad);
+        return "redirect:/entidades";
+    }
+
+    @GetMapping("/entidades/editar")
+    public String editar(@RequestParam("id") Integer id, Model model) {
+        EntidadColaboradora entidad = this.entidadColaboradoraRepositorio.findById(id).get();
+        List<Usuario> usuarios = this.usuarioRepositorio.findAll();
+        model.addAttribute("entidad", entidad);
+        model.addAttribute("usuarios", usuarios);
+        return "entidad_form";
+    }
+
+    @GetMapping("/entidades/borrar")
+    public String borrar(@RequestParam("id") Integer id) {
+        this.entidadColaboradoraRepositorio.deleteById(id);
+        return "redirect:/entidades";
+    }
 }
