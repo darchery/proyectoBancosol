@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,8 +10,20 @@
 <%
     List<Usuario> coordinadores =  (List<Usuario>) request.getAttribute("coordinadores");
 %>
+
+<%!
+    public String tranformarContrasenya(String contrasenya) {
+        String res = "";
+
+        for (Character c : contrasenya.toCharArray()) {
+            res += "*";
+        }
+        return res;
+    }
+%>
+
 <body>
-<h1>Lista de Voluntarios</h1>
+<h1>Lista de Coordinadores</h1>
 
 <table class="table table-striped table-bordered table-hover align-middle">
     <tr>
@@ -20,27 +33,29 @@
         <th>TELÉFONO</th>
         <th>CORREO ELECTRÓNICO</th>
         <th>TIENDAS</th>
-        <th>USUARIO</th>
-        <th>CONTRASEÑA(poner así ****** -> borrar cuando se haga)</th>
+        <th>ID-USUARIO</th>
+        <th>CONTRASEÑA</th>
     </tr>
     <%
         for (Usuario c: coordinadores) {
     %>
     <tr>
         <td><strong><%= c.getNombre() %></strong></td>
-        <td>poner entidad</td>
-        <td>poner área asignada</td>
+        <td><%= request.getAttribute("entidad_" + c.getIdUsuario())%></td>
+        <td><%= request.getAttribute("area_" + c.getIdUsuario())%></td>
         <td><%= (c.getTelefono() != null) ? c.getTelefono() : "-" %></td>
         <td><%= c.getEmail() %></td>
-        <td>poner numero tiendas</td>
+        <td><%= request.getAttribute("tiendas_" + c.getIdUsuario())%></td>
         <td><%= c.getIdUsuario()%></td>
-        <td>poner contraseña(****)</td>
+        <td><%= tranformarContrasenya(c.getContrasenya())%></td>
     </tr>
     <%
         }
     %>
 
 </table>
+
+</div>
 
 </body>
 </html>

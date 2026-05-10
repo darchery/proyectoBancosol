@@ -20,6 +20,7 @@ public class BancosolController {
         List<Tienda> tiendas = this.tiendaRepository.findAll();
         model.addAttribute("tiendas", tiendas);
 
+        // No definitivo - simple prueba
         return "prueba";
     }
 }

@@ -24,4 +24,7 @@ public class Usuario {
 
     @Column(name = "telefono", length = 20)
     private String telefono;
+
+    @Column(name = "contrasenya", nullable = false)
+    private String contrasenya;
 }
