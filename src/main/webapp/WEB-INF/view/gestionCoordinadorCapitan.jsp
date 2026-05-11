@@ -37,7 +37,7 @@
         <td><%= request.getAttribute("tiendas_" + c.getIdUsuario())%></td>
         <td><%= c.getIdUsuario()%></td>
         <td><%= c.tranformarContrasenya(c.getContrasenya())%></td>
-        <td><a href="/usuarios/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRol().getIdRol()%>"></a>Editar</td>
+        <td><a href="/usuarios/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRol().getIdRol()%>">Editar</a></td>
         <td><a href="/usuarios/borrar?id=<%= c.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%

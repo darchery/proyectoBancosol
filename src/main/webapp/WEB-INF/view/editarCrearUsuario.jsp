@@ -9,12 +9,13 @@
 
 <html>
 <head>
-    <title>Añadir <%= rol.getNombreRol()%></title>
+    <title><%= usuario == null ? "Añadir" : "Editar"%> <%= rol.getNombreRol()%></title>
 </head>
 <body>
-<h1>Añadir <%= rol.getNombreRol()%></h1>
+<h1><%= usuario == null ? "Añadir" : "Editar"%> <%= rol.getNombreRol()%></h1>
 
 <form action="/usuarios/guardar" method="post">
+    <input type="hidden" name="id" value="<%= usuario != null ? usuario.getIdUsuario() : ""%>">
     <input type="hidden" name="idRol" value="<%= rol.getIdRol()%>">
 
     <label>Nombre:</label><br>
@@ -24,10 +25,10 @@
     <input value="<%= usuario != null ? usuario.getEmail() : ""%>" type="email" name="email" required><br><br>
 
     <label>Teléfono:</label><br>
-    <input value="<%= usuario != null ? usuario.getTelefono()%>" type="text" name="telefono"><br><br>
+    <input value="<%= usuario != null ? usuario.getTelefono() : ""%>" type="text" name="telefono"><br><br>
 
     <label>Contraseña:</label><br>
-    <input value="<%=  usuario.tranformarContrasenya(usuario.getContrasenya())%>" type="password" name="contrasenya" required><br><br>
+    <input value="<%= /*usuario != null ? usuario.tranformarContrasenya(*/ usuario != null ? usuario.getContrasenya() : ""/*) : ""*/%>" type="password" name="contrasenya" required><br><br>
 
     <button type="submit">Guardar</button>
     <a href="/usuarios/coordinadores-capitanes"><button type="button">Cancelar</button></a>

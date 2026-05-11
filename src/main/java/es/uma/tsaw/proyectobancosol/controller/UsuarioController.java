@@ -91,30 +91,57 @@ public class UsuarioController {
 
         if (id != null) { // Editar
             usuario = this.usuarioRepository.findById(id).orElse(null);
-
             model.addAttribute("usuario", usuario);
         } // Crear
         return "editarCrearUsuario";
     }
 
     @PostMapping("/guardar")
-    public String guardarUsuario(@RequestParam Integer idRol,
-                                 @RequestParam String nombre,
-                                 @RequestParam String email,
-                                 @RequestParam(required = false) String telefono,
-                                 @RequestParam String contrasenya) {
+    public String guardarUsuario(@RequestParam(value = "id", required = false) UUID id,
+                                @RequestParam(value = "idRol", required = true) Integer idRol,
+                                @RequestParam(value = "nombre", required = false) String nombre,
+                                @RequestParam(value = "email", required = false) String email,
+                                @RequestParam(value = "telefono", required = false) String telefono,
+                                @RequestParam(value = "contrasenya", required = false) String contrasenya) {
+        Usuario usuario;
 
-        Usuario usuario = new Usuario();
-        usuario.setIdUsuario(UUID.randomUUID());
-        usuario.setNombre(nombre);
-        usuario.setEmail(email);
-        usuario.setTelefono(telefono);
-        usuario.setContrasenya(contrasenya);
+        if (id == null) { // Guardar CREACIÓN
+            usuario = new Usuario();
+            usuario.setIdUsuario(UUID.randomUUID());
 
-        Rol rol = rolRepository.findById(idRol).orElseThrow();
-        usuario.setRol(rol);
-        usuarioRepository.save(usuario);
+        } else { // Guardar EDICIÓN
+            usuario = this.usuarioRepository.findById(id).orElse(null);
+        }
 
+        if (usuario != null) {
+            if (nombre != null) {
+                usuario.setNombre(nombre);
+            }
+            if (email != null) {
+                usuario.setEmail(email);
+            }
+            if (telefono != null) {
+                usuario.setTelefono(telefono);
+            }
+            if (contrasenya != null) {
+                usuario.setContrasenya(contrasenya);
+            }
+
+            Rol rol = rolRepository.findById(idRol).orElseThrow();
+            usuario.setRol(rol);
+            usuarioRepository.save(usuario);
+        }
+        // PROVISIONAL - Debe redirigir a la página del rol
+        return "redirect:/usuarios/coordinadores-capitanes";
+    }
+
+    @GetMapping("/borrar")
+    public String borrarUsuario(@RequestParam(value = "id", required = true) UUID id) {
+        Usuario usuario = this.usuarioRepository.findById(id).orElse(null);
+        if (usuario != null) {
+            usuarioRepository.delete(usuario);
+        }
+        // PROVISIONAL - Debe redirigir a la página del rol
         return "redirect:/usuarios/coordinadores-capitanes";
     }
 }
