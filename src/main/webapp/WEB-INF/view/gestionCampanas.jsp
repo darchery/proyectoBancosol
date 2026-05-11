@@ -25,7 +25,7 @@
         for (Campanya camp : campanas) {
     %>
     <input type="radio" name="campanaId" value="<%= camp.getIdCampanya() %>">
-    <%= camp.getNombre_campanya() %> (<%= camp.getEstado() %>)<br>
+    <%= camp.getNombreCampanya() %> (<%= camp.getEstado() %>)<br>
     <%
         }
     %>

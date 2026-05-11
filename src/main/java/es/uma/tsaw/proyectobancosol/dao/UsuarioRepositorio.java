@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface UsuarioRepositorio extends JpaRepository<Usuario, UUID> {
+public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer> {
     @Query("select u from Usuario u " +
             "where u.rol.idRol = :rolID")
     List<Usuario> findUsuarioByRolID(Integer rolID);

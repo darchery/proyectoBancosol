@@ -2,6 +2,7 @@ package es.uma.tsaw.proyectobancosol.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.UUID;
 
 @Data
@@ -9,8 +10,8 @@ import java.util.UUID;
 @Table(name = "usuario", schema = "public")
 public class Usuario {
     @Id
-    @Column(name = "id_usuario", updatable = false, nullable = false)
-    private UUID idUsuario; // No es autogenerado porque viene de Supabase Auth
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idUsuario;  // cambiar de UUID a Integer
 
     @ManyToOne
     @JoinColumn(name = "id_rol")
@@ -27,4 +28,12 @@ public class Usuario {
 
     @Column(name = "contrasenya", nullable = false)
     private String contrasenya;
+
+    public String tranformarContrasenya(String contrasenya) {
+        String res = "";
+        for (Character c : contrasenya.toCharArray()) {
+            res += "*";
+        }
+        return res;
+    }
 }

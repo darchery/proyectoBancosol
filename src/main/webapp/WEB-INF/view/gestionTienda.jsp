@@ -3,51 +3,69 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>PRUEBA - Tiendas - Bancosol</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Gestión de Tiendas - Bancosol</title>
+    <link rel="stylesheet" href="/css/style_bancosol.css">
 </head>
 
-<%
-    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
-%>
-
 <body>
-<h1>Gestión de tiendas</h1>
-<table>
-    <tr>
-        <th>ID Tienda</th>
-        <th>Direccion</th>
-        <th>Nombre de establecimiento</th>
-        <th>Franquicia</th>
-        <th>Lineales</th>
-        <th>Código postal</th>
-    </tr>
-    <%
-        for(Tienda tienda : tiendas) {
-    %>
-    <tr>
-        <td><%= tienda.getIdTienda() %></td>
-        <td><%= tienda.getDireccionEstablecimiento() %></td>
-        <td><%= tienda.getNombreEstablecimiento() %></td>
-        <td>
-            <%
-                if(tienda.getFranquicia() == true){
-            %>
-                Sí
-            <%
-                }else{
-            %>
-                No
-            <%
-                }
-            %>
-        </td>
-        <td><%= tienda.getLineales() %></td>
-        <td><%= tienda.getCp() %></td>
-    </tr>
-    <%
-        }
-    %>
-</table>
+    <header class="main-header">
+        <h1>Bancosol - Panel de Gestión</h1>
+        <div>
+            <a href="/" class="btn btn-secondary">Inicio</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Gestión de tiendas</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>DIRECCIÓN</th>
+                    <th>NOMBRE</th>
+                    <th>FRANQUICIA</th>
+                    <th>Nº LINEALES</th>
+                    <th>CP</th>
+                    <th colspan="2" class="text-center">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
+                    if (tiendas != null) {
+                        for(Tienda tienda : tiendas) {
+                %>
+                <tr>
+                    <td><%= tienda.getIdTienda() %></td>
+                    <td><%= tienda.getDireccionEstablecimiento() != null ? tienda.getDireccionEstablecimiento() : "-" %></td>
+                    <td><%= tienda.getNombreEstablecimiento() %></td>
+                    <td><%= (tienda.getFranquicia() != null && tienda.getFranquicia()) ? "Sí" : "No" %></td>
+                    <td><%= tienda.getLineales() %></td>
+                    <td><%= tienda.getCp() %></td>
+                    <td class="text-center">
+                        <a href="/tiendas/editarCrear?id=<%=tienda.getIdTienda()%>" class="btn btn-sm btn-warning">Editar</a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/tiendas/borrar?id=<%=tienda.getIdTienda()%>" class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                <%
+                        }
+                    } else {
+                %>
+                <tr>
+                    <td colspan="8" class="text-center">No hay tiendas registradas</td>
+                </tr>
+                <%
+                    }
+                %>
+            </tbody>
+        </table>
+
+        <div class="mt-20">
+            <a href="/tiendas/editarCrear" class="btn btn-success">Añadir nueva tienda</a>
+        </div>
+    </main>
 </body>
 </html>

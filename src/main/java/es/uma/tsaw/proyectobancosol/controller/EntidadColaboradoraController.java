@@ -44,7 +44,7 @@ public class EntidadColaboradoraController {
             @RequestParam("nombreEntidad") String nombreEntidad,
             @RequestParam("tipo") String tipo,
             @RequestParam("ligadoBancosol") Boolean ligadoBancosol,
-            @RequestParam(value = "responsableId", required = false) UUID responsableId) {
+            @RequestParam(value = "responsableId", required = false) Integer responsableId) {
 
         EntidadColaboradora entidad = (idEntidad == null)
                 ? new EntidadColaboradora()

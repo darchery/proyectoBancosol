@@ -1,11 +1,11 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
 
+import es.uma.tsaw.proyectobancosol.entity.Campanya;
 import org.springframework.ui.Model;
 import es.uma.tsaw.proyectobancosol.dao.CadenaRepositorio;
 import es.uma.tsaw.proyectobancosol.dao.CampanyaRepositorio;
 import es.uma.tsaw.proyectobancosol.entity.Cadena;
-import es.uma.tsaw.proyectobancosol.entity.Campanya;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

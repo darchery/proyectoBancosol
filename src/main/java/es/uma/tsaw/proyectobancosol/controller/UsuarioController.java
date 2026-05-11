@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -81,11 +80,67 @@ public class UsuarioController {
         return "lista_voluntarios";
     }
 
+    @GetMapping("/editarCrear")
+    public String editarCrearUsuario(@RequestParam(value = "id", required = false) Integer id,
+                                    @RequestParam(value = "idRol", required = true) Integer idRol,
+                                   Model model) {
+        Usuario usuario;
+        Rol rol = this.rolRepository.findById(idRol).orElse(null);
+        model.addAttribute("rol", rol);
+
+        if (id != null) { // Editar
+            usuario = this.usuarioRepository.findById(id).orElse(null);
+            model.addAttribute("usuario", usuario);
+        } // Crear
+        return "editarCrearUsuario";
+    }
+
     @PostMapping("/guardar")
-    public String guardarUsuario(@ModelAttribute Usuario usuario, @RequestParam("idRol") Integer idRol) {
-        Rol rol = rolRepository.findById(idRol).orElseThrow();
-        usuario.setRol(rol);
-        usuarioRepository.save(usuario);
-        return "redirect:/usuarios/coordinadores";
+    public String guardarUsuario(@RequestParam(value = "id", required = false) Integer id,
+                                @RequestParam(value = "idRol", required = true) Integer idRol,
+                                @RequestParam(value = "nombre", required = false) String nombre,
+                                @RequestParam(value = "email", required = false) String email,
+                                @RequestParam(value = "telefono", required = false) String telefono,
+                                @RequestParam(value = "contrasenya", required = false) String contrasenya) {
+        Usuario usuario;
+
+        if (id == null) { // Guardar CREACIÓN
+            usuario = new Usuario();
+            // id_usuario se auto-genera en BD (SERIAL)
+
+        } else { // Guardar EDICIÓN
+            usuario = this.usuarioRepository.findById(id).orElse(null);
+        }
+
+        if (usuario != null) {
+            if (nombre != null) {
+                usuario.setNombre(nombre);
+            }
+            if (email != null) {
+                usuario.setEmail(email);
+            }
+            if (telefono != null) {
+                usuario.setTelefono(telefono);
+            }
+            if (contrasenya != null) {
+                usuario.setContrasenya(contrasenya);
+            }
+
+            Rol rol = rolRepository.findById(idRol).orElseThrow();
+            usuario.setRol(rol);
+            usuarioRepository.save(usuario);
+        }
+        // PROVISIONAL - Debe redirigir a la página del rol
+        return "redirect:/usuarios/coordinadores-capitanes";
+    }
+
+    @GetMapping("/borrar")
+    public String borrarUsuario(@RequestParam(value = "id", required = true) Integer id) {
+        Usuario usuario = this.usuarioRepository.findById(id).orElse(null);
+        if (usuario != null) {
+            usuarioRepository.delete(usuario);
+        }
+        // PROVISIONAL - Debe redirigir a la página del rol
+        return "redirect:/usuarios/coordinadores-capitanes";
     }
 }

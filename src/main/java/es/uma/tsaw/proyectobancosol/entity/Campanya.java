@@ -13,30 +13,30 @@ import java.util.List;
  */
 @Entity
 @Data
-@Table(name = "CAMPANYA", schema = "public")
+@Table(name = "campanya", schema = "public")
 public class Campanya implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_CAMPANYA", nullable = false)
+    @Column(name = "id_campanya", nullable = false)
     private Integer idCampanya;
 
-    @Column(name = "NOMBRE_CAMPANYA", length=50)
-    private String nombre_campanya;
+    @Column(name = "nombre_campanya", length = 50)
+    private String nombreCampanya;
 
-    @Column(name = "TIPO_CAMPANYA", length = 50)
+    @Column(name = "tipo_campanya", length = 50)
     private String tipoCampanya;
 
-    @Column(name = "FECHA_INICIO")
+    @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
 
-    @Column(name = "FECHA_FIN")
+    @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    @Column(name = "ESTADO", length = 50)
+    @Column(name = "estado", length = 50)
     private String estado;
 
     @ManyToMany

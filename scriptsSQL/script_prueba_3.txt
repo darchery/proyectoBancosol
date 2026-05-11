@@ -6,31 +6,14 @@ SET search_path TO public;
 INSERT INTO rol (nombre_rol) VALUES ('CoordinadorCapitan');
 
 -- ==========================================
-
 -- 2. INSERTAR EL NUEVO USUARIO CON ESE ROL
-
 -- ==========================================
-
-INSERT INTO usuario (id_usuario, id_rol, nombre, email, telefono) 
-
-VALUES (
-
-    -- Sustituye este UUID por el real si ya lo has creado en el Auth de Supabase
-
-    '86972453-8235-49a2-826b-f5bbe7bdab16', 
-
-    
-
-    -- Este SELECT busca el ID automáticamente sin importar qué número sea
-
+-- Sin especificar id_usuario, la BD lo auto-genera
+-- Búsqueda automática del id_rol mediante SELECT
+INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES (
     (SELECT id_rol FROM rol WHERE nombre_rol = 'CoordinadorCapitan'), 
-
-    
-
     'Coordinador y Capitán', 
-
     'coordinadorcapitan@test.com', 
-
-    '600500500'
-
+    '600500500',
+    'dualrol'
 );
