@@ -13,11 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @AllArgsConstructor
@@ -81,11 +81,40 @@ public class UsuarioController {
         return "lista_voluntarios";
     }
 
+    @GetMapping("/editarCrear")
+    public String editarCrearUsuario(@RequestParam(value = "id", required = false) UUID id,
+                                    @RequestParam(value = "idRol", required = true) Integer idRol,
+                                   Model model) {
+        Usuario usuario;
+        Rol rol = this.rolRepository.findById(idRol).orElse(null);
+        model.addAttribute("rol", rol);
+
+        if (id != null) { // Editar
+            usuario = this.usuarioRepository.findById(id).orElse(null);
+
+            model.addAttribute("usuario", usuario);
+        } // Crear
+        return "editarCrearUsuario";
+    }
+
     @PostMapping("/guardar")
-    public String guardarUsuario(@ModelAttribute Usuario usuario, @RequestParam("idRol") Integer idRol) {
+    public String guardarUsuario(@RequestParam Integer idRol,
+                                 @RequestParam String nombre,
+                                 @RequestParam String email,
+                                 @RequestParam(required = false) String telefono,
+                                 @RequestParam String contrasenya) {
+
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(UUID.randomUUID());
+        usuario.setNombre(nombre);
+        usuario.setEmail(email);
+        usuario.setTelefono(telefono);
+        usuario.setContrasenya(contrasenya);
+
         Rol rol = rolRepository.findById(idRol).orElseThrow();
         usuario.setRol(rol);
         usuarioRepository.save(usuario);
-        return "redirect:/usuarios/coordinadores";
+
+        return "redirect:/usuarios/coordinadores-capitanes";
     }
 }
