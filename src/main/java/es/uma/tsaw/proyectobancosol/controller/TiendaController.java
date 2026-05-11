@@ -80,14 +80,4 @@ public class TiendaController {
         return "redirect:/tiendas";
     }
 
-    // --- Otros métodos existentes ---
-
-    @GetMapping("/asignacion-campanya")
-    public String verAsignaciones(@RequestParam("idCampanya") Integer idCampanya,
-                                  Model model) {
-        List<TiendaCampanya> asignaciones = tiendaCampanyaRepositorio.findByCampanyaIdCampanya(idCampanya);
-        model.addAttribute("asignaciones", asignaciones);
-        return "tiendas_por_campanya";
-    }
-
 }
