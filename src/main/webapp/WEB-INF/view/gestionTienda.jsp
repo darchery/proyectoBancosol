@@ -3,51 +3,61 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>PRUEBA - Tiendas - Bancosol</title>
+    <title>Gestión de Tiendas - Bancosol</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<%
-    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
-%>
-
 <body>
-<h1>Gestión de tiendas</h1>
-<table>
-    <tr>
-        <th>ID Tienda</th>
-        <th>Direccion</th>
-        <th>Nombre de establecimiento</th>
-        <th>Franquicia</th>
-        <th>Lineales</th>
-        <th>Código postal</th>
-    </tr>
-    <%
-        for(Tienda tienda : tiendas) {
-    %>
-    <tr>
-        <td><%= tienda.getIdTienda() %></td>
-        <td><%= tienda.getDireccionEstablecimiento() %></td>
-        <td><%= tienda.getNombreEstablecimiento() %></td>
-        <td>
+
+    <h1>Gestión de tiendas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>DIRECCIÓN</th>
+                <th>NOMBRE</th>
+                <th>FRANQUICIA</th>
+                <th>Nº LINEALES</th>
+                <th>CP</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
             <%
-                if(tienda.getFranquicia() == true){
+                List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
+                if (tiendas != null) {
+                    for(Tienda tienda : tiendas) {
             %>
-                Sí
+            <tr>
+                <td><%= tienda.getIdTienda() %></td>
+                <td><%= tienda.getDireccionEstablecimiento() != null ? tienda.getDireccionEstablecimiento() : "-" %></td>
+                <td><%= tienda.getNombreEstablecimiento() %></td>
+                <td><%= (tienda.getFranquicia() != null && tienda.getFranquicia()) ? "Sí" : "No" %></td>
+                <td><%= tienda.getLineales() %></td>
+                <td><%= tienda.getCp() %></td>
+                <td>
+                    <a href="/tiendas/editarCrear?id=<%=tienda.getIdTienda()%>">Editar</a>
+                </td>
+                <td>
+                    <a href="/tiendas/borrar?id=<%=tienda.getIdTienda()%>">Eliminar</a>
+                </td>
+            </tr>
             <%
-                }else{
+                    }
+                } else {
             %>
-                No
+            <tr>
+                <td colspan="8">No hay tiendas registradas</td>
+            </tr>
             <%
                 }
             %>
-        </td>
-        <td><%= tienda.getLineales() %></td>
-        <td><%= tienda.getCp() %></td>
-    </tr>
-    <%
-        }
-    %>
-</table>
+        </tbody>
+    </table>
+
+    <form method="get" action="/tiendas/editarCrear">
+        <button type="submit">Añadir tienda</button>
+    </form>
 </body>
 </html>
