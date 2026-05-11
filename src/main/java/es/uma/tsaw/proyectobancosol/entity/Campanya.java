@@ -22,6 +22,9 @@ public class Campanya implements Serializable {
     @Column(name = "ID_CAMPANYA", nullable = false)
     private Integer idCampanya;
 
+    @Column(name = "NOMBRE_CAMPANYA", length=50)
+    private String nombre_campanya;
+
     @Column(name = "TIPO_CAMPANYA", length = 50)
     private String tipoCampanya;
 
