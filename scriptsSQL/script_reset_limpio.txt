@@ -1,0 +1,60 @@
+-- ============================================================
+-- SCRIPT RESET LIMPIO (SOLO BORRAR)
+-- ============================================================
+-- Este script:
+-- 1. BORRA todos los datos (en orden inverso de FK)
+-- 2. RESETEA todos los secuenciales a 1
+--
+-- ⚠️ ADVERTENCIA: Esto borrará TODOS los datos existentes
+-- Esta acción NO se puede deshacer (a menos que hagas backup)
+--
+-- CÓMO USAR:
+-- 1. Copiar TODO el contenido
+-- 2. Pegar en Supabase → SQL Editor
+-- 3. Click "Run" o Ctrl+Enter
+--
+-- ============================================================
+
+SET search_path TO public;
+
+-- ============================================================
+-- FASE 1: BORRAR TODOS LOS DATOS
+-- (En orden inverso de Foreign Keys)
+-- ============================================================
+
+DELETE FROM asignacion_voluntario;
+DELETE FROM turno_activo;
+DELETE FROM tienda_campanya;
+DELETE FROM entidad_colaboradora;
+DELETE FROM usuario;
+DELETE FROM campanya_cadena;
+DELETE FROM campanya;
+DELETE FROM tienda;
+DELETE FROM plantilla_turno;
+DELETE FROM rol;
+DELETE FROM cadena;
+DELETE FROM direccion;
+
+-- ============================================================
+-- FASE 2: RESETEAR TODOS LOS SECUENCIALES A 1
+-- ============================================================
+
+ALTER SEQUENCE rol_id_rol_seq RESTART WITH 1;
+ALTER SEQUENCE campanya_id_campanya_seq RESTART WITH 1;
+ALTER SEQUENCE cadena_id_cadena_seq RESTART WITH 1;
+ALTER SEQUENCE direccion_id_direccion_seq RESTART WITH 1;
+ALTER SEQUENCE plantilla_turno_id_plantilla_seq RESTART WITH 1;
+ALTER SEQUENCE usuario_id_usuario_seq RESTART WITH 1;
+ALTER SEQUENCE tienda_id_tienda_seq RESTART WITH 1;
+ALTER SEQUENCE entidad_colaboradora_id_entidad_seq RESTART WITH 1;
+ALTER SEQUENCE tienda_campanya_id_tienda_campanya_seq RESTART WITH 1;
+ALTER SEQUENCE turno_activo_id_turno_activo_seq RESTART WITH 1;
+ALTER SEQUENCE asignacion_voluntario_id_asignacion_seq RESTART WITH 1;
+
+-- ============================================================
+-- ✅ BORRADO Y RESET COMPLETADO
+-- ============================================================
+-- Todos los datos han sido eliminados
+-- Todos los secuenciales han sido resetados a 1
+-- Base de datos limpia y lista para usar
+-- ============================================================

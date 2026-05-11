@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @AllArgsConstructor
@@ -82,7 +81,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/editarCrear")
-    public String editarCrearUsuario(@RequestParam(value = "id", required = false) UUID id,
+    public String editarCrearUsuario(@RequestParam(value = "id", required = false) Integer id,
                                     @RequestParam(value = "idRol", required = true) Integer idRol,
                                    Model model) {
         Usuario usuario;
@@ -97,7 +96,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardarUsuario(@RequestParam(value = "id", required = false) UUID id,
+    public String guardarUsuario(@RequestParam(value = "id", required = false) Integer id,
                                 @RequestParam(value = "idRol", required = true) Integer idRol,
                                 @RequestParam(value = "nombre", required = false) String nombre,
                                 @RequestParam(value = "email", required = false) String email,
@@ -107,7 +106,7 @@ public class UsuarioController {
 
         if (id == null) { // Guardar CREACIÓN
             usuario = new Usuario();
-            usuario.setIdUsuario(UUID.randomUUID());
+            // id_usuario se auto-genera en BD (SERIAL)
 
         } else { // Guardar EDICIÓN
             usuario = this.usuarioRepository.findById(id).orElse(null);
@@ -136,7 +135,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/borrar")
-    public String borrarUsuario(@RequestParam(value = "id", required = true) UUID id) {
+    public String borrarUsuario(@RequestParam(value = "id", required = true) Integer id) {
         Usuario usuario = this.usuarioRepository.findById(id).orElse(null);
         if (usuario != null) {
             usuarioRepository.delete(usuario);

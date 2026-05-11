@@ -9,10 +9,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "usuario", schema = "public")
 public class Usuario {
-    /*@Id
-    @Column(name = "id_usuario", updatable = false, nullable = false)
-    private UUID idUsuario; // No es autogenerado porque viene de Supabase Auth
-    */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;  // cambiar de UUID a Integer

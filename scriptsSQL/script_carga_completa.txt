@@ -1,0 +1,148 @@
+-- ============================================================
+-- SCRIPT ÚNICO: CARGA COMPLETA DE DATOS DE PRUEBA
+-- ============================================================
+-- Este script incluye TODOS los inserts de:
+-- - script_prueba_1.txt (direcciones, cadenas, tiendas)
+-- - script_prueba_2.txt (roles, usuarios, entidades, turnos)
+-- - script_prueba_3.txt (rol y usuario adicionales)
+--
+-- Ejecutar DESPUÉS de modelo_datos_v2.txt
+-- ============================================================
+
+SET search_path TO public;
+
+-- ==========================================
+-- FASE 1: INSERTAR DIRECCIONES
+-- ==========================================
+INSERT INTO direccion (distrito_local, zona_geografica) VALUES
+('Centro', 'Málaga Capital'),
+('Teatinos-Universidad', 'Málaga Capital'),
+('Carretera de Cádiz', 'Málaga Capital'),
+('San Pedro Alcántara', 'Costa del Sol Occidental'),
+('Centro Histórico', 'Ronda');
+
+-- ==========================================
+-- FASE 2: INSERTAR CADENAS
+-- ==========================================
+INSERT INTO cadena (nombre_cadena, resenya_cadena, logo_url) VALUES
+('Mercadona', 'Supermercado estándar', 'https://ejemplo.com/logos/mercadona.png'),
+('Carrefour', 'Hipermercado', 'https://ejemplo.com/logos/carrefour.png'),
+('Carrefour Express', 'Tienda de conveniencia', 'https://ejemplo.com/logos/carrefour_express.png'),
+('Dia', 'Supermercado de descuento', 'https://ejemplo.com/logos/dia.png'),
+('Maskom', 'Supermercado regional', NULL);
+
+-- ==========================================
+-- FASE 3: INSERTAR TIENDAS
+-- ==========================================
+INSERT INTO tienda (id_cadena, id_direccion, nombre_establecimiento, direccion, franquicia, lineales, cp) VALUES
+(1, 1, 'Mercadona Atarazanas', 'Calle Mercado 12', FALSE, '15', '29005'),
+(3, 2, 'Carrefour Express Bulevar', 'Bulevar Louis Pasteur 33', TRUE, '4', '29010'),
+(2, 3, 'Carrefour Los Patios', 'Av. de Velázquez 241', FALSE, '25', '29004'),
+(4, 4, 'Dia Maxi San Pedro', 'Av. Pablo Ruiz Picasso 1', TRUE, '8', '29670'),
+(5, 5, 'Maskom Ronda Centro', 'Calle Espinel 45', FALSE, '6', '29400'),
+(1, 2, 'Mercadona Campus', NULL, FALSE, '12', '29010');
+
+-- ==========================================
+-- FASE 4: INSERTAR ROLES
+-- ==========================================
+INSERT INTO rol (nombre_rol) VALUES 
+('Administrador'), 
+('Coordinador'), 
+('Capitan'), 
+('Voluntario'), 
+('Entidad');
+
+-- ==========================================
+-- FASE 5: INSERTAR PLANTILLAS DE TURNO
+-- ==========================================
+INSERT INTO plantilla_turno (dia_semana, franja_horaria) VALUES
+('Viernes', 'Mañana'),
+('Viernes', 'Tarde'),
+('Viernes', 'Jornada Completa'),
+('Sábado', 'Mañana'),
+('Sábado', 'Tarde'),
+('Domingo', 'Mañana');
+
+-- ==========================================
+-- FASE 6: INSERTAR CAMPAÑAS
+-- ==========================================
+INSERT INTO campanya (nombre_campanya, fecha_inicio, fecha_fin, estado) VALUES
+('Gran Recogida 2023', '2023-11-24', '2023-11-26', 'Finalizada'),
+('Operación Primavera 2024', '2024-05-10', '2024-05-12', 'Finalizada'),
+('Gran Recogida 2024', '2024-11-22', '2024-11-24', 'Activa');
+
+-- ==========================================
+-- FASE 7: INSERTAR PARTICIPACIÓN CADENA-CAMPAÑA
+-- ==========================================
+INSERT INTO campanya_cadena (id_campanya, id_cadena) VALUES
+(3, 1), (3, 2), (3, 4);
+
+-- ==========================================
+-- FASE 8: INSERTAR USUARIOS (Sin especificar ID, auto-genera)
+-- ==========================================
+INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES
+(1, 'Admin Supremo', 'admin@test.com', '600100100', '1234'),
+(2, 'Coordinador Zona Sur', 'coordinador@test.com', '600200200', 'migato'),
+(3, 'Capitán Mercadona', 'capitan@test.com', '600300300', 'batman'),
+(4, 'Voluntario Novato', 'voluntario@test.com', '600400400', 'perro');
+
+-- ==========================================
+-- FASE 9: INSERTAR ENTIDADES COLABORADORAS
+-- ==========================================
+INSERT INTO entidad_colaboradora (id_responsable, nombre_entidad, tipo, ligado_bancosol) VALUES
+(2, 'Colegio San José', 'Colegio', TRUE),
+(NULL, 'Asociación Vecinos Centro', 'Asociación', FALSE);
+
+-- ==========================================
+-- FASE 10: CONFIGURACIÓN LOGÍSTICA (TIENDA_CAMPAÑA)
+-- ==========================================
+INSERT INTO tienda_campanya (id_tienda, id_campanya, id_coordinador, id_capitan) VALUES
+(1, 3, 2, 3),
+(3, 3, 2, NULL);
+
+-- ==========================================
+-- FASE 11: CREAR TURNOS ACTIVOS
+-- ==========================================
+INSERT INTO turno_activo (id_tienda_campanya, id_plantilla, fecha_exacta, hora_inicio, hora_fin, plazas_disponibles) VALUES
+(1, 1, '2024-11-22', '09:00:00', '14:00:00', 4), 
+(1, 2, '2024-11-22', '14:00:00', '21:00:00', 6), 
+(1, 4, '2024-11-23', '09:00:00', '14:00:00', 5);
+
+-- ==========================================
+-- FASE 12: ASIGNACIONES DE VOLUNTARIOS A TURNOS
+-- ==========================================
+INSERT INTO asignacion_voluntario (id_turno_activo, id_usuario, id_entidad, asistencia) VALUES
+(1, 4, 1, FALSE);
+
+-- ==========================================
+-- FASE 13: ROL ADICIONAL (COORDINADOR + CAPITÁN)
+-- ==========================================
+INSERT INTO rol (nombre_rol) VALUES ('CoordinadorCapitan');
+
+-- ==========================================
+-- FASE 14: USUARIO CON ROL ADICIONAL
+-- ==========================================
+INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES (
+    (SELECT id_rol FROM rol WHERE nombre_rol = 'CoordinadorCapitan'), 
+    'Coordinador y Capitán', 
+    'coordinadorcapitan@test.com', 
+    '600500500',
+    'dualrol'
+);
+
+-- ============================================================
+-- ✅ CARGA COMPLETADA
+-- ============================================================
+-- Resultados esperados:
+-- - 5 direcciones
+-- - 5 cadenas
+-- - 6 tiendas
+-- - 6 roles
+-- - 6 plantillas de turno
+-- - 3 campañas
+-- - 5 usuarios (ids 1-5)
+-- - 2 entidades colaboradoras
+-- - 2 tienda_campanya
+-- - 3 turnos activos
+-- - 1 asignación de voluntario
+-- ============================================================

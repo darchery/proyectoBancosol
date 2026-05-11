@@ -28,8 +28,8 @@ public class TiendaCampanyaController {
 
     @PostMapping("/asignar-responsables")
     public String asignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
-                                      @RequestParam("idCoordinador") UUID idCoordinador,
-                                      @RequestParam("idCapitan") UUID idCapitan) {
+                                      @RequestParam("idCoordinador") Integer idCoordinador,
+                                      @RequestParam("idCapitan") Integer idCapitan) {
 
         TiendaCampanya tiendaCampanya = tiendaCampanyaRepositorio.findById(idTiendaCampanya).orElse(null);
         tiendaCampanya.setCoordinador(usuarioRepositorio.findById(idCoordinador).orElse(null));
