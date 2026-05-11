@@ -4,6 +4,7 @@ import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepositorio;
 import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
 
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+import es.uma.tsaw.proyectobancosol.entity.Tienda;
 import es.uma.tsaw.proyectobancosol.entity.TiendaCampanya;
 
 import lombok.AllArgsConstructor;
@@ -23,9 +24,13 @@ public class TiendaController {
     private final UsuarioRepositorio usuarioRepository;
 
     @GetMapping("/")
-    public String listarTienda (Model model){
-        model.addAttribute("tiendas", tiendaRepository.findAll());
-        return "tiendas";
+    public String doInit (Model model){
+
+        List<Tienda> tiendas = tiendaRepository.findAll();
+
+        model.addAttribute("tiendas", tiendas);
+
+        return "gestionTienda";
     }
 
     @GetMapping("/asignacion-campanya")

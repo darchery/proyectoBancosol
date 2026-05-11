@@ -1,59 +1,53 @@
-<%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.TiendaCampanya" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
-    <title>Gestión de Tiendas</title>
+    <title>PRUEBA - Tiendas - Bancosol</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <%
-    List<Tienda> tienda = (List<Tienda>) request.getAttribute("tiendas");
+    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
 %>
 
 <body>
-
-<h1>Gestión de Tiendas</h1>
-
-<table class="table table-striped table-bordered table-hover align-middle">
-
+<h1>Gestión de tiendas</h1>
+<table>
     <tr>
-        <th>TIENDA</th>
-        <th>CAMPANYA</th>
-        <th>COORDINADOR</th>
-        <th>CAPITAN</th>
+        <th>ID Tienda</th>
+        <th>Direccion</th>
+        <th>Nombre de establecimiento</th>
+        <th>Franquicia</th>
+        <th>Lineales</th>
+        <th>Código postal</th>
     </tr>
-
     <%
-        List<TiendaCampanya> asignaciones = (List<TiendaCampanya>) request.getAttribute("asignaciones");
-        if (asignaciones != null) {
-            for (TiendaCampanya tc : asignaciones) {
+        for(Tienda tienda : tiendas) {
     %>
     <tr>
-        <td><%= tc.getTienda().getNombreEstablecimiento() %></td>
-
-        <td><%= tc.getCampanya().getNombreCampanya() %></td>
-
+        <td><%= tienda.getIdTienda() %></td>
+        <td><%= tienda.getDireccionEstablecimiento() %></td>
+        <td><%= tienda.getNombreEstablecimiento() %></td>
         <td>
-            <%= (tc.getCoordinador() != null)
-                    ? tc.getCoordinador().getNombre()
-                    : "<span class='text-danger'>Sin asignar</span>" %>
+            <%
+                if(tienda.getFranquicia() == true){
+            %>
+                Sí
+            <%
+                }else{
+            %>
+                No
+            <%
+                }
+            %>
         </td>
-
-        <td>
-            <%= (tc.getCapitan() != null)
-                    ? tc.getCapitan().getNombre()
-                    : "---" %>
-        </td>
+        <td><%= tienda.getLineales() %></td>
+        <td><%= tienda.getCp() %></td>
     </tr>
     <%
-            }
         }
     %>
-
 </table>
-
 </body>
 </html>
