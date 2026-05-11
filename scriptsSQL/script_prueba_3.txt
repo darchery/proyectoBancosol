@@ -17,7 +17,7 @@ VALUES (
 
     -- Sustituye este UUID por el real si ya lo has creado en el Auth de Supabase
 
-    '86972453-8235-49a2-826b-f5bbe7bdab16', 
+    '5', 
 
     
 

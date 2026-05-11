@@ -6,93 +6,95 @@
 <html>
 <head>
     <title><%= ((Tienda)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</title>
-
-    <%
-        Tienda tienda = (Tienda) request.getAttribute("tienda");
-        List<Cadena> cadenas = (List<Cadena>) request.getAttribute("cadenas");
-        List<Direccion> direcciones = (List<Direccion>) request.getAttribute("direcciones");
-    %>
-
+    <link rel="stylesheet" href="/css/style_bancosol.css">
 </head>
 
 <body>
-    <h1><%= ((Tienda)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</h1>
-
-    <form action="/tiendas/guardar" method="post">
-        <% if (tienda.getIdTienda() != null) { %>
-            <input type="hidden" name="idTienda" value="<%= tienda.getIdTienda() %>">
-        <%
-            }
-        %>
-
+    <header class="main-header">
+        <h1>Bancosol - Panel de Gestión</h1>
         <div>
-            <label for="nombreEstablecimiento">Nombre del establecimiento:</label>
-            <input type="text" name="nombreEstablecimiento" id="nombreEstablecimiento" value="<%= tienda.getNombreEstablecimiento() != null ? tienda.getNombreEstablecimiento() : "" %>" required>
+            <a href="/tiendas" class="btn btn-secondary">Volver al listado</a>
         </div>
+    </header>
 
-        <div>
-            <label for="direccionEstablecimiento">Dirección:</label>
-            <input type="text" name="direccionEstablecimiento" id="direccionEstablecimiento" value="<%= tienda.getDireccionEstablecimiento() != null ? tienda.getDireccionEstablecimiento() : "" %>">
-        </div>
+    <main class="container">
+        <div class="form-container">
+            <h2><%= ((Tienda)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</h2>
 
-        <div>
-            <label for="cadenas">Cadena:</label><br/>
-            <select name="idCadena" id="cadenas" required>
-                <option value="">Selecciona una cadena...</option>
-                <%
-                    for (Cadena c : cadenas) {
-                        String selected = "";
-                        if(tienda.getCadena() != null && tienda.getCadena().getIdCadena().equals(c.getIdCadena())){
-                            selected = "selected";
-                        }
-                %>
-                    <option value="<%= c.getIdCadena() %>" <%=selected%>>
-                        <%= c.getNombreCadena() %>
-                    </option>
-                <%
-                    }
-                %>
-            </select>
-        </div>
+            <%
+                Tienda tienda = (Tienda) request.getAttribute("tienda");
+                List<Cadena> cadenas = (List<Cadena>) request.getAttribute("cadenas");
+                List<Direccion> direcciones = (List<Direccion>) request.getAttribute("direcciones");
+            %>
 
-        <div>
-            <label for="direcciones">Ubicación:</label><br>
-            <select name="idDireccion" id="direcciones">
-                <option value="">Ninguna...</option>
-                <%
-                    for (Direccion d : direcciones) {
-                        String selected = "";
-                        if(tienda.getDireccion() != null && tienda.getDireccion().getIdDireccion().equals(d.getIdDireccion())){
-                            selected = "selected";
-                        }
-                %>
-                    <option value="<%= d.getIdDireccion() %>" <%= selected %>>
-                        <%= d.getZonaGeografica() %> - <%= d.getDistritoLocal() %>
-                    </option>
+            <form action="/tiendas/guardar" method="post">
+                <% if (tienda.getIdTienda() != null) { %>
+                    <input type="hidden" name="idTienda" value="<%= tienda.getIdTienda() %>">
                 <% } %>
-            </select>
-        </div>
 
-        <div>
-            <label for="cp">Código Postal:</label>
-            <input type="text" id="cp" name="cp" value="<%= tienda.getCp() != null ? tienda.getCp() : "" %>">
-        </div>
+                <div class="form-group">
+                    <label for="nombreEstablecimiento">Nombre del establecimiento:</label>
+                    <input type="text" name="nombreEstablecimiento" id="nombreEstablecimiento" value="<%= tienda.getNombreEstablecimiento() != null ? tienda.getNombreEstablecimiento() : "" %>" required>
+                </div>
 
-        <div>
-            <label for="lineales">Núm. lineales:</label><br>
-            <input type="text" id="lineales" name="lineales" value="<%= tienda.getLineales() != null ? tienda.getLineales() : "" %>">
-        </div>
+                <div class="form-group">
+                    <label for="direccionEstablecimiento">Dirección:</label>
+                    <input type="text" name="direccionEstablecimiento" id="direccionEstablecimiento" value="<%= tienda.getDireccionEstablecimiento() != null ? tienda.getDireccionEstablecimiento() : "" %>">
+                </div>
 
-        <div>
+                <div class="form-group">
+                    <label for="cadenas">Cadena:</label>
+                    <select name="idCadena" id="cadenas" required>
+                        <option value="">Selecciona una cadena...</option>
+                        <%
+                            for (Cadena c : cadenas) {
+                                String selected = (tienda.getCadena() != null && tienda.getCadena().getIdCadena().equals(c.getIdCadena())) ? "selected" : "";
+                        %>
+                            <option value="<%= c.getIdCadena() %>" <%=selected%>>
+                                <%= c.getNombreCadena() %>
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
 
-            <input type="checkbox" id="franquicia" name="franquicia" value="true" <%= (tienda.getFranquicia() != null && tienda.getFranquicia()) ? "checked" : "" %>>
-            <label for="franquicia">Es una franquicia</label>
-        </div>
+                <div class="form-group">
+                    <label for="direcciones">Ubicación (Zona Geográfica):</label>
+                    <select name="idDireccion" id="direcciones">
+                        <option value="">Ninguna...</option>
+                        <%
+                            for (Direccion d : direcciones) {
+                                String selected = (tienda.getDireccion() != null && tienda.getDireccion().getIdDireccion().equals(d.getIdDireccion())) ? "selected" : "";
+                        %>
+                            <option value="<%= d.getIdDireccion() %>" <%= selected %>>
+                                <%= d.getZonaGeografica() %> - <%= d.getDistritoLocal() %>
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
 
-        <div>
-            <button type="submit">Guardar</button>
-            <a href="/tiendas">Cancelar</a>
+                <div class="form-group">
+                    <label for="cp">Código Postal:</label>
+                    <input type="text" id="cp" name="cp" value="<%= tienda.getCp() != null ? tienda.getCp() : "" %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="lineales">Núm. lineales:</label>
+                    <input type="text" id="lineales" name="lineales" value="<%= tienda.getLineales() != null ? tienda.getLineales() : "" %>">
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="franquicia" name="franquicia" value="true" <%= (tienda.getFranquicia() != null && tienda.getFranquicia()) ? "checked" : "" %>>
+                        Es una franquicia
+                    </label>
+                </div>
+
+                <div class="actions-row">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="/tiendas" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
         </div>
-    </form>
+    </main>
 </body>
 </html>

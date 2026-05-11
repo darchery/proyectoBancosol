@@ -33,24 +33,24 @@ INSERT INTO campanya_cadena (id_campanya, id_cadena) VALUES
 -- 3. INSERTAR USUARIOS (Con tus UUIDs reales)
 -- ==========================================
 INSERT INTO usuario (id_usuario, id_rol, nombre, email, telefono) VALUES
-('e1df6512-44cc-47be-af51-be5c0a10e2a1', 1, 'Admin Supremo', 'admin@test.com', '600100100'),
-('c289fa66-3319-4efe-9eeb-3e607524b654', 2, 'Coordinador Zona Sur', 'coordinador@test.com', '600200200'),
-('69b56698-8e6f-4fda-bb69-773b51370175', 3, 'Capitán Mercadona', 'capitan@test.com', '600300300'),
-('26362254-670c-4072-b541-f4fda463aa7a', 4, 'Voluntario Novato', 'voluntario@test.com', '600400400');
+('1', 1, 'Admin Supremo', 'admin@test.com', '600100100'),
+('2', 2, 'Coordinador Zona Sur', 'coordinador@test.com', '600200200'),
+('3', 3, 'Capitán Mercadona', 'capitan@test.com', '600300300'),
+('4', 4, 'Voluntario Novato', 'voluntario@test.com', '600400400');
 
 -- ==========================================
 -- 4. INSERTAR ENTIDAD COLABORADORA
 -- ==========================================
 INSERT INTO entidad_colaboradora (id_responsable, nombre_entidad, tipo, ligado_bancosol) VALUES
-('c289fa66-3319-4efe-9eeb-3e607524b654', 'Colegio San José', 'Colegio', TRUE),
+('2', 'Colegio San José', 'Colegio', TRUE),
 (NULL, 'Asociación Vecinos Centro', 'Asociación', FALSE);
 
 -- ==========================================
 -- 5. CONFIGURACIÓN LOGÍSTICA (TIENDA_CAMPANYA)
 -- ==========================================
 INSERT INTO tienda_campanya (id_tienda, id_campanya, id_coordinador, id_capitan) VALUES
-(1, 3, 'c289fa66-3319-4efe-9eeb-3e607524b654', '69b56698-8e6f-4fda-bb69-773b51370175'),
-(3, 3, 'c289fa66-3319-4efe-9eeb-3e607524b654', NULL);
+(1, 3, '2', '3'),
+(3, 3, '2', NULL);
 
 -- ==========================================
 -- 6. CREAR LOS TURNOS REALES
@@ -64,4 +64,4 @@ INSERT INTO turno_activo (id_tienda_campanya, id_plantilla, fecha_exacta, hora_i
 -- 7. APUNTAR VOLUNTARIOS A LOS TURNOS
 -- ==========================================
 INSERT INTO asignacion_voluntario (id_turno_activo, id_usuario, id_entidad, asistencia) VALUES
-(1, '26362254-670c-4072-b541-f4fda463aa7a', 1, FALSE);
+(1, '4', 1, FALSE);
