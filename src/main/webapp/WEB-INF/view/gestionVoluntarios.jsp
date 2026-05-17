@@ -1,66 +1,100 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntario" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
-    <title>Lista de voluntarios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Asignaciones del Voluntario</title>
 </head>
-<%
-    List<AsignacionVoluntario> voluntarios =  (List<AsignacionVoluntario>) request.getAttribute("pelis");
-%>
+
 <body>
-<h1>Lista de Asignaciones de Voluntarios</h1>
+    <h1>Asignacion voluntarios</h1>
 
-<table class="table table-striped table-bordered table-hover align-middle">
-    <thead class="table-dark">
-    <tr>
-        <th>VOLUNTARIO</th>
-        <th>ENTIDAD</th>
-        <th>TIENDA (CAMPAÑA)</th>
-        <th>FECHA</th>
-        <th>HORARIO</th>
-        <th>ASISTENCIA</th>
-    </tr>
-    </thead>
-    <tbody>
+    <%
+        Usuario usuario = (Usuario) request.getAttribute("usuario");
+        List<AsignacionVoluntario> asignaciones = (List<AsignacionVoluntario>) request.getAttribute("asignaciones");
+    %>
+
+    <br>
+    <p>
+        <%= usuario.getNombre() %>
+        ID Usuario: <%= usuario.getIdUsuario() %>
+    </p>
+
+    <table border="1 px">
+        <thead>
+            <tr>
+                <th>ID ASIGNACION</th>
+                <th>TIENDA</th>
+                <th>LOCALIDAD</th>
+                <th>FRANJA</th>
+                <th>FECHA</th>
+                <th>ASISTENCIA</th>
+                <th>ID ENTIDAD</th>
+                <th>ENTIDAD COLABORADORA</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
         <%
-            if (voluntarios != null) {
-                for (AsignacionVoluntario a : voluntarios) {
+            if (asignaciones == null || asignaciones.isEmpty()) {
         %>
-    <tr>
-        <td><%= a.getUsuario().getNombre() %></td>
-
-        <td><%= (a.getEntidadColaboradora() != null) ? a.getEntidadColaboradora().getNombreEntidad() : "Individual" %></td>
-
-        <td>
-            <%= a.getTurnoActivo().getTiendaCampanya().getTienda().getNombreEstablecimiento() %>
-            <br>
-            <small class="text-muted">(<%= a.getTurnoActivo().getTiendaCampanya().getCampanya().getNombreCampanya() %>)</small>
-        </td>
-
-        <td><%= a.getTurnoActivo().getFechaExacta() %></td>
-
-        <td>
-            <%= a.getTurnoActivo().getHoraInicio() %> - <%= a.getTurnoActivo().getHoraFin() %>
-        </td>
-
-        <td>
-                <span class="badge <%= a.getAsistencia() ? "bg-success" : "bg-warning" %>">
-                    <%= a.getAsistencia() ? "Presente" : "Pendiente" %>
-                </span>
-        </td>
-    </tr>
+            <tr> <td colspan="8">Voluntario sin asignaciones</td> </tr>
         <%
-                }
-            } else {
+        } else {
+
+            for (AsignacionVoluntario av : asignaciones) {
         %>
-    <tr><td colspan="6" class="text-center">No hay voluntarios asignados.</td></tr>
+
+        <tr>
+
+            <td><%= av.getIdAsignacion() %></td>
+
+            <td>
+                <%= av.getTurnoActivo().getTiendaCampanya().getTienda().getNombreEstablecimiento() %>
+            </td>
+
+            <td>
+                <%if (av.getTurnoActivo().getTiendaCampanya().getTienda().getDireccion() != null) {%>
+                        <%= av.getTurnoActivo().getTiendaCampanya().getTienda().getDireccion().getZonaGeografica() %>
+                <%}%>
+            </td>
+
+            <td>
+                <%if (av.getTurnoActivo().getPlantillaTurno() != null) {
+                    String dia = av.getTurnoActivo().getPlantillaTurno().getDiaSemana();
+                    String franja = av.getTurnoActivo().getPlantillaTurno().getFranjaHoraria();
+                %>
+                        <%= (dia != null ? dia : "") + " " + (franja != null ? franja : "") %>
+                <%}%>
+            </td>
+
+            <td>
+                <%= av.getTurnoActivo().getFechaExacta() != null ? av.getTurnoActivo().getFechaExacta().toString() : "-" %>
+            </td>
+
+            <td>
+                <%= Boolean.TRUE.equals(av.getAsistencia()) ? "Sí" : "No" %>
+            </td>
+
+            <td>
+                <%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getIdEntidad() : "-" %>
+            </td>
+
+            <td>
+                <%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getNombreEntidad() : "-" %>
+            </td>
+
+        </tr>
+
         <%
-            }
+            }} //else y for
         %>
-</table>
+
+        </tbody>
+    </table>
 
 </body>
 </html>
