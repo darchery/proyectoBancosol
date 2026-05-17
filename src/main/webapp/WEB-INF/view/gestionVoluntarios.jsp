@@ -33,6 +33,8 @@
                 <th>ASISTENCIA</th>
                 <th>ID ENTIDAD</th>
                 <th>ENTIDAD COLABORADORA</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
 
@@ -52,9 +54,7 @@
 
             <td><%= av.getIdAsignacion() %></td>
 
-            <td>
-                <%= av.getTurnoActivo().getTiendaCampanya().getTienda().getNombreEstablecimiento() %>
-            </td>
+            <td><%= av.getTurnoActivo().getTiendaCampanya().getTienda().getNombreEstablecimiento() %></td>
 
             <td>
                 <%if (av.getTurnoActivo().getTiendaCampanya().getTienda().getDireccion() != null) {%>
@@ -71,21 +71,16 @@
                 <%}%>
             </td>
 
-            <td>
-                <%= av.getTurnoActivo().getFechaExacta() != null ? av.getTurnoActivo().getFechaExacta().toString() : "-" %>
-            </td>
+            <td><%= av.getTurnoActivo().getFechaExacta() != null ? av.getTurnoActivo().getFechaExacta().toString() : "-" %></td>
 
-            <td>
-                <%= Boolean.TRUE.equals(av.getAsistencia()) ? "Sí" : "No" %>
-            </td>
+            <td><%= Boolean.TRUE.equals(av.getAsistencia()) ? "Sí" : "No" %></td>
 
-            <td>
-                <%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getIdEntidad() : "-" %>
-            </td>
+            <td><%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getIdEntidad() : "-" %></td>
 
-            <td>
-                <%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getNombreEntidad() : "-" %>
-            </td>
+            <td><%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getNombreEntidad() : "-" %></td>
+
+            <td><a href="/voluntarios/edit?idUsuario=<%= usuario.getIdUsuario() %>&id=<%= av.getIdAsignacion() %>">Editar</a></td>
+            <td><a href="/voluntarios/borrar?id=<%= av.getIdAsignacion() %>&idUsuario=<%= usuario.getIdUsuario() %>">Borrar</a></td>
 
         </tr>
 
@@ -95,6 +90,6 @@
 
         </tbody>
     </table>
-
+    <a href="/voluntarios/edit?idUsuario=<%= usuario.getIdUsuario() %>"><button type="button">Añadir Asignación</button></a>
 </body>
 </html>
