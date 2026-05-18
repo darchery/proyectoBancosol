@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Gestión de Tiendas - Bancosol</title>
-    <link rel="stylesheet" href="/css/style_bancosol.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 
 <body>

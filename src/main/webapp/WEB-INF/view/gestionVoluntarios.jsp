@@ -6,6 +6,7 @@
 <html>
 <head>
     <title>Asignaciones del Voluntario</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 
 <body>

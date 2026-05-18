@@ -10,6 +10,7 @@
 <html>
 <head>
     <title><%= usuario == null ? "Añadir" : "Editar"%> <%= rol.getNombreRol()%></title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <body>
 <h1><%= usuario == null ? "Añadir" : "Editar"%> <%= rol.getNombreRol()%></h1>

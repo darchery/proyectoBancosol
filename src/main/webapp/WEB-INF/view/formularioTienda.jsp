@@ -6,7 +6,7 @@
 <html>
 <head>
     <title><%= ((Tienda)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</title>
-    <link rel="stylesheet" href="/css/style_bancosol.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 
 <body>
