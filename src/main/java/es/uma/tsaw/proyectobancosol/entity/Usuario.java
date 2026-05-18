@@ -29,6 +29,9 @@ public class Usuario {
     @Column(name = "contrasenya", nullable = false)
     private String contrasenya;
 
+    @Column(name = "nombre_usuario", nullable = false)
+    private String nombreUsuario;
+
     public String tranformarContrasenya(String contrasenya) {
         String res = "";
         for (Character c : contrasenya.toCharArray()) {
