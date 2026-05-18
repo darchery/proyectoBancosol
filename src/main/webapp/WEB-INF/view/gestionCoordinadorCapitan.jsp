@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <%
-
     List<Usuario> coordinadores = (List<Usuario>) request.getAttribute("coordinadores");
     List<Usuario> capitanes = (List<Usuario>) request.getAttribute("capitanes");
     List<Usuario> capitanesCoordinadores = (List<Usuario>) request.getAttribute("capitanesCoordinadores");
@@ -32,10 +31,11 @@
         <th></th>
     </tr>
     <%
-        for (Usuario c: coordinadores) {
+        if(coordinadores != null){
+            for (Usuario c: coordinadores) {
     %>
     <tr>
-        <td><%= c.getRol() %></td>
+        <td><%= c.getRol().getNombreRol() %></td>
         <td><%= c.getNombre() %></td>
         <td><%= request.getAttribute("entidad_" + c.getIdUsuario())%></td>
         <td><%= request.getAttribute("area_" + c.getIdUsuario())%></td>
@@ -48,15 +48,17 @@
         <td><a href="/usuarios/borrar?id=<%= c.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
+            }
         }
     %>
 
 
     <%
-        for (Usuario cap: capitanes) {
+        if(capitanes != null){
+            for (Usuario cap: capitanes) {
     %>
     <tr>
-        <td><%= cap.getRol() %></td>
+        <td><%= cap.getRol().getNombreRol() %></td>
         <td><%= cap.getNombre() %></td>
         <td><%= request.getAttribute("entidad_" + cap.getIdUsuario())%></td>
         <td><%= request.getAttribute("area_" + cap.getIdUsuario())%></td>
@@ -69,14 +71,16 @@
         <td><a href="/usuarios/borrar?id=<%= cap.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
+            }
         }
     %>
 
     <%
-        for (Usuario cc: capitanesCoordinadores) {
+        if(capitanesCoordinadores != null){
+            for (Usuario cc: capitanesCoordinadores) {
     %>
     <tr>
-        <td><%= cc.getRol() %></td>
+        <td><%= cc.getRol().getNombreRol() %></td>
         <td><%= cc.getNombre() %></td>
         <td><%= request.getAttribute("entidad_" + cc.getIdUsuario())%></td>
         <td><%= request.getAttribute("area_" + cc.getIdUsuario())%></td>
@@ -89,6 +93,7 @@
         <td><a href="/usuarios/borrar?id=<%= cc.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
+            }
         }
     %>
 </table>

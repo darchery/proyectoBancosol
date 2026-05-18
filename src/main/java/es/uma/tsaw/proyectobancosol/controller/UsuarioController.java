@@ -34,106 +34,113 @@ public class UsuarioController {
 
     @GetMapping("/coordinadores-capitanes")
     public String listarCoordinadores(Model model) {
+
         List<Usuario> coordinadores = usuarioRepository.findUsuarioByRolID(2);
 
         // Enriquecer cada coordinador con sus datos
-        for (Usuario coordinador : coordinadores) {
-            // 1. Obtener la entidad colaboradora
-            List<AsignacionVoluntario> asignaciones =
-                    asignacionVoluntarioRepository.findByUsuario(coordinador);
+        if(coordinadores != null && !coordinadores.isEmpty()){
+            for (Usuario coordinador : coordinadores) {
+                // 1. Obtener la entidad colaboradora
+                List<AsignacionVoluntario> asignaciones =
+                        asignacionVoluntarioRepository.findByUsuario(coordinador);
 
-            String entidad = "-";
-            String area = "-";
+                String entidad = "-";
+                String area = "-";
 
-            if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradora() != null) {
-                entidad = asignaciones.get(0).getEntidadColaboradora().getNombreEntidad();
+                if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradora() != null) {
+                    entidad = asignaciones.get(0).getEntidadColaboradora().getNombreEntidad();
+                }
+
+                // 2. Obtener el área (distrito/comarca) desde las tiendas del coordinador
+                List<TiendaCampanya> tiendas = tiendaCampanyaRepositorio.findByCoordinador(coordinador);
+
+                if (!tiendas.isEmpty() && tiendas.get(0).getTienda().getDireccion() != null) {
+                    Direccion direccion = tiendas.get(0).getTienda().getDireccion();
+                    // Si es del Málaga capital => enseñamos el distrito
+                    if (direccion.getZonaGeografica().equals("Málaga Capital")) {
+                        area = direccion.getDistritoLocal();
+                    } else { // Si no, su zona geográfica
+                        area = direccion.getZonaGeografica();
+                    }
+                }
+
+                // Guardar los atributos en el modelo
+                model.addAttribute("entidad_" + coordinador.getIdUsuario(), entidad);
+                model.addAttribute("area_" + coordinador.getIdUsuario(), area);
+                model.addAttribute("tiendas_" + coordinador.getIdUsuario(), tiendas.size());
             }
-
-            // 2. Obtener el área (distrito/comarca) desde las tiendas del coordinador
-            List<TiendaCampanya> tiendas = tiendaCampanyaRepositorio.findByCoordinador(coordinador);
-
-            if (!tiendas.isEmpty() && tiendas.get(0).getTienda().getDireccion() != null) {
-                Direccion direccion = tiendas.get(0).getTienda().getDireccion();
-               // Si es del Málaga capital => enseñamos el distrito
-                if (direccion.getZonaGeografica().equals("Málaga Capital")) {
-                    area = direccion.getDistritoLocal();
-               } else  { // Si no, su zona geográfica
-                   area = direccion.getZonaGeografica();
-               }
-            }
-
-            // Guardar los atributos en el modelo
-            model.addAttribute("entidad_" + coordinador.getIdUsuario(), entidad);
-            model.addAttribute("area_" + coordinador.getIdUsuario(), area);
-            model.addAttribute("tiendas_" + coordinador.getIdUsuario(), tiendas.size());
         }
 
         List<Usuario> capitanes = usuarioRepository.findUsuarioByRolID(3);
 
         // Enriquecer cada coordinador con sus datos
-        for (Usuario capitan : capitanes) {
-            // 1. Obtener la entidad colaboradora
-            List<AsignacionVoluntario> asignaciones =
-                    asignacionVoluntarioRepository.findByUsuario(capitan);
+        if(capitanes != null && !capitanes.isEmpty()){
+            for (Usuario capitan : capitanes) {
+                // 1. Obtener la entidad colaboradora
+                List<AsignacionVoluntario> asignaciones =
+                        asignacionVoluntarioRepository.findByUsuario(capitan);
 
-            String entidad = "-";
-            String area = "-";
+                String entidad = "-";
+                String area = "-";
 
-            if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradora() != null) {
-                entidad = asignaciones.get(0).getEntidadColaboradora().getNombreEntidad();
-            }
-
-            // 2. Obtener el área (distrito/comarca) desde las tiendas del coordinador
-            List<TiendaCampanya> tiendas = tiendaCampanyaRepositorio.findByCoordinador(capitan);
-
-            if (!tiendas.isEmpty() && tiendas.get(0).getTienda().getDireccion() != null) {
-                Direccion direccion = tiendas.get(0).getTienda().getDireccion();
-                // Si es del Málaga capital => enseñamos el distrito
-                if (direccion.getZonaGeografica().equals("Málaga Capital")) {
-                    area = direccion.getDistritoLocal();
-                } else  { // Si no, su zona geográfica
-                    area = direccion.getZonaGeografica();
+                if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradora() != null) {
+                    entidad = asignaciones.get(0).getEntidadColaboradora().getNombreEntidad();
                 }
-            }
 
-            // Guardar los atributos en el modelo
-            model.addAttribute("entidad_" + capitan.getIdUsuario(), entidad);
-            model.addAttribute("area_" + capitan.getIdUsuario(), area);
-            model.addAttribute("tiendas_" + capitan.getIdUsuario(), tiendas.size());
+                // 2. Obtener el área (distrito/comarca) desde las tiendas del coordinador
+                List<TiendaCampanya> tiendas = tiendaCampanyaRepositorio.findByCoordinador(capitan);
+
+                if (!tiendas.isEmpty() && tiendas.get(0).getTienda().getDireccion() != null) {
+                    Direccion direccion = tiendas.get(0).getTienda().getDireccion();
+                    // Si es del Málaga capital => enseñamos el distrito
+                    if (direccion.getZonaGeografica().equals("Málaga Capital")) {
+                        area = direccion.getDistritoLocal();
+                    } else { // Si no, su zona geográfica
+                        area = direccion.getZonaGeografica();
+                    }
+                }
+
+                // Guardar los atributos en el modelo
+                model.addAttribute("entidad_" + capitan.getIdUsuario(), entidad);
+                model.addAttribute("area_" + capitan.getIdUsuario(), area);
+                model.addAttribute("tiendas_" + capitan.getIdUsuario(), tiendas.size());
+            }
         }
 
         List<Usuario> coordinadoresCapitanes = usuarioRepository.findUsuarioByRolID(6);
 
         // Enriquecer cada coordinador con sus datos
-        for (Usuario coordinadorCapitan : coordinadoresCapitanes) {
-            // 1. Obtener la entidad colaboradora
-            List<AsignacionVoluntario> asignaciones =
-                    asignacionVoluntarioRepository.findByUsuario(coordinadorCapitan);
+        if(coordinadoresCapitanes != null && !coordinadoresCapitanes.isEmpty()){
+            for (Usuario coordinadorCapitan : coordinadoresCapitanes) {
+                // 1. Obtener la entidad colaboradora
+                List<AsignacionVoluntario> asignaciones =
+                        asignacionVoluntarioRepository.findByUsuario(coordinadorCapitan);
 
-            String entidad = "-";
-            String area = "-";
+                String entidad = "-";
+                String area = "-";
 
-            if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradora() != null) {
-                entidad = asignaciones.get(0).getEntidadColaboradora().getNombreEntidad();
-            }
-
-            // 2. Obtener el área (distrito/comarca) desde las tiendas del coordinador
-            List<TiendaCampanya> tiendas = tiendaCampanyaRepositorio.findByCoordinador(coordinadorCapitan);
-
-            if (!tiendas.isEmpty() && tiendas.get(0).getTienda().getDireccion() != null) {
-                Direccion direccion = tiendas.get(0).getTienda().getDireccion();
-                // Si es del Málaga capital => enseñamos el distrito
-                if (direccion.getZonaGeografica().equals("Málaga Capital")) {
-                    area = direccion.getDistritoLocal();
-                } else  { // Si no, su zona geográfica
-                    area = direccion.getZonaGeografica();
+                if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradora() != null) {
+                    entidad = asignaciones.get(0).getEntidadColaboradora().getNombreEntidad();
                 }
-            }
 
-            // Guardar los atributos en el modelo
-            model.addAttribute("entidad_" + coordinadorCapitan.getIdUsuario(), entidad);
-            model.addAttribute("area_" + coordinadorCapitan.getIdUsuario(), area);
-            model.addAttribute("tiendas_" + coordinadorCapitan.getIdUsuario(), tiendas.size());
+                // 2. Obtener el área (distrito/comarca) desde las tiendas del coordinador
+                List<TiendaCampanya> tiendas = tiendaCampanyaRepositorio.findByCoordinador(coordinadorCapitan);
+
+                if (!tiendas.isEmpty() && tiendas.get(0).getTienda().getDireccion() != null) {
+                    Direccion direccion = tiendas.get(0).getTienda().getDireccion();
+                    // Si es del Málaga capital => enseñamos el distrito
+                    if (direccion.getZonaGeografica().equals("Málaga Capital")) {
+                        area = direccion.getDistritoLocal();
+                    } else { // Si no, su zona geográfica
+                        area = direccion.getZonaGeografica();
+                    }
+                }
+
+                // Guardar los atributos en el modelo
+                model.addAttribute("entidad_" + coordinadorCapitan.getIdUsuario(), entidad);
+                model.addAttribute("area_" + coordinadorCapitan.getIdUsuario(), area);
+                model.addAttribute("tiendas_" + coordinadorCapitan.getIdUsuario(), tiendas.size());
+            }
         }
 
         model.addAttribute("coordinadores", coordinadores);
