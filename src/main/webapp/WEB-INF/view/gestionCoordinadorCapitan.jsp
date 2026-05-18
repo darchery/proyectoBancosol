@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Lista de Coordinadores</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <%
     List<Usuario> coordinadores = (List<Usuario>) request.getAttribute("coordinadores");
