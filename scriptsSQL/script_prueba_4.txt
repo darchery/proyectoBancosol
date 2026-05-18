@@ -1,0 +1,15 @@
+-- 1. Creamos la nueva columna (permitimos nulos por ahora para poder insertarla)
+ALTER TABLE usuario ADD COLUMN nombre_usuario VARCHAR(50);
+
+-- 2. Le asignamos un valor a cada usuario existente según su ID
+UPDATE usuario SET nombre_usuario = 'admin1' WHERE id_usuario = 1;
+UPDATE usuario SET nombre_usuario = 'coordinador1' WHERE id_usuario = 2;
+UPDATE usuario SET nombre_usuario = 'capitan1' WHERE id_usuario = 3;
+UPDATE usuario SET nombre_usuario = 'voluntario1' WHERE id_usuario = 4;
+UPDATE usuario SET nombre_usuario = 'coordinadorcapitan1' WHERE id_usuario = 5;
+
+-- 3. (Opcional pero recomendado) Hacemos que el nombre_usuario sea obligatorio a partir de ahora
+ALTER TABLE usuario ALTER COLUMN nombre_usuario SET NOT NULL;
+
+-- 4. (Opcional pero muy recomendado) Hacemos que no pueda haber dos usuarios con el mismo nombre_usuario
+ALTER TABLE usuario ADD CONSTRAINT unique_username UNIQUE (nombre_usuario);
