@@ -14,25 +14,31 @@
 
 <table class="table table-striped table-bordered table-hover align-middle">
     <tr>
+        <th>ENTIDAD</th>
         <th>COLABORADOR</th>
-        <th>TIPO</th>
-        <th>LIGADO A BANCOSOL</th>
-        <th>RESPONSABLE (Contacto)</th>
-        <th>EMAIL RESPONSABLE</th>
-        <th>TELÉFONO</th>
+        <th>DOMICILIO</th>
+        <th>LOCALIDAD</th>
+        <th>COLABORA EN</th>
+        <th>COORDINADOR</th>
+        <th>CONTACTO PRINCIPAL</th>
+        <th>OBSERVACIONES</th>
+        <th></th>
+        <th></th>
     </tr>
     <%
         for (EntidadColaboradora e: entidadesColaboradoras) {
     %>
     <tr>
         <td><strong><%= e.getNombreEntidad() %></strong></td>
-        <td><%= (e.getTipo() != null) ? e.getTipo() : "No definido" %></td>
-        <td class="text-center">
-            <input type="checkbox" disabled <%= e.getLigadoBancosol() ? "checked" : "" %> />
-        </td>
         <td><%= (e.getResponsable() != null) ? e.getResponsable().getNombre() : "<em class='text-muted'>Sin asignar</em>" %></td>
-        <td><%= (e.getResponsable() != null) ? e.getResponsable().getEmail() : "-" %></td>
-        <td><%= (e.getResponsable() != null) ? e.getResponsable().getTelefono() : "-" %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th><a href="/entidades/editar?id=<%= e.getIdEntidad() %>">Editar</a></th>
+        <th><a href="/entidades/borrar">Eliminar</a></th>
     </tr>
     <%
         }
