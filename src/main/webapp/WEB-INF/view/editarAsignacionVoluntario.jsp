@@ -8,6 +8,7 @@
 <html>
 <head>
     <title>Asignacion Voluntarios Editar/Añadir</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 
 <body>
