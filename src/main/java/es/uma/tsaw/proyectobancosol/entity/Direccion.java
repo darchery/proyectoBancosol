@@ -16,4 +16,7 @@ public class Direccion {
 
     @Column(name = "zona_geografica", length = 150)
     private String zonaGeografica;
+
+    @Column(name = "domicilio", length = 150)
+    private String domicilio;
 }
