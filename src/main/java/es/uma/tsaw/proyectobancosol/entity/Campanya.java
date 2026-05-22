@@ -3,6 +3,7 @@ package es.uma.tsaw.proyectobancosol.entity;
 import lombok.Data;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,12 +40,12 @@ public class Campanya implements Serializable {
     @Column(name = "estado", length = 50)
     private String estado;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "campanya_cadena",
             schema = "public",
             joinColumns = @JoinColumn(name = "id_campanya"),
             inverseJoinColumns = @JoinColumn(name = "id_cadena")
     )
-    private List<Cadena> cadenasParticipantes;
+    private List<Cadena> cadenasParticipantes = new ArrayList<>();
 }

@@ -4,10 +4,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    List<Campanya> campanas    = (List<Campanya>) request.getAttribute("campanas");
-    List<Cadena>   cadenas     = (List<Cadena>)   request.getAttribute("cadenas");
-    String         cadenasJson = (String)          request.getAttribute("cadenasJson");
-    String         campanasJson = (String)         request.getAttribute("campanasJson");
+    List<Campanya> campanas = (List<Campanya>) request.getAttribute("campanas");
+    List<Cadena>   cadenas  = (List<Cadena>)   request.getAttribute("cadenas");
+    String cadenasJson      = (String) request.getAttribute("cadenasJson");
+    String campanasJson     = (String) request.getAttribute("campanasJson");
 %>
 
 <html>
@@ -18,61 +18,92 @@
 
 <h1>Gestión de Campañas</h1>
 
+<%
+    String msg = (String) request.getAttribute("msg");
+    if (msg != null) {
+        boolean esError = msg.startsWith("error:");
+        String texto = msg.substring(msg.indexOf(":") + 1);
+        String color = esError ? "#c0392b" : "#27ae60";
+%>
+<p style="color:<%= color %>; font-weight:bold;"><%= texto %></p>
+<% } %>
+
 <form method="post" action="campanas/guardarTodo">
 
-    <!-- id de la campaña que se está editando (vacío si es nueva) -->
-    <input type="hidden" name="campanaEditId" id="campanaEditId" value="">
+    <input type="hidden" name="campanaEditId"      id="campanaEditId"      value="">
+    <input type="hidden" name="campanaNombre"       id="campanaNombre"      value="">
+    <input type="hidden" name="campanaEstado"       id="campanaEstado"      value="">
+    <input type="hidden" name="campanaTipo"         id="campanaTipo"        value="">
+    <input type="hidden" name="campanaFechaInicio"  id="campanaFechaInicio" value="">
+    <input type="hidden" name="campanaFechaFin"     id="campanaFechaFin"    value="">
 
-    <!-- ── CAMPAÑAS EXISTENTES ── -->
-    <h2>Campaña</h2>
-    <%
-        if (campanas != null) {
-            for (Campanya camp : campanas) {
-    %>
+    <!-- ── TIPOS DE CAMPAÑA ── -->
+    <h2>Tipo de campaña</h2>
+
     <div>
-        <input type="radio" name="campanaId" value="<%= camp.getIdCampanya() %>" id="camp_<%= camp.getIdCampanya() %>">
-        <a href="#" onclick="abrirEdicion(<%= camp.getIdCampanya() %>); return false;">
-            <%= camp.getNombreCampanya() != null ? camp.getNombreCampanya() : "(sin nombre)" %>
-        </a>
-        (<%= camp.getEstado() %>)
+        <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
+               id="tipo_GR" onchange="seleccionarTipo('GR')">
+        <label for="tipo_GR">Gran Recogida</label>
     </div>
-    <%
-            }
-        }
-    %>
 
-    <!-- ── FORMULARIO NUEVA / EDITAR CAMPAÑA ── -->
-    <br>
-    <button type="button" onclick="abrirNueva()">Añadir campaña</button>
-
-    <div id="formCampana" style="display:none; margin-top:8px;">
-        <b id="formCampanaTitulo">Nueva campaña:</b><br>
-        Nombre: <input type="text" name="campanaNombre" id="campanaNombre">
-        &nbsp;
-        Tipo: <input type="text" name="campanaTipo" id="campanaTipo">
-        &nbsp;
-        Estado: <input type="text" name="campanaEstado" id="campanaEstado">
-        &nbsp;
-        Fecha inicio: <input type="date" name="campanaFechaInicio" id="campanaFechaInicio">
-        &nbsp;
-        Fecha fin: <input type="date" name="campanaFechaFin" id="campanaFechaFin">
+    <div>
+        <input type="radio" name="tipoCampanyaSeleccionado" value="primavera"
+               id="tipo_primavera" onchange="seleccionarTipo('primavera')">
+        <label for="tipo_primavera">Operación Primavera</label>
     </div>
 
     <hr>
 
+    <!-- ── HISTORIAL (oculto por defecto) ── -->
+    <div id="divHistorial" style="display:none;">
+        <h2>Historial de campañas</h2>
+        <table border="1" cellpadding="5">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+            </tr>
+            </thead>
+            <tbody id="tbodyHistorial"></tbody>
+        </table>
+        <br>
+        <button type="button" onclick="document.getElementById('divHistorial').style.display='none'">Cerrar historial</button>
+        <br>
+    </div>
+
     <!-- ── CADENAS ── -->
-    <h2>Cadenas</h2>
-    <p id="mensajeCadenas"><em>Selecciona una campaña para ver sus cadenas.</em></p>
+    <h2>Cadenas
+        <span id="campanaSeleccionadaLabel" style="font-weight:normal; font-size:0.85em;"></span>
+    </h2>
 
     <%
         if (cadenas != null) {
             for (Cadena cad : cadenas) {
     %>
-    <div class="fila-cadena" id="fila_<%= cad.getIdCadena() %>" style="display:none;">
-        <input type="checkbox" name="cadenaIds" value="<%= cad.getIdCadena() %>" id="cad_<%= cad.getIdCadena() %>">
-        <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>"><%= cad.getNombreCadena() %></a>
-        <input type="hidden" name="cadenasBorrar" value="<%= cad.getIdCadena() %>" id="borrar_<%= cad.getIdCadena() %>" disabled>
-        <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">Eliminar</button>
+    <div id="fila_<%= cad.getIdCadena() %>">
+
+        <input type="checkbox"
+               name="cadenaIds"
+               value="<%= cad.getIdCadena() %>"
+               id="cad_<%= cad.getIdCadena() %>">
+
+        <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>">
+            <%= cad.getNombreCadena() %>
+        </a>
+
+        <input type="hidden"
+               name="cadenasBorrar"
+               value="<%= cad.getIdCadena() %>"
+               id="borrar_<%= cad.getIdCadena() %>"
+               disabled>
+
+        <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">
+            Eliminar
+        </button>
+
     </div>
     <%
             }
@@ -84,7 +115,33 @@
 
     <hr>
 
-    <input type="submit" name="accion" value="Guardar cambios">
+    <!-- ── BOTONES ── -->
+    <button type="button" onclick="generarCampana()">Generar campaña</button>
+    &nbsp;
+    <button type="button" onclick="verHistorial()">Ver historial</button>
+    &nbsp;
+    <input type="submit" value="Guardar cambios">
+
+    <!-- ── FORMULARIO NUEVA CAMPAÑA ── -->
+    <div id="modalFechas" style="display:none;">
+        <hr>
+        <h3>Nueva campaña</h3>
+        <p id="modalTipoLabel"></p>
+
+        <label for="inputFechaInicio">Fecha de inicio:</label>
+        <input type="date" id="inputFechaInicio">
+        <br><br>
+
+        <label for="inputFechaFin">Fecha de fin:</label>
+        <input type="date" id="inputFechaFin">
+        <br><br>
+
+        <p id="errorFechas" style="display:none; color:red;"></p>
+
+        <button type="button" onclick="confirmarGeneracion()">Confirmar</button>
+        <button type="button" onclick="cerrarModal()">Cancelar</button>
+        <hr>
+    </div>
 
 </form>
 
@@ -92,73 +149,128 @@
 <a href="/">Salir</a>
 
 <script>
+
     var cadenasporCampana = <%= cadenasJson  != null ? cadenasJson  : "{}" %>;
     var datosCampanas     = <%= campanasJson != null ? campanasJson : "{}" %>;
 
-    function mostrarCadenas(marcarIds) {
-        var ids = marcarIds || [];
-        document.querySelectorAll('.fila-cadena').forEach(function (fila) {
-            fila.style.display = 'block';
-            var cb = fila.querySelector('input[type="checkbox"]');
-            cb.checked = ids.indexOf(parseInt(cb.value)) !== -1;
-        });
-        document.getElementById('mensajeCadenas').style.display = 'none';
+    var todasCampanas = [];
+    <%
+        if (campanas != null) {
+            for (Campanya c : campanas) {
+                String nombre = c.getNombreCampanya() != null ? c.getNombreCampanya().replace("\"","\\\"") : "";
+                String estado = c.getEstado()         != null ? c.getEstado().replace("\"","\\\"")         : "";
+                String tipo   = c.getTipoCampanya()   != null ? c.getTipoCampanya().replace("\"","\\\"")   : "";
+                String fi = c.getFechaInicio() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(c.getFechaInicio()) : "";
+                String ff = c.getFechaFin()    != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(c.getFechaFin())    : "";
+    %>
+    todasCampanas.push({ id: <%= c.getIdCampanya() %>, nombre: "<%= nombre %>", tipo: "<%= tipo %>", estado: "<%= estado %>", fechaInicio: "<%= fi %>", fechaFin: "<%= ff %>" });
+    <%
+            }
+        }
+    %>
+
+    var tipoSeleccionado = null;
+
+    function seleccionarTipo(tipo) {
+        tipoSeleccionado = tipo;
     }
 
-    function cerrarFormulario() {
-        document.getElementById('formCampana').style.display = 'none';
-        document.getElementById('campanaEditId').value = '';
-        document.getElementById('campanaNombre').value = '';
-        document.getElementById('campanaTipo').value = '';
-        document.getElementById('campanaEstado').value = '';
-        document.getElementById('campanaFechaInicio').value = '';
-        document.getElementById('campanaFechaFin').value = '';
-    }
-
-    function abrirNueva() {
-        var div = document.getElementById('formCampana');
-        if (div.style.display !== 'none' && document.getElementById('campanaEditId').value === '') {
-            cerrarFormulario();
+    function generarCampana() {
+        if (!tipoSeleccionado) {
+            alert('Selecciona un tipo de campaña.');
             return;
         }
-        cerrarFormulario();
-        document.getElementById('formCampanaTitulo').textContent = 'Nueva campaña:';
-        div.style.display = 'block';
-        // Deseleccionar radios y mostrar cadenas sin marcar
-        document.querySelectorAll('input[name="campanaId"]').forEach(function (rb) { rb.checked = false; });
-        mostrarCadenas([]);
+        var etiquetas = { GR: 'Gran Recogida', primavera: 'Operación Primavera' };
+        var anyo = new Date().getFullYear();
+        document.getElementById('modalTipoLabel').textContent =
+            (etiquetas[tipoSeleccionado] || tipoSeleccionado) + ' ' + anyo;
+
+        document.getElementById('inputFechaInicio').value = '';
+        document.getElementById('inputFechaFin').value    = '';
+        document.getElementById('errorFechas').style.display = 'none';
+        document.getElementById('modalFechas').style.display = 'block';
     }
 
-    function abrirEdicion(id) {
+    function confirmarGeneracion() {
+        var fi  = document.getElementById('inputFechaInicio').value;
+        var ff  = document.getElementById('inputFechaFin').value;
+        var err = document.getElementById('errorFechas');
+
+        if (!fi || !ff) {
+            err.textContent = 'Ambas fechas son obligatorias.';
+            err.style.display = 'block';
+            return;
+        }
+        if (ff <= fi) {
+            err.textContent = 'La fecha de fin debe ser posterior a la de inicio.';
+            err.style.display = 'block';
+            return;
+        }
+
+        var anyo = new Date().getFullYear();
+        document.getElementById('campanaNombre').value      = tipoSeleccionado + ' ' + anyo;
+        document.getElementById('campanaTipo').value        = tipoSeleccionado;
+        document.getElementById('campanaEstado').value      = 'ACTIVA';
+        document.getElementById('campanaEditId').value      = '';
+        document.getElementById('campanaFechaInicio').value = fi;
+        document.getElementById('campanaFechaFin').value    = ff;
+
+        cerrarModal();
+        document.querySelector('form').submit();
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalFechas').style.display = 'none';
+    }
+
+    function verHistorial() {
+        var tbody = document.getElementById('tbodyHistorial');
+        tbody.innerHTML = '';
+
+        if (todasCampanas.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5"><em>No hay campañas registradas.</em></td></tr>';
+        } else {
+            todasCampanas.forEach(function(c) {
+                var tr = document.createElement('tr');
+                tr.innerHTML =
+                    '<td><a href="#" onclick="seleccionarCampana(' + c.id + '); return false;">' + (c.nombre || '(sin nombre)') + '</a></td>' +
+                    '<td>' + (c.tipo        || '') + '</td>' +
+                    '<td>' + (c.estado      || '') + '</td>' +
+                    '<td>' + (c.fechaInicio || '') + '</td>' +
+                    '<td>' + (c.fechaFin    || '') + '</td>';
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('divHistorial').style.display = 'block';
+    }
+
+    function seleccionarCampana(id) {
         var datos = datosCampanas[id];
         if (!datos) return;
-        cerrarFormulario();
-        document.getElementById('campanaEditId').value        = id;
-        document.getElementById('campanaNombre').value        = datos.nombre;
-        document.getElementById('campanaTipo').value          = datos.tipo;
-        document.getElementById('campanaEstado').value        = datos.estado;
-        document.getElementById('campanaFechaInicio').value   = datos.fechaInicio;
-        document.getElementById('campanaFechaFin').value      = datos.fechaFin;
-        document.getElementById('formCampanaTitulo').textContent = 'Modificar campaña:';
-        document.getElementById('formCampana').style.display = 'block';
-        // Seleccionar el radio y mostrar sus cadenas
-        var rb = document.getElementById('camp_' + id);
-        if (rb) rb.checked = true;
-        mostrarCadenas(cadenasporCampana[id] || []);
+
+        document.getElementById('campanaEditId').value       = id;
+        document.getElementById('campanaNombre').value       = datos.nombre;
+        document.getElementById('campanaTipo').value         = datos.tipo;
+        document.getElementById('campanaEstado').value       = datos.estado;
+        document.getElementById('campanaFechaInicio').value  = datos.fechaInicio;
+        document.getElementById('campanaFechaFin').value     = datos.fechaFin;
+
+        document.getElementById('campanaSeleccionadaLabel').textContent =
+            '— editando: ' + (datos.nombre || '(sin nombre)');
+
+        var ids = cadenasporCampana[id] || [];
+        document.querySelectorAll('input[name="cadenaIds"]').forEach(function(cb) {
+            cb.checked = ids.indexOf(parseInt(cb.value)) !== -1;
+        });
     }
 
     function marcarParaBorrar(idCadena) {
-        document.getElementById('fila_' + idCadena).style.display = 'none';
-        document.getElementById('cad_' + idCadena).checked = false;
+        document.getElementById('fila_'   + idCadena).style.display = 'none';
+        document.getElementById('cad_'    + idCadena).checked = false;
         document.getElementById('borrar_' + idCadena).disabled = false;
     }
 
-    document.querySelectorAll('input[name="campanaId"]').forEach(function (rb) {
-        rb.addEventListener('change', function () {
-            mostrarCadenas(cadenasporCampana[this.value] || []);
-            cerrarFormulario();
-        });
-    });
 </script>
 
 </body>
