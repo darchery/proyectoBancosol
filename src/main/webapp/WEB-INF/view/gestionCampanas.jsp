@@ -181,8 +181,19 @@
             alert('Selecciona un tipo de campaña.');
             return;
         }
-        var etiquetas = { GR: 'Gran Recogida', primavera: 'Operación Primavera' };
+
         var anyo = new Date().getFullYear();
+        var etiquetas = { GR: 'Gran Recogida', primavera: 'Operación Primavera' };
+
+        var yaExiste = todasCampanas.some(function(c) {
+            return c.tipo === tipoSeleccionado && c.nombre.indexOf(String(anyo)) !== -1;
+        });
+
+        if (yaExiste) {
+            alert('Ya existe una campaña de tipo "' + (etiquetas[tipoSeleccionado] || tipoSeleccionado) + '" para ' + anyo + '.');
+            return;
+        }
+
         document.getElementById('modalTipoLabel').textContent =
             (etiquetas[tipoSeleccionado] || tipoSeleccionado) + ' ' + anyo;
 
