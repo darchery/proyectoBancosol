@@ -21,16 +21,12 @@ public class AsignacionController {
 
     @Autowired
     private final UsuarioRepositorio usuarioRepositorio;
-
     @Autowired
     private final AsignacionVoluntarioRepositorio asignacionVoluntarioRepositorio;
-
     @Autowired
     private final TurnoActivoRepositorio turnoActivoRepositorio;
-
     @Autowired
     private final EntidadColaboradoraRepositorio entidadColaboradoraRepositorio;
-
     @Autowired
     private final TiendaRepositorio tiendaRepositorio;
 
@@ -43,6 +39,7 @@ public class AsignacionController {
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("asignaciones", asignaciones);
+
         return "gestionVoluntarios";
     }
 
