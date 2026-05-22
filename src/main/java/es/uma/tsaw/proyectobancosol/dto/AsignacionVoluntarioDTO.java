@@ -10,16 +10,18 @@ public class AsignacionVoluntarioDTO {
 
     // Datos del turno
     private Integer idTurno;
-    //posible modif
+        //posible modif
     private String diaFranja;
     private String fecha;
 
     // Datos de la tienda
     private Integer idTienda;
+        //posible modif
     private String nombreTienda;
     private String localidad;
 
     // Datos de la entidad colaboradora
     private Integer idEntidad;
+    //posible modif
     private String nombreEntidad;
 }
