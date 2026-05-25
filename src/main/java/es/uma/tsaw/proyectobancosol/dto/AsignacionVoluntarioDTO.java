@@ -8,10 +8,11 @@ public class AsignacionVoluntarioDTO {
     private Integer idAsignacion;
     private Boolean asistencia;
 
-    // Datos del turno activo
-    private Integer idTurnoActivo;
+    // Datos del turno
+    private Integer idTurno;
+        //posible modif
     private String diaFranja;
-    private String fechaExacta;
+    private String fecha;
 
     // Datos de la tienda
     private Integer idTienda;
