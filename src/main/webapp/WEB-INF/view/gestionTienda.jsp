@@ -1,4 +1,4 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.TiendaDTO"%>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -32,9 +32,9 @@
             </thead>
             <tbody>
                 <%
-                    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
+                    List<TiendaDTO> tiendas = (List<TiendaDTO>) request.getAttribute("tiendas");
                     if (tiendas != null) {
-                        for(Tienda tienda : tiendas) {
+                        for(TiendaDTO tienda : tiendas) {
                 %>
                 <tr>
                     <td><%= tienda.getIdTienda() %></td>
