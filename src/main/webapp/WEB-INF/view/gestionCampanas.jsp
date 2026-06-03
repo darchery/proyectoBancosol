@@ -1,13 +1,13 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Campanya" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.CampanyaDTO" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.Cadena" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    List<Campanya> campanas = (List<Campanya>) request.getAttribute("campanas");
-    List<Cadena>   cadenas  = (List<Cadena>)   request.getAttribute("cadenas");
-    String cadenasJson      = (String) request.getAttribute("cadenasJson");
-    String campanasJson     = (String) request.getAttribute("campanasJson");
+    List<CampanyaDTO> campanas = (List<CampanyaDTO>) request.getAttribute("campanas");
+    List<Cadena>      cadenas  = (List<Cadena>)      request.getAttribute("cadenas");
+    String cadenasJson         = (String) request.getAttribute("cadenasJson");
+    String campanasJson        = (String) request.getAttribute("campanasJson");
 %>
 
 <html>
@@ -157,12 +157,12 @@
     var todasCampanas = [];
     <%
         if (campanas != null) {
-            for (Campanya c : campanas) {
+            for (CampanyaDTO c : campanas) {
                 String nombre = c.getNombreCampanya() != null ? c.getNombreCampanya().replace("\"","\\\"") : "";
                 String estado = c.getEstado()         != null ? c.getEstado().replace("\"","\\\"")         : "";
                 String tipo   = c.getTipoCampanya()   != null ? c.getTipoCampanya().replace("\"","\\\"")   : "";
-                String fi = c.getFechaInicio() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(c.getFechaInicio()) : "";
-                String ff = c.getFechaFin()    != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(c.getFechaFin())    : "";
+                String fi     = c.getFechaInicio()    != null ? c.getFechaInicio()                         : "";
+                String ff     = c.getFechaFin()       != null ? c.getFechaFin()                            : "";
     %>
     todasCampanas.push({ id: <%= c.getIdCampanya() %>, nombre: "<%= nombre %>", tipo: "<%= tipo %>", estado: "<%= estado %>", fechaInicio: "<%= fi %>", fechaFin: "<%= ff %>" });
     <%
