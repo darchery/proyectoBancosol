@@ -1,38 +1,34 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepositorio;
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
-import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora;
+import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
 import es.uma.tsaw.proyectobancosol.entity.Usuario;
+import es.uma.tsaw.proyectobancosol.service.EntidadColaboradoraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class EntidadColaboradoraController {
 
     @Autowired
-    protected EntidadColaboradoraRepositorio entidadColaboradoraRepositorio;
+    private EntidadColaboradoraService entidadService;
 
     @Autowired
-    protected UsuarioRepositorio usuarioRepositorio;
+    private UsuarioRepositorio usuarioRepositorio;
 
     @GetMapping("/entidades")
     public String listar(Model model) {
-        List<EntidadColaboradora> entidades = this.entidadColaboradoraRepositorio.findAll();
-        List<Usuario> usuarios = this.usuarioRepositorio.findAll();
-        model.addAttribute("entidades", entidades);
-        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("entidades", entidadService.listarTodas());
         return "gestionColaboradores";
     }
 
     @GetMapping("/entidades/nueva")
     public String nueva(Model model) {
-        model.addAttribute("entidad", new EntidadColaboradora());
+        model.addAttribute("entidad", new EntidadColaboradoraDTO());
         List<Usuario> usuarios = this.usuarioRepositorio.findAll();
         model.addAttribute("usuarios", usuarios);
         return "entidad_form";
@@ -46,35 +42,21 @@ public class EntidadColaboradoraController {
             @RequestParam("ligadoBancosol") Boolean ligadoBancosol,
             @RequestParam(value = "responsableId", required = false) Integer responsableId) {
 
-        EntidadColaboradora entidad = (idEntidad == null)
-                ? new EntidadColaboradora()
-                : this.entidadColaboradoraRepositorio.findById(idEntidad).get();
-
-        entidad.setNombreEntidad(nombreEntidad);
-        entidad.setTipo(tipo);
-        entidad.setLigadoBancosol(ligadoBancosol);
-
-        if (responsableId != null) {
-            Usuario responsable = this.usuarioRepositorio.findById(responsableId).get();
-            entidad.setResponsable(responsable);
-        }
-
-        this.entidadColaboradoraRepositorio.save(entidad);
+        entidadService.guardar(idEntidad, nombreEntidad, tipo, ligadoBancosol, responsableId);
         return "redirect:/entidades";
     }
 
     @GetMapping("/entidades/editar")
     public String editar(@RequestParam("id") Integer id, Model model) {
-        EntidadColaboradora entidad = this.entidadColaboradoraRepositorio.findById(id).get();
+        model.addAttribute("entidad", entidadService.buscarPorId(id));
         List<Usuario> usuarios = this.usuarioRepositorio.findAll();
-        model.addAttribute("entidad", entidad);
         model.addAttribute("usuarios", usuarios);
         return "entidad_form";
     }
 
     @GetMapping("/entidades/borrar")
     public String borrar(@RequestParam("id") Integer id) {
-        this.entidadColaboradoraRepositorio.deleteById(id);
+        entidadService.borrar(id);
         return "redirect:/entidades";
     }
 }

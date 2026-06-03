@@ -13,5 +13,9 @@ public class EntidadColaboradoraDTO {
     private String telefonoContactoPrincipal;
     private String observaciones;
     private Integer responsableId;
+    private String nombreResponsable;
     private Integer direccionId;
+    private String domicilio;
+    private String distritoLocal;
+    private String zonaGeografica;
 }
