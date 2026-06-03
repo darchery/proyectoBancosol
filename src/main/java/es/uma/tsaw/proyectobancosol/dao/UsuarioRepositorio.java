@@ -1,3 +1,9 @@
+/*
+    Lucas: 33%%
+    Sergio: 33%
+    Laia: 33%
+*/
+
 package es.uma.tsaw.proyectobancosol.dao;
 
 import es.uma.tsaw.proyectobancosol.entity.Rol;
@@ -15,4 +21,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer> {
 
     @Query("select u from Usuario u where u.nombreUsuario = :nombreUsuario and u.contrasenya = :contrasenya")
     public Usuario autheticate (@Param("nombreUsuario")String nombreUsuario, @Param("contrasenya") String contrasenya);
+
+    Usuario findByEmail(String email);
 }

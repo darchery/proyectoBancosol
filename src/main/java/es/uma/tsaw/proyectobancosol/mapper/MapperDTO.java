@@ -1,3 +1,7 @@
+/*
+    Proyectos de clase del profesor: 100%
+*/
+
 package es.uma.tsaw.proyectobancosol.mapper;
 
 import java.util.List;

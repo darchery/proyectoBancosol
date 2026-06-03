@@ -1,3 +1,7 @@
+/*
+    Lucas: 100%
+*/
+
 package es.uma.tsaw.proyectobancosol.mapper;
 
 import es.uma.tsaw.proyectobancosol.dto.RolDTO;

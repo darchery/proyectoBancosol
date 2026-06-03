@@ -1,3 +1,8 @@
+/*
+    IA: 90%
+    Lucas: 10%
+*/
+
 package es.uma.tsaw.proyectobancosol.entity;
 
 import jakarta.persistence.*;

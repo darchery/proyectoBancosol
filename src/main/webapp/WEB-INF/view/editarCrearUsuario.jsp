@@ -1,10 +1,18 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Rol" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%
+    /*
+        Lucas: 80%
+        Sergio: 10%
+        IA: 10%
+    */
+%>
+
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.RolDTO" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.UsuarioDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    Rol rol = (Rol) request.getAttribute("rol");
-    Usuario usuario = (Usuario) request.getAttribute("usuario");
+    RolDTO rol = (RolDTO) request.getAttribute("rol");
+    UsuarioDTO usuario = (UsuarioDTO) request.getAttribute("usuario");
 %>
 
 <html>
@@ -15,8 +23,24 @@
 <body>
 <h1><%= usuario == null ? "Añadir" : "Editar"%> <%= rol.getNombreRol()%></h1>
 
+<%
+    String error = (String) request.getAttribute("error");
+    if ("email_duplicado".equals(error)) {
+%>
+        <p style="color:red;">Ese email ya está registrado. Prueba con otro.</p>
+<%
+    }
+%>
+
 <form action="/usuarios/guardar" method="post">
-    <input type="hidden" name="id" value="<%= usuario != null ? usuario.getIdUsuario() : ""%>">
+    <%
+        if (usuario != null) {
+    %>
+            <input type="hidden" name="id" value="<%= usuario.getIdUsuario()%>">
+    <%
+        }
+    %>
+
     <input type="hidden" name="idRol" value="<%= rol.getIdRol()%>">
 
     <label>Nombre:</label><br>
@@ -29,7 +53,7 @@
     <input value="<%= usuario != null ? usuario.getTelefono() : ""%>" type="text" name="telefono"><br><br>
 
     <label>Contraseña:</label><br>
-    <input value="<%= /*usuario != null ? usuario.tranformarContrasenya(*/ usuario != null ? usuario.getContrasenya() : ""/*) : ""*/%>" type="password" name="contrasenya" required><br><br>
+    <input value="<%= usuario != null ? usuario.getContrasenya() : ""/*) : ""*/%>" type="password" name="contrasenya" required><br><br>
 
     <button type="submit">Guardar</button>
     <a href="/usuarios/coordinadores-capitanes"><button type="button">Cancelar</button></a>

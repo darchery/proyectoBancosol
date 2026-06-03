@@ -1,3 +1,7 @@
+/*
+    IA: 100%
+*/
+
 package es.uma.tsaw.proyectobancosol.entity;
 
 import jakarta.persistence.*;

@@ -1,5 +1,12 @@
+<%
+    /*
+        Lucas: 90%
+        Sergio: 10%
+    */
+%>
+
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.UsuarioDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,10 +14,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <%
-    List<Usuario> coordinadores = (List<Usuario>) request.getAttribute("coordinadores");
-    List<Usuario> capitanes = (List<Usuario>) request.getAttribute("capitanes");
-    List<Usuario> capitanesCoordinadores = (List<Usuario>) request.getAttribute("capitanesCoordinadores");
-
+    List<UsuarioDTO> coordinadores = (List<UsuarioDTO>) request.getAttribute("coordinadores");
+    List<UsuarioDTO> capitanes = (List<UsuarioDTO>) request.getAttribute("capitanes");
+    List<UsuarioDTO> coordinadoresCapitanes = (List<UsuarioDTO>) request.getAttribute("coordinadoresCapitanes");
 %>
 
 <body>
@@ -32,19 +38,19 @@
     </tr>
     <%
         if(coordinadores != null){
-            for (Usuario c: coordinadores) {
+            for (UsuarioDTO c: coordinadores) {
     %>
     <tr>
-        <td><%= c.getRol().getNombreRol() %></td>
+        <td><%= c.getRolNombre() %></td>
         <td><%= c.getNombre() %></td>
-        <td><%= request.getAttribute("entidad_" + c.getIdUsuario())%></td>
-        <td><%= request.getAttribute("area_" + c.getIdUsuario())%></td>
+        <td><%= c.getEntidad()%></td>
+        <td><%= c.getArea()%></td>
         <td><%= (c.getTelefono() != null) ? c.getTelefono() : "-" %></td>
         <td><%= c.getEmail() %></td>
-        <td><%= request.getAttribute("tiendas_" + c.getIdUsuario())%></td>
+        <td><%= c.getNumTiendas()%></td>
         <td><%= c.getIdUsuario()%></td>
         <td><%= c.tranformarContrasenya(c.getContrasenya())%></td>
-        <td><a href="/usuarios/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRol().getIdRol()%>">Editar</a></td>
+        <td><a href="/usuarios/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRolId()%>">Editar</a></td>
         <td><a href="/usuarios/borrar?id=<%= c.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
@@ -55,19 +61,19 @@
 
     <%
         if(capitanes != null){
-            for (Usuario cap: capitanes) {
+            for (UsuarioDTO cap: capitanes) {
     %>
     <tr>
-        <td><%= cap.getRol().getNombreRol() %></td>
+        <td><%=  cap.getRolNombre()%></td>
         <td><%= cap.getNombre() %></td>
-        <td><%= request.getAttribute("entidad_" + cap.getIdUsuario())%></td>
-        <td><%= request.getAttribute("area_" + cap.getIdUsuario())%></td>
+        <td><%= cap.getEntidad()%></td>
+        <td><%= cap.getArea()%></td>
         <td><%= (cap.getTelefono() != null) ? cap.getTelefono() : "-" %></td>
         <td><%= cap.getEmail() %></td>
-        <td><%= request.getAttribute("tiendas_" + cap.getIdUsuario())%></td>
+        <td><%= cap.getNumTiendas()%></td>
         <td><%= cap.getIdUsuario()%></td>
         <td><%= cap.tranformarContrasenya(cap.getContrasenya())%></td>
-        <td><a href="/usuarios/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRol().getIdRol()%>">Editar</a></td>
+        <td><a href="/usuarios/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRolId()%>">Editar</a></td>
         <td><a href="/usuarios/borrar?id=<%= cap.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
@@ -76,20 +82,20 @@
     %>
 
     <%
-        if(capitanesCoordinadores != null){
-            for (Usuario cc: capitanesCoordinadores) {
+        if(coordinadoresCapitanes != null){
+            for (UsuarioDTO cc: coordinadoresCapitanes) {
     %>
     <tr>
-        <td><%= cc.getRol().getNombreRol() %></td>
+        <td><%= cc.getRolNombre() %></td>
         <td><%= cc.getNombre() %></td>
-        <td><%= request.getAttribute("entidad_" + cc.getIdUsuario())%></td>
-        <td><%= request.getAttribute("area_" + cc.getIdUsuario())%></td>
+        <td><%= cc.getEntidad()%></td>
+        <td><%= cc.getArea()%></td>
         <td><%= (cc.getTelefono() != null) ? cc.getTelefono() : "-" %></td>
         <td><%= cc.getEmail() %></td>
-        <td><%= request.getAttribute("tiendas_" + cc.getIdUsuario())%></td>
+        <td><%= cc.getNumTiendas()%></td>
         <td><%= cc.getIdUsuario()%></td>
         <td><%= cc.tranformarContrasenya(cc.getContrasenya())%></td>
-        <td><a href="/usuarios/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRol().getIdRol()%>">Editar</a></td>
+        <td><a href="/usuarios/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRolId()%>">Editar</a></td>
         <td><a href="/usuarios/borrar?id=<%= cc.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
