@@ -1,11 +1,11 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Cadena" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Direccion" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.TiendaDTO" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.CadenaDTO" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.DireccionDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><%= ((Tienda)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</title>
+    <title><%= ((TiendaDTO)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 
@@ -19,12 +19,12 @@
 
     <main class="container">
         <div class="form-container">
-            <h2><%= ((Tienda)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</h2>
+            <h2><%= ((TiendaDTO)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</h2>
 
             <%
-                Tienda tienda = (Tienda) request.getAttribute("tienda");
-                List<Cadena> cadenas = (List<Cadena>) request.getAttribute("cadenas");
-                List<Direccion> direcciones = (List<Direccion>) request.getAttribute("direcciones");
+                TiendaDTO tienda = (TiendaDTO) request.getAttribute("tienda");
+                List<CadenaDTO> cadenas = (List<CadenaDTO>) request.getAttribute("cadenas");
+                List<DireccionDTO> direcciones = (List<DireccionDTO>) request.getAttribute("direcciones");
             %>
 
             <form action="/tiendas/guardar" method="post">
@@ -47,11 +47,11 @@
                     <select name="idCadena" id="cadenas" required>
                         <option value="">Selecciona una cadena...</option>
                         <%
-                            for (Cadena c : cadenas) {
-                                String selected = (tienda.getCadena() != null && tienda.getCadena().getIdCadena().equals(c.getIdCadena())) ? "selected" : "";
+                            for (CadenaDTO cad : cadenas) {
+                                String selected = (tienda.getCadenaId() != null && tienda.getCadenaId().equals(cad.getIdCadena())) ? "selected" : "";
                         %>
-                            <option value="<%= c.getIdCadena() %>" <%=selected%>>
-                                <%= c.getNombreCadena() %>
+                            <option value="<%= cad.getIdCadena() %>" <%=selected%>>
+                                <%= cad.getNombreCadena() %>
                             </option>
                         <% } %>
                     </select>
@@ -62,11 +62,11 @@
                     <select name="idDireccion" id="direcciones">
                         <option value="">Ninguna...</option>
                         <%
-                            for (Direccion d : direcciones) {
-                                String selected = (tienda.getDireccion() != null && tienda.getDireccion().getIdDireccion().equals(d.getIdDireccion())) ? "selected" : "";
+                            for (DireccionDTO dir : direcciones) {
+                                String selected = (tienda.getDireccionId() != null && tienda.getDireccionId().equals(dir.getIdDireccion())) ? "selected" : "";
                         %>
-                            <option value="<%= d.getIdDireccion() %>" <%= selected %>>
-                                <%= d.getZonaGeografica() %> - <%= d.getDistritoLocal() %>
+                            <option value="<%= dir.getIdDireccion() %>" <%= selected %>>
+                                <%= dir.getZonaGeografica() %> - <%= dir.getDistritoLocal() %>
                             </option>
                         <% } %>
                     </select>
