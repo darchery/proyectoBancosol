@@ -38,19 +38,55 @@
     <input type="hidden" name="campanaFechaInicio"  id="campanaFechaInicio" value="">
     <input type="hidden" name="campanaFechaFin"     id="campanaFechaFin"    value="">
 
-    <!-- ── TIPOS DE CAMPAÑA ── -->
-    <h2>Tipo de campaña</h2>
+    <div style="display:flex; gap:40px; align-items:flex-start;">
 
-    <div>
-        <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
-               id="tipo_GR" onchange="seleccionarTipo('GR')">
-        <label for="tipo_GR">Gran Recogida</label>
-    </div>
+        <!-- ── COLUMNA IZQUIERDA: TIPO DE CAMPAÑA ── -->
+        <div>
+            <h2>Tipo de campaña</h2>
+            <div>
+                <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
+                       id="tipo_GR" onchange="seleccionarTipo('GR')">
+                <label for="tipo_GR">Gran Recogida</label>
+            </div>
+            <div>
+                <input type="radio" name="tipoCampanyaSeleccionado" value="primavera"
+                       id="tipo_primavera" onchange="seleccionarTipo('primavera')">
+                <label for="tipo_primavera">Operación Primavera</label>
+            </div>
+        </div>
 
-    <div>
-        <input type="radio" name="tipoCampanyaSeleccionado" value="primavera"
-               id="tipo_primavera" onchange="seleccionarTipo('primavera')">
-        <label for="tipo_primavera">Operación Primavera</label>
+        <!-- ── COLUMNA DERECHA: CADENAS ── -->
+        <div>
+            <h2>Cadenas
+                <span id="campanaSeleccionadaLabel" style="font-weight:normal; font-size:0.85em;"></span>
+            </h2>
+            <%
+                if (cadenas != null) {
+                    for (Cadena cad : cadenas) {
+            %>
+            <div id="fila_<%= cad.getIdCadena() %>">
+                <input type="checkbox" name="cadenaIds"
+                       value="<%= cad.getIdCadena() %>"
+                       id="cad_<%= cad.getIdCadena() %>">
+                <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>">
+                    <%= cad.getNombreCadena() %>
+                </a>
+                <input type="hidden" name="cadenasBorrar"
+                       value="<%= cad.getIdCadena() %>"
+                       id="borrar_<%= cad.getIdCadena() %>"
+                       disabled>
+                <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">
+                    Eliminar
+                </button>
+            </div>
+            <%
+                    }
+                }
+            %>
+            <br>
+            <a href="campanas/cadenas/nueva">Añadir cadena</a>
+        </div>
+
     </div>
 
     <hr>
@@ -74,47 +110,6 @@
         <button type="button" onclick="document.getElementById('divHistorial').style.display='none'">Cerrar historial</button>
         <br>
     </div>
-
-    <!-- ── CADENAS ── -->
-    <h2>Cadenas
-        <span id="campanaSeleccionadaLabel" style="font-weight:normal; font-size:0.85em;"></span>
-    </h2>
-
-    <%
-        if (cadenas != null) {
-            for (Cadena cad : cadenas) {
-    %>
-    <div id="fila_<%= cad.getIdCadena() %>">
-
-        <input type="checkbox"
-               name="cadenaIds"
-               value="<%= cad.getIdCadena() %>"
-               id="cad_<%= cad.getIdCadena() %>">
-
-        <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>">
-            <%= cad.getNombreCadena() %>
-        </a>
-
-        <input type="hidden"
-               name="cadenasBorrar"
-               value="<%= cad.getIdCadena() %>"
-               id="borrar_<%= cad.getIdCadena() %>"
-               disabled>
-
-        <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">
-            Eliminar
-        </button>
-
-    </div>
-    <%
-            }
-        }
-    %>
-
-    <br>
-    <a href="campanas/cadenas/nueva">Añadir cadena</a>
-
-    <hr>
 
     <!-- ── BOTONES ── -->
     <button type="button" onclick="generarCampana()">Generar campaña</button>

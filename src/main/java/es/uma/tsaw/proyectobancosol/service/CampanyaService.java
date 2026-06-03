@@ -29,7 +29,7 @@ public class CampanyaService {
         this.campanyaMapper      = campanyaMapper;
     }
 
-    // ── CONSULTAS ──────────────────────────────────────────────────────────
+
 
     public List<CampanyaDTO> findAll() {
         return campanyaMapper.toDTOList(campanyaRepositorio.findAll());
@@ -41,7 +41,6 @@ public class CampanyaService {
                 .orElse(null);
     }
 
-    // ── GUARDAR TODO (crear / editar campaña + gestión de cadenas) ─────────
 
     @Transactional
     public String guardarTodo(Integer campanaId,
@@ -54,12 +53,12 @@ public class CampanyaService {
                               String fechaInicio,
                               String fechaFin) throws ParseException {
 
-        // 1. Eliminar cadenas marcadas para borrar
+
         if (cadenasBorrar != null && !cadenasBorrar.isEmpty()) {
             cadenaRepositorio.deleteAllById(cadenasBorrar);
         }
 
-        // 2. Resolver lista de cadenas limpia
+
         List<Integer> idsLimpios = new ArrayList<>();
         if (cadenaIds != null) {
             for (Integer id : cadenaIds) {
@@ -74,7 +73,7 @@ public class CampanyaService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        // 3a. Editar campaña existente
+
         if (campanaEditId != null) {
             Campanya campana = campanyaRepositorio.findById(campanaEditId)
                     .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + campanaEditId));
@@ -87,7 +86,7 @@ public class CampanyaService {
             campanyaRepositorio.save(campana);
             return "ok:Cambios guardados correctamente.";
 
-            // 3b. Crear campaña nueva
+
         } else if (nombre != null && !nombre.trim().isEmpty()) {
             List<Campanya> existentes = campanyaRepositorio.findByNombreCampanya(nombre.trim());
             if (!existentes.isEmpty()) {
@@ -103,7 +102,7 @@ public class CampanyaService {
             campanyaRepositorio.save(nueva);
             return "ok:Campaña \"" + nombre.trim() + "\" generada correctamente.";
 
-            // 3c. Solo actualizar cadenas de campaña seleccionada
+
         } else if (campanaId != null) {
             Campanya campana = campanyaRepositorio.findById(campanaId)
                     .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + campanaId));
@@ -115,14 +114,12 @@ public class CampanyaService {
         return null;
     }
 
-    // ── BORRAR CAMPAÑA ─────────────────────────────────────────────────────
 
     @Transactional
     public void borrarCampana(Integer id) {
         campanyaRepositorio.deleteById(id);
     }
 
-    // ── CADENAS ────────────────────────────────────────────────────────────
 
     public List<Cadena> findAllCadenas() {
         return cadenaRepositorio.findAll();
