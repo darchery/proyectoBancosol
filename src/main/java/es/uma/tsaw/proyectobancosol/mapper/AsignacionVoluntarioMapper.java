@@ -21,8 +21,7 @@ public class AsignacionVoluntarioMapper extends MapperDTO<AsignacionVoluntarioDT
         voluntario.setIdTurno(asigVol.getTurnoActivo().getIdTurnoActivo());
         PlantillaTurno plantilla = asigVol.getTurnoActivo().getPlantillaTurno();
         if (plantilla != null) {
-            voluntario.setDiaFranja(plantilla.getDiaSemana());
-            voluntario.setDiaFranja(plantilla.getFranjaHoraria());
+            voluntario.setDiaFranja(plantilla.getDiaSemana() + " " + plantilla.getFranjaHoraria());
         }
 
         // Tienda

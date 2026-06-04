@@ -3,6 +3,9 @@
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO" %>
+
+
 <html>
 <head>
     <title>Asignaciones del Voluntario</title>
@@ -13,14 +16,15 @@
     <h1>Asignacion voluntarios</h1>
 
     <%
-        Usuario usuario = (Usuario) request.getAttribute("usuario");
-        List<AsignacionVoluntario> asignaciones = (List<AsignacionVoluntario>) request.getAttribute("asignaciones");
+        Integer idUsuario = (Integer) request.getAttribute("idUsuario");
+        String nombreUsuario = (String) request.getAttribute("nombreUsuario");
+        List<AsignacionVoluntarioDTO> asignaciones = (List<AsignacionVoluntarioDTO>) request.getAttribute("asignaciones");
     %>
 
     <br>
     <p>
-        <%= usuario.getNombre() %>
-        ID Usuario: <%= usuario.getIdUsuario() %>
+        <%= nombreUsuario %>
+        ID Usuario: <%= idUsuario %>
     </p>
 
     <table border="1 px">
@@ -44,44 +48,33 @@
         <%
             if (asignaciones == null || asignaciones.isEmpty()) {
         %>
-            <tr> <td colspan="8">Voluntario sin asignaciones</td> </tr>
+            <tr> <td>Voluntario sin asignaciones</td> </tr>
         <%
         } else {
 
-            for (AsignacionVoluntario av : asignaciones) {
+            for (AsignacionVoluntarioDTO av : asignaciones) {
         %>
 
         <tr>
 
             <td><%= av.getIdAsignacion() %></td>
 
-            <td><%= av.getTurnoActivo().getTiendaCampanya().getTienda().getNombreEstablecimiento() %></td>
+            <td><%= av.getNombreTienda() %></td>
 
-            <td>
-                <%if (av.getTurnoActivo().getTiendaCampanya().getTienda().getDireccion() != null) {%>
-                        <%= av.getTurnoActivo().getTiendaCampanya().getTienda().getDireccion().getZonaGeografica() %>
-                <%}%>
-            </td>
+            <td><%= av.getLocalidad() != null ? av.getLocalidad() : "-" %></td>
 
-            <td>
-                <%if (av.getTurnoActivo().getPlantillaTurno() != null) {
-                    String dia = av.getTurnoActivo().getPlantillaTurno().getDiaSemana();
-                    String franja = av.getTurnoActivo().getPlantillaTurno().getFranjaHoraria();
-                %>
-                        <%= (dia != null ? dia : "") + " " + (franja != null ? franja : "") %>
-                <%}%>
-            </td>
+            <td><%= av.getDiaFranja() != null ? av.getDiaFranja() : "-" %></td>
 
-            <td><%= av.getTurnoActivo().getFechaExacta() != null ? av.getTurnoActivo().getFechaExacta().toString() : "-" %></td>
+            <td><%= av.getFecha() != null ? av.getFecha() : "-" %></td>
 
             <td><%= Boolean.TRUE.equals(av.getAsistencia()) ? "Sí" : "No" %></td>
 
-            <td><%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getIdEntidad() : "-" %></td>
+            <td><%= av.getIdEntidad() != null ? av.getIdEntidad() : "-" %></td>
 
-            <td><%= av.getEntidadColaboradora() != null ? av.getEntidadColaboradora().getNombreEntidad() : "-" %></td>
+            <td><%= av.getNombreEntidad() != null ? av.getNombreEntidad() : "-" %></td>
 
-            <td><a href="/voluntarios/edit?idUsuario=<%= usuario.getIdUsuario() %>&id=<%= av.getIdAsignacion() %>">Editar</a></td>
-            <td><a href="/voluntarios/borrar?id=<%= av.getIdAsignacion() %>&idUsuario=<%= usuario.getIdUsuario() %>">Borrar</a></td>
+            <td><a href="/voluntarios/edit?idUsuario=<%= idUsuario %>&id=<%= av.getIdAsignacion() %>">Editar</a></td>
+            <td><a href="/voluntarios/borrar?id=<%= av.getIdAsignacion() %>&idUsuario=<%= idUsuario %>">Borrar</a></td>
 
         </tr>
 
@@ -91,6 +84,6 @@
 
         </tbody>
     </table>
-    <a href="/voluntarios/edit?idUsuario=<%= usuario.getIdUsuario() %>"><button type="button">Añadir Asignación</button></a>
+    <a href="/voluntarios/edit?idUsuario=<%= idUsuario %>"><button type="button">Añadir Asignación</button></a>
 </body>
 </html>
