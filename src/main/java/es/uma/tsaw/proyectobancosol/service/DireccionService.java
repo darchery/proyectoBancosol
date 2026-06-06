@@ -17,4 +17,14 @@ public class DireccionService {
         return direccionMapper.toDTOList(direccionRepositorio.findAll());
     }
 
+    public void actualizar(Integer idDireccion, String domicilio, String distritoLocal, String zonaGeografica) {
+        Direccion direccion = direccionRepositorio.findById(idDireccion).orElse(null);
+        if (direccion != null) {
+            direccion.setDomicilio(domicilio);
+            direccion.setDistritoLocal(distritoLocal);
+            direccion.setZonaGeografica(zonaGeografica);
+            direccionRepositorio.save(direccion);
+        }
+    }
+
 }

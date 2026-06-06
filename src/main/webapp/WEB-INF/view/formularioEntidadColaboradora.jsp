@@ -1,10 +1,10 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.UsuarioDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    EntidadColaboradora entidad = (EntidadColaboradora) request.getAttribute("entidad");
-    List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
+    EntidadColaboradoraDTO entidad = (EntidadColaboradoraDTO) request.getAttribute("entidad");
+    List<UsuarioDTO> usuarios = (List<UsuarioDTO>) request.getAttribute("usuarios");
     boolean esEdicion = (entidad.getIdEntidad() != null);
 %>
 <html>
@@ -13,13 +13,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
 <div class="container mt-5">
     <h2 class="mb-4"><%= esEdicion ? "Editar" : "Crear" %> Entidad Colaboradora</h2>
 
     <form action="/entidades/guardar" method="post">
         <% if (esEdicion) { %>
         <input type="hidden" name="idEntidad" value="<%= entidad.getIdEntidad() %>">
+        <input type="hidden" name="direccionId" value="<%= entidad.getDireccionId() %>">
         <% } %>
 
         <div class="mb-3">
@@ -35,21 +35,37 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Domicilio:</label>
+            <input class="form-control" type="text" name="domicilio"
+                   value="<%= (esEdicion && entidad.getDomicilio() != null ? entidad.getDomicilio() : "") %>" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Distrito Local:</label>
+            <input class="form-control" type="text" name="distritoLocal"
+                   value="<%= (esEdicion && entidad.getDistritoLocal() != null ? entidad.getDistritoLocal() : "") %>" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Zona Geográfica:</label>
+            <input class="form-control" type="text" name="zonaGeografica"
+                   value="<%= (esEdicion && entidad.getZonaGeografica() != null ? entidad.getZonaGeografica() : "") %>" />
+        </div>
+
+        <div class="mb-3">
             <label class="form-label">Coordinador Responsable:</label>
             <select name="responsableId" class="form-control">
                 <option value="">-- Sin asignar --</option>
                 <%
-                    for (Usuario u : usuarios) {
+                    for (UsuarioDTO u : usuarios) {
                         String selected = "";
-                        if (esEdicion && entidad.getResponsable() != null &&
-                                u.getIdUsuario().equals(entidad.getResponsable().getIdUsuario())) {
+                        if (esEdicion && entidad.getResponsableId() != null &&
+                                u.getIdUsuario().equals(entidad.getResponsableId())) {
                             selected = "selected";
                         }
                 %>
                 <option value="<%= u.getIdUsuario() %>" <%= selected %>><%= u.getNombre() %></option>
-                <%
-                    }
-                %>
+                <% } %>
             </select>
         </div>
 
@@ -65,6 +81,5 @@
         <a href="/entidades" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
-
 </body>
 </html>

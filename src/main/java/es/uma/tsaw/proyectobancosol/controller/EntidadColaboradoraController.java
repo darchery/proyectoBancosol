@@ -1,15 +1,13 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
 import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
-import es.uma.tsaw.proyectobancosol.entity.Usuario;
+import es.uma.tsaw.proyectobancosol.service.DireccionService;
 import es.uma.tsaw.proyectobancosol.service.EntidadColaboradoraService;
+import es.uma.tsaw.proyectobancosol.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 public class EntidadColaboradoraController {
@@ -18,7 +16,10 @@ public class EntidadColaboradoraController {
     private EntidadColaboradoraService entidadService;
 
     @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private DireccionService direccionService;
 
     @GetMapping("/entidades")
     public String listar(Model model) {
@@ -29,9 +30,17 @@ public class EntidadColaboradoraController {
     @GetMapping("/entidades/nueva")
     public String nueva(Model model) {
         model.addAttribute("entidad", new EntidadColaboradoraDTO());
-        List<Usuario> usuarios = this.usuarioRepositorio.findAll();
-        model.addAttribute("usuarios", usuarios);
-        return "entidad_form";
+        model.addAttribute("usuarios", usuarioService.listarCoordinadores());
+        model.addAttribute("direcciones", direccionService.listarTodas());
+        return "formularioEntidadColaboradora";
+    }
+
+    @GetMapping("/entidades/editar")
+    public String editar(@RequestParam("id") Integer id, Model model) {
+        model.addAttribute("entidad", entidadService.buscarPorId(id));
+        model.addAttribute("usuarios", usuarioService.listarCoordinadores());
+        model.addAttribute("direcciones", direccionService.listarTodas());
+        return "formularioEntidadColaboradora";
     }
 
     @PostMapping("/entidades/guardar")
@@ -40,18 +49,19 @@ public class EntidadColaboradoraController {
             @RequestParam("nombreEntidad") String nombreEntidad,
             @RequestParam("tipo") String tipo,
             @RequestParam("ligadoBancosol") Boolean ligadoBancosol,
-            @RequestParam(value = "responsableId", required = false) Integer responsableId) {
+            @RequestParam(value = "responsableId", required = false) Integer responsableId,
+            @RequestParam(value = "direccionId", required = false) Integer direccionId,
+            @RequestParam(value = "domicilio", required = false) String domicilio,
+            @RequestParam(value = "distritoLocal", required = false) String distritoLocal,
+            @RequestParam(value = "zonaGeografica", required = false) String zonaGeografica) {
 
-        entidadService.guardar(idEntidad, nombreEntidad, tipo, ligadoBancosol, responsableId);
+        entidadService.guardar(idEntidad, nombreEntidad, tipo, ligadoBancosol, responsableId, direccionId);
+
+        if (direccionId != null) {
+            direccionService.actualizar(direccionId, domicilio, distritoLocal, zonaGeografica);
+        }
+
         return "redirect:/entidades";
-    }
-
-    @GetMapping("/entidades/editar")
-    public String editar(@RequestParam("id") Integer id, Model model) {
-        model.addAttribute("entidad", entidadService.buscarPorId(id));
-        List<Usuario> usuarios = this.usuarioRepositorio.findAll();
-        model.addAttribute("usuarios", usuarios);
-        return "entidad_form";
     }
 
     @GetMapping("/entidades/borrar")
@@ -59,4 +69,6 @@ public class EntidadColaboradoraController {
         entidadService.borrar(id);
         return "redirect:/entidades";
     }
+
+
 }

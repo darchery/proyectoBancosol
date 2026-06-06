@@ -9,6 +9,7 @@
 <%
     List<EntidadColaboradoraDTO> entidadesColaboradoras = (List<EntidadColaboradoraDTO>) request.getAttribute("entidades");
 %>
+
 <body>
 <h1>Lista de Entidades Colaboradoras</h1>
 
@@ -49,6 +50,7 @@
 <div class="mt-20">
     <a href="/entidades/nueva" class="btn btn-success">Añadir nueva entidad</a>
 </div>
+
 
 </body>
 </html>
