@@ -16,8 +16,6 @@ public class EntidadColaboradoraMapper extends MapperDTO<EntidadColaboradoraDTO,
         dto.setLigadoBancosol(entidad.getLigadoBancosol());
         dto.setCodigoColaborador(entidad.getCodigoColaborador());
         dto.setEstadoAprobacion(entidad.getEstadoAprobacion());
-        dto.setNombreContactoPrincipal(entidad.getNombreContactoPrincipal());
-        dto.setTelefonoContactoPrincipal(entidad.getTelefonoContactoPrincipal());
         dto.setObservaciones(entidad.getObservaciones());
 
         if (entidad.getResponsable() != null) {
@@ -29,6 +27,15 @@ public class EntidadColaboradoraMapper extends MapperDTO<EntidadColaboradoraDTO,
             dto.setDomicilio(entidad.getDireccion().getDomicilio());
             dto.setDistritoLocal(entidad.getDireccion().getDistritoLocal());
             dto.setZonaGeografica(entidad.getDireccion().getZonaGeografica());
+        }
+        if (entidad.getContactos() != null) {
+            entidad.getContactos().stream()
+                    .filter(c -> Boolean.TRUE.equals(c.getEsPrincipal()))
+                    .findFirst()
+                    .ifPresent(c -> {
+                        dto.setNombreContactoPrincipal(c.getNombre());
+                        dto.setTelefonoContactoPrincipal(c.getTelefono());
+                    });
         }
         return dto;
     }

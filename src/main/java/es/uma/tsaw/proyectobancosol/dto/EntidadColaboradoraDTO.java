@@ -9,8 +9,6 @@ public class EntidadColaboradoraDTO {
     private String codigoColaborador;
     private String fechaAlta;
     private Boolean estadoAprobacion;
-    private String nombreContactoPrincipal;
-    private String telefonoContactoPrincipal;
     private String observaciones;
     private Integer responsableId;
     private String nombreResponsable;
@@ -18,4 +16,6 @@ public class EntidadColaboradoraDTO {
     private String domicilio;
     private String distritoLocal;
     private String zonaGeografica;
+    private String nombreContactoPrincipal;
+    private String telefonoContactoPrincipal;
 }

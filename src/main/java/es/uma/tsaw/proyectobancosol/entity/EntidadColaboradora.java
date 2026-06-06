@@ -3,6 +3,7 @@ package es.uma.tsaw.proyectobancosol.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date; // Necesario para el campo de fecha
+import java.util.List;
 
 @Data
 @Entity
@@ -40,12 +41,9 @@ public class EntidadColaboradora {
     @Column(name = "estado_aprobacion")
     private Boolean estadoAprobacion = false;
 
-    @Column(name = "nombre_contacto_principal", length = 255)
-    private String nombreContactoPrincipal;
-
-    @Column(name = "telefono_contacto_principal", length = 50)
-    private String telefonoContactoPrincipal;
-
     @Column(name = "observaciones", length = 255)
     private String observaciones;
+
+    @OneToMany(mappedBy = "entidad", cascade = CascadeType.ALL)
+    private List<Contacto> contactos;
 }

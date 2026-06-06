@@ -9,7 +9,6 @@
 <%
     List<EntidadColaboradoraDTO> entidadesColaboradoras = (List<EntidadColaboradoraDTO>) request.getAttribute("entidades");
 %>
-
 <body>
 <h1>Lista de Entidades Colaboradoras</h1>
 
@@ -22,7 +21,7 @@
         <th>COORDINADOR</th>
         <th>CONTACTO PRINCIPAL</th>
         <th>OBSERVACIONES</th>
-        <th colspan="2" class="text-center">ACCIONES</th>
+        <th colspan="3" class="text-center">ACCIONES</th>
     </tr>
     <%
         for (EntidadColaboradoraDTO e : entidadesColaboradoras) {
@@ -33,8 +32,14 @@
         <td><%= e.getDistritoLocal() %></td>
         <td><%= e.getZonaGeografica() %></td>
         <td><%= e.getNombreResponsable() %></td>
-        <td><%= e.getNombreContactoPrincipal() %> (<%= e.getTelefonoContactoPrincipal() %>)</td>
+        <td>
+            <%= (e.getNombreContactoPrincipal() != null ? e.getNombreContactoPrincipal() : "<em class='text-muted'>Sin contacto</em>") %>
+            <%= (e.getTelefonoContactoPrincipal() != null ? "(" + e.getTelefonoContactoPrincipal() + ")" : "") %>
+        </td>
         <td><%= (e.getObservaciones() != null) ? e.getObservaciones() : "<em class='text-muted'>No hay observaciones</em>" %></td>
+        <td class="text-center">
+            <a href="/entidades/<%= e.getIdEntidad() %>/contactos" class="btn btn-sm btn-info">Contactos</a>
+        </td>
         <td class="text-center">
             <a href="/entidades/editar?id=<%= e.getIdEntidad() %>" class="btn btn-sm btn-warning">Editar</a>
         </td>
@@ -51,6 +56,8 @@
     <a href="/entidades/nueva" class="btn btn-success">Añadir nueva entidad</a>
 </div>
 
-
+<script>
+    window.scrollTo(0, 0);
+</script>
 </body>
 </html>
