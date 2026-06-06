@@ -170,6 +170,13 @@ public class UsuarioService {
             return null;
         }
     }
+    // Función listar coordinadores
+    public List<UsuarioDTO> listarCoordinadores() {
+        List<Usuario> coordinadores = new ArrayList<>();
+        coordinadores.addAll(this.usuarioRepositorio.findUsuarioByRolID(2));  // Coordinador
+        coordinadores.addAll(this.usuarioRepositorio.findUsuarioByRolID(6));  // CoordinadorCapitan
+        return this.usuarioMapper.toDTOList(coordinadores);
+    }
 
     public boolean existeEmail(String email, Integer idUsuario) {
         Usuario existente = this.usuarioRepositorio.findByEmail(email);
