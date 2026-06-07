@@ -13,7 +13,16 @@
 </head>
 
 <body>
-    <h1>Asignacion voluntarios</h1>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
+            <div>
+                <h1>ASIGNACIÓN DE VOLUNTARIOS</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard">
 
     <%
         Integer idUsuario = (Integer) request.getAttribute("idUsuario");
@@ -21,69 +30,89 @@
         List<AsignacionVoluntarioDTO> asignaciones = (List<AsignacionVoluntarioDTO>) request.getAttribute("asignaciones");
     %>
 
-    <br>
-    <p>
-        <%= nombreUsuario %>
-        ID Usuario: <%= idUsuario %>
+    <p class="usuario-badge">
+        Voluntario: <strong><%= nombreUsuario %></strong>
+        &nbsp;|&nbsp; ID: <%= idUsuario %>
     </p>
 
-    <table border="1 px">
-        <thead>
-            <tr>
-                <th>ID ASIGNACION</th>
-                <th>TIENDA</th>
-                <th>LOCALIDAD</th>
-                <th>FRANJA</th>
-                <th>FECHA</th>
-                <th>ASISTENCIA</th>
-                <th>ID ENTIDAD</th>
-                <th>ENTIDAD COLABORADORA</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
+    <div class="content-layout">
 
-        <tbody>
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID ASIGNACION</th>
+                        <th>TIENDA</th>
+                        <th>LOCALIDAD</th>
+                        <th>FRANJA</th>
+                        <th>FECHA</th>
+                        <th>ASISTENCIA</th>
+                        <th>ID ENTIDAD</th>
+                        <th>ENTIDAD COLABORADORA</th>
+                        <th colspan="2">ACCIONES</th>
+                    </tr>
+                </thead>
 
-        <%
-            if (asignaciones == null || asignaciones.isEmpty()) {
-        %>
-            <tr> <td>Voluntario sin asignaciones</td> </tr>
-        <%
-        } else {
+                <tbody>
 
-            for (AsignacionVoluntarioDTO av : asignaciones) {
-        %>
+                <%
+                    if (asignaciones == null || asignaciones.isEmpty()) {
+                %>
+                    <tr><td colspan="10">Voluntario sin asignaciones</td></tr>
+                <%
+                } else {
 
-        <tr>
+                    for (AsignacionVoluntarioDTO av : asignaciones) {
+                %>
 
-            <td><%= av.getIdAsignacion() %></td>
+                <tr>
+                    <td><%= av.getIdAsignacion() %></td>
+                    <td><%= av.getNombreTienda() %></td>
+                    <td><%= av.getLocalidad() != null ? av.getLocalidad() : "-" %></td>
+                    <td><%= av.getDiaFranja() != null ? av.getDiaFranja() : "-" %></td>
+                    <td><%= av.getFecha() != null ? av.getFecha() : "-" %></td>
+                    <td><%= Boolean.TRUE.equals(av.getAsistencia()) ? "Sí" : "No" %></td>
+                    <td><%= av.getIdEntidad() != null ? av.getIdEntidad() : "-" %></td>
+                    <td><%= av.getNombreEntidad() != null ? av.getNombreEntidad() : "-" %></td>
+                    <td><a href="/voluntarios/edit?idUsuario=<%= idUsuario %>&id=<%= av.getIdAsignacion() %>" class="btn btn-sm btn-warning">Editar</a></td>
+                    <td><a href="/voluntarios/borrar?id=<%= av.getIdAsignacion() %>&idUsuario=<%= idUsuario %>" class="btn btn-sm btn-danger">Borrar</a></td>
+                </tr>
 
-            <td><%= av.getNombreTienda() %></td>
+                <%
+                    }} //else y for
+                %>
 
-            <td><%= av.getLocalidad() != null ? av.getLocalidad() : "-" %></td>
+                </tbody>
+            </table>
+            <div class="mt-20">
+                <a href="/voluntarios/edit?idUsuario=<%= idUsuario %>" class="btn btn-primary">Añadir Asignación</a>
+            </div>
+        </section>
 
-            <td><%= av.getDiaFranja() != null ? av.getDiaFranja() : "-" %></td>
+        <aside class="details-panel">
+            <div class="panel-header">ASIGNACIÓN SELECCIONADA</div>
+            <div id="vista-detalle">
+                <div class="detail-row"><span>TIENDA:</span><strong>---</strong></div>
+                <div class="detail-row"><span>DOMICILIO:</span><strong>---</strong></div>
+                <div class="detail-row"><span>LOCALIDAD:</span><strong>---</strong></div>
+                <div class="detail-row"><span>CAPITÁN:</span><strong>---</strong></div>
+                <div class="detail-row"><span>VIERNES MAÑANA:</span><strong>---</strong></div>
+                <div class="detail-row"><span>VIERNES TARDE:</span><strong>---</strong></div>
+                <div class="detail-row"><span>SÁBADO MAÑANA:</span><strong>---</strong></div>
+                <div class="detail-row"><span>SÁBADO TARDE:</span><strong>---</strong></div>
+                <div class="detail-row"><span>OBSERVACIONES:</span><strong>---</strong></div>
+            </div>
+            <div class="action-buttons mt-10">
+                <a href="/menu" class="btn-volver-menu" style="grid-column:1/-1;">Menú Principal</a>
+            </div>
+        </aside>
 
-            <td><%= av.getFecha() != null ? av.getFecha() : "-" %></td>
+    </div>
 
-            <td><%= Boolean.TRUE.equals(av.getAsistencia()) ? "Sí" : "No" %></td>
+    </main>
 
-            <td><%= av.getIdEntidad() != null ? av.getIdEntidad() : "-" %></td>
-
-            <td><%= av.getNombreEntidad() != null ? av.getNombreEntidad() : "-" %></td>
-
-            <td><a href="/voluntarios/edit?idUsuario=<%= idUsuario %>&id=<%= av.getIdAsignacion() %>">Editar</a></td>
-            <td><a href="/voluntarios/borrar?id=<%= av.getIdAsignacion() %>&idUsuario=<%= idUsuario %>">Borrar</a></td>
-
-        </tr>
-
-        <%
-            }} //else y for
-        %>
-
-        </tbody>
-    </table>
-    <a href="/voluntarios/edit?idUsuario=<%= idUsuario %>"><button type="button">Añadir Asignación</button></a>
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 </body>
 </html>

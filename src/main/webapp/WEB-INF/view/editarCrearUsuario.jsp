@@ -21,44 +21,67 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <body>
-<h1><%= usuario == null ? "Añadir" : "Editar"%> <%= rol.getNombreRol()%></h1>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
+            <div>
+                <h1><%= usuario == null ? "AÑADIR" : "EDITAR"%> <%= rol.getNombreRol().toUpperCase()%></h1>
+            </div>
+        </div>
+    </header>
 
-<%
-    String error = (String) request.getAttribute("error");
-    if ("email_duplicado".equals(error)) {
-%>
-        <p style="color:red;">Ese email ya está registrado. Prueba con otro.</p>
-<%
-    }
-%>
+    <main class="container">
+        <div class="form-container">
+            <%
+                String error = (String) request.getAttribute("error");
+                if ("email_duplicado".equals(error)) {
+            %>
+                <p class="msg-error">Ese email ya está registrado. Prueba con otro.</p>
+            <%
+                }
+            %>
 
-<form action="/usuarios/guardar" method="post">
-    <%
-        if (usuario != null) {
-    %>
-            <input type="hidden" name="id" value="<%= usuario.getIdUsuario()%>">
-    <%
-        }
-    %>
+            <form action="/usuarios/guardar" method="post">
+                <%
+                    if (usuario != null) {
+                %>
+                    <input type="hidden" name="id" value="<%= usuario.getIdUsuario()%>">
+                <%
+                    }
+                %>
 
-    <input type="hidden" name="idRol" value="<%= rol.getIdRol()%>">
+                <input type="hidden" name="idRol" value="<%= rol.getIdRol()%>">
 
-    <label>Nombre:</label><br>
-    <input value="<%= usuario != null ? usuario.getNombre() : ""%>" type="text" name="nombre" required><br><br>
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input value="<%= usuario != null ? usuario.getNombre() : ""%>" type="text" name="nombre" required>
+                </div>
 
-    <label>Correo:</label><br>
-    <input value="<%= usuario != null ? usuario.getEmail() : ""%>" type="email" name="email" required><br><br>
+                <div class="form-group">
+                    <label>Correo:</label>
+                    <input value="<%= usuario != null ? usuario.getEmail() : ""%>" type="email" name="email" required>
+                </div>
 
-    <label>Teléfono:</label><br>
-    <input value="<%= usuario != null ? usuario.getTelefono() : ""%>" type="text" name="telefono"><br><br>
+                <div class="form-group">
+                    <label>Teléfono:</label>
+                    <input value="<%= usuario != null ? usuario.getTelefono() : ""%>" type="text" name="telefono">
+                </div>
 
-    <label>Contraseña:</label><br>
-    <input value="<%= usuario != null ? usuario.getContrasenya() : ""/*) : ""*/%>" type="password" name="contrasenya" required><br><br>
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input value="<%= usuario != null ? usuario.getContrasenya() : ""%>" type="password" name="contrasenya" required>
+                </div>
 
-    <button type="submit">Guardar</button>
-    <a href="/usuarios/coordinadores-capitanes"><button type="button">Cancelar</button></a>
-</form>
+                <div class="actions-row">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="/usuarios/coordinadores-capitanes" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
 
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 </body>
 </html>
-

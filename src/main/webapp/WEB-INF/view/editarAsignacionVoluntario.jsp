@@ -5,14 +5,6 @@
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
-<head>
-    <title>Asignacion Voluntarios Editar/Añadir</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
-</head>
-
-<body>
-
 <%
     Integer idUsuario = (Integer) request.getAttribute("idUsuario");
     String nombreUsuario = (String) request.getAttribute("nombreUsuario");
@@ -29,7 +21,25 @@
     Integer idEntidadActual = esEdicion ? asignacion.getIdEntidad() : null;
 %>
 
-<h1><%= esEdicion ? "Editar" : "Añadir" %> Asignación</h1>
+<html>
+<head>
+    <title>Asignacion Voluntarios Editar/Añadir</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
+            <div>
+                <h1><%= esEdicion ? "EDITAR" : "AÑADIR" %> ASIGNACIÓN</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+
 <p>Voluntario: <strong><%= nombreUsuario %></strong> (ID: <%= idUsuario %>)</p>
 
 <form action="/voluntarios/guardar" method="post">
@@ -39,99 +49,117 @@
     <input type="hidden" name="idTurno"   id="idTurnoHidden" value="<%= idTurnoActual != null ? idTurnoActual : "" %>">
 
     <!-- TIENDA -->
-    <label>Tienda:</label><br>
-    <select id="selectTienda" onchange="filtrarTurnos()">
-        <option value="">-- Selecciona una tienda --</option>
-        <%
-            for (Tienda tienda : tiendas) {
-                boolean sel = idTiendaActual != null && idTiendaActual.equals(tienda.getIdTienda());
-                String localidadTienda = tienda.getDireccion() != null
-                        ? tienda.getDireccion().getZonaGeografica() : "";
-        %>
-        <option value="<%= tienda.getIdTienda() %>"
-                data-localidad="<%= localidadTienda %>"
-                <%= sel ? "selected" : "" %>>
-            <%= tienda.getNombreEstablecimiento() %>
-        </option>
-        <%
-            }
-        %>
-    </select>
-    <br>
+    <div class="form-group">
+        <label>Tienda:</label>
+        <select id="selectTienda" onchange="filtrarTurnos()">
+            <option value="">-- Selecciona una tienda --</option>
+            <%
+                for (Tienda tienda : tiendas) {
+                    boolean sel = idTiendaActual != null && idTiendaActual.equals(tienda.getIdTienda());
+                    String localidadTienda = tienda.getDireccion() != null
+                            ? tienda.getDireccion().getZonaGeografica() : "";
+            %>
+            <option value="<%= tienda.getIdTienda() %>"
+                    data-localidad="<%= localidadTienda %>"
+                    <%= sel ? "selected" : "" %>>
+                <%= tienda.getNombreEstablecimiento() %>
+            </option>
+            <%
+                }
+            %>
+        </select>
+    </div>
 
     <!-- LOCALIDAD (se rellena automáticamente) -->
-    <label>Localidad:</label><br>
-    <input type="text" id="localidad" readonly
-           value="<%= esEdicion && asignacion.getLocalidad() != null ? asignacion.getLocalidad() : "" %>">
-    <br><br>
+    <div class="form-group">
+        <label>Localidad:</label>
+        <input type="text" id="localidad" readonly
+               value="<%= esEdicion && asignacion.getLocalidad() != null ? asignacion.getLocalidad() : "" %>">
+    </div>
 
     <!-- FRANJA (turnos filtrados por tienda) -->
-    <label>Franja / Turno:</label><br>
-    <select id="selectTurno" onchange="actualizarTurno()" required>
-        <%
-            for (TurnoActivo turno : turnos) {
-                String dia = "";
-                String franja = "";
-                if (turno.getPlantillaTurno() != null) {
-                    if (turno.getPlantillaTurno().getDiaSemana() != null)    dia    = turno.getPlantillaTurno().getDiaSemana();
-                    if (turno.getPlantillaTurno().getFranjaHoraria() != null) franja = turno.getPlantillaTurno().getFranjaHoraria();
+    <div class="form-group">
+        <label>Franja / Turno:</label>
+        <select id="selectTurno" onchange="actualizarTurno()" required>
+            <%
+                for (TurnoActivo turno : turnos) {
+                    String dia = "";
+                    String franja = "";
+                    if (turno.getPlantillaTurno() != null) {
+                        if (turno.getPlantillaTurno().getDiaSemana() != null)    dia    = turno.getPlantillaTurno().getDiaSemana();
+                        if (turno.getPlantillaTurno().getFranjaHoraria() != null) franja = turno.getPlantillaTurno().getFranjaHoraria();
+                    }
+                    String fechaTurno = turno.getFechaExacta() != null ? turno.getFechaExacta().toString() : "";
+                    String label = dia + " " + franja + " · " + fechaTurno;
+                    int idTiendaTurno = turno.getTiendaCampanya().getTienda().getIdTienda();
+                    boolean sel = idTurnoActual != null && idTurnoActual.equals(turno.getIdTurnoActivo());
+            %>
+            <option value="<%= turno.getIdTurnoActivo() %>"
+                    data-tienda="<%= idTiendaTurno %>"
+                    data-fecha="<%= fechaTurno %>"
+                    <%= sel ? "selected" : "" %>>
+                <%= label %>
+            </option>
+            <%
                 }
-                String fechaTurno = turno.getFechaExacta() != null ? turno.getFechaExacta().toString() : "";
-                String label = dia + " " + franja + " · " + fechaTurno;
-                int idTiendaTurno = turno.getTiendaCampanya().getTienda().getIdTienda();
-                boolean sel = idTurnoActual != null && idTurnoActual.equals(turno.getIdTurnoActivo());
-        %>
-        <option value="<%= turno.getIdTurnoActivo() %>"
-                data-tienda="<%= idTiendaTurno %>"
-                data-fecha="<%= fechaTurno %>"
-                <%= sel ? "selected" : "" %>>
-            <%= label %>
-        </option>
-        <%
-            }
-        %>
-    </select>
-    <br>
+            %>
+        </select>
+    </div>
 
     <!-- FECHA (se rellena automáticamente al elegir turno) -->
-    <label>Fecha:</label><br>
-    <input type="text" id="fecha" readonly
-           value="<%= esEdicion && asignacion.getFecha() != null ? asignacion.getFecha() : "" %>">
-    <br><br>
+    <div class="form-group">
+        <label>Fecha:</label>
+        <input type="text" id="fecha" readonly
+               value="<%= esEdicion && asignacion.getFecha() != null ? asignacion.getFecha() : "" %>">
+    </div>
 
     <!-- ASISTENCIA -->
-    <label>Asistencia:</label>
-    <input type="checkbox" name="asistencia" value="true"
-        <%= esEdicion && Boolean.TRUE.equals(asignacion.getAsistencia()) ? "checked" : "" %>>
-    <br><br>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="asistencia" value="true"
+                <%= esEdicion && Boolean.TRUE.equals(asignacion.getAsistencia()) ? "checked" : "" %>>
+            Asistencia
+        </label>
+    </div>
 
     <!-- ENTIDAD COLABORADORA -->
-    <label>Entidad Colaboradora:</label><br>
-    <select name="idEntidad" id="selectEntidad" onchange="actualizarIdEntidad()">
-        <option value="">-- Sin entidad --</option>
-        <%
-            for (EntidadColaboradora entidad : entidades) {
-                boolean sel = idEntidadActual != null && idEntidadActual.equals(entidad.getIdEntidad());
-        %>
-        <option value="<%= entidad.getIdEntidad() %>" <%= sel ? "selected" : "" %>>
-            <%= entidad.getNombreEntidad() %>
-        </option>
-        <%
-            }
-        %>
-    </select>
-    <br>
+    <div class="form-group">
+        <label>Entidad Colaboradora:</label>
+        <select name="idEntidad" id="selectEntidad" onchange="actualizarIdEntidad()">
+            <option value="">-- Sin entidad --</option>
+            <%
+                for (EntidadColaboradora entidad : entidades) {
+                    boolean sel = idEntidadActual != null && idEntidadActual.equals(entidad.getIdEntidad());
+            %>
+            <option value="<%= entidad.getIdEntidad() %>" <%= sel ? "selected" : "" %>>
+                <%= entidad.getNombreEntidad() %>
+            </option>
+            <%
+                }
+            %>
+        </select>
+    </div>
 
     <!-- ID ENTIDAD (se rellena automáticamente) -->
-    <label>ID Entidad:</label><br>
-    <input type="text" id="idEntidadMostrado" readonly
-           value="<%= esEdicion && asignacion.getIdEntidad() != null ? asignacion.getIdEntidad() : "" %>">
-    <br><br>
+    <div class="form-group">
+        <label>ID Entidad:</label>
+        <input type="text" id="idEntidadMostrado" readonly
+               value="<%= esEdicion && asignacion.getIdEntidad() != null ? asignacion.getIdEntidad() : "" %>">
+    </div>
 
-    <button type="submit">Guardar</button>
-    <a href="/voluntarios/listar?idUsuario=<%= idUsuario %>"><button type="button">Cancelar</button></a>
+    <div class="actions-row">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/voluntarios/listar?idUsuario=<%= idUsuario %>" class="btn btn-secondary">Cancelar</a>
+    </div>
 
 </form>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 
 <script>
     // Al cargar la página, aplicar filtros si hay selección previa
