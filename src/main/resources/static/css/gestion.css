@@ -325,7 +325,7 @@ body.page-campanya {
 }
 
 .page-campanya .cadenas-box {
-    width: 500px;
+    width: 600px;
     min-height: 450px;
     display: flex;
     flex-direction: column;
@@ -343,6 +343,47 @@ body.page-campanya {
     align-items: center;
     gap: 8px;
     font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 10px;
+    background: #fafafa;
+}
+
+.page-campanya .checkbox-item button {
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    background: #e74c3c;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.page-campanya .checkbox-item button:hover {
+    background: #c0392b;
+}
+
+.page-campanya .cadena-btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.page-campanya .btn-edit-cadena {
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    background: #f39c12;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.page-campanya .btn-edit-cadena:hover {
+    background: #d68910;
 }
 
 .page-campanya .cadenas-actions {
@@ -351,7 +392,6 @@ body.page-campanya {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 180px;
 }
 
 .page-campanya .right-column {
@@ -366,28 +406,32 @@ body.page-campanya {
     border: 2px solid #293189;
     padding: 15px;
     background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .page-campanya button {
-    background-color: #f0f0f0;
-    border: 1px solid #999;
-    color: #000;
-    padding: 4px 12px;
-    border-radius: 3px;
-    font-weight: 400;
-    font-size: 13px;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color 0.15s ease;
-    margin-left: 5px;
+    border: 1.5px solid transparent;
+    transition: all 0.3s ease;
+    text-align: center;
+    background: var(--blue-dark);
+    color: var(--white);
 }
 
-.page-campanya button:not(.btn-volver-menu):hover {
-    background-color: #e0e0e0;
-    border-color: #666;
+.page-campanya button:hover {
+    background: var(--blue-bancosol);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .page-campanya button:active {
-    background-color: #d0d0d0;
+    background: var(--blue-dark);
 }
 
 .page-campanya .btn-volver-menu {
@@ -648,14 +692,19 @@ body.page-campanya {
 
 .add-cadena-link {
     display: inline-block;
-    margin-top: 15px;
-    color: var(--blue-bancosol);
+    padding: 8px 16px;
+    background: var(--blue-dark);
+    color: var(--white);
     text-decoration: none;
     font-weight: bold;
+    border-radius: 6px;
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
 .add-cadena-link:hover {
-    text-decoration: underline;
+    background: var(--blue-bancosol);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* === UTILITY CLASSES === */

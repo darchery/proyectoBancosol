@@ -15,134 +15,167 @@
     <title>Gestión de Campañas - Bancosol</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
-<body>
+<body class="page-campanya">
 
-<h1>Gestión de Campañas</h1>
-
-<%
-    String msg = (String) request.getAttribute("msg");
-    if (msg != null) {
-        boolean esError = msg.startsWith("error:");
-        String texto = msg.substring(msg.indexOf(":") + 1);
-        String color = esError ? "#c0392b" : "#27ae60";
-%>
-<p style="color:<%= color %>; font-weight:bold;"><%= texto %></p>
-<% } %>
-
-<form method="post" action="campanas/guardarTodo">
-
-    <input type="hidden" name="campanaEditId"      id="campanaEditId"      value="">
-    <input type="hidden" name="campanaNombre"       id="campanaNombre"      value="">
-    <input type="hidden" name="campanaEstado"       id="campanaEstado"      value="">
-    <input type="hidden" name="campanaTipo"         id="campanaTipo"        value="">
-    <input type="hidden" name="campanaFechaInicio"  id="campanaFechaInicio" value="">
-    <input type="hidden" name="campanaFechaFin"     id="campanaFechaFin"    value="">
-
-    <div style="display:flex; gap:40px; align-items:flex-start;">
-
-        <!-- ── COLUMNA IZQUIERDA: TIPO DE CAMPAÑA ── -->
-        <div>
-            <h2>Tipo de campaña</h2>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
             <div>
-                <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
-                       id="tipo_GR" onchange="seleccionarTipo('GR')">
-                <label for="tipo_GR">Gran Recogida</label>
+                <h1>GESTIÓN DE CAMPAÑAS</h1>
             </div>
-            <div>
-                <input type="radio" name="tipoCampanyaSeleccionado" value="primavera"
-                       id="tipo_primavera" onchange="seleccionarTipo('primavera')">
-                <label for="tipo_primavera">Operación Primavera</label>
+        </div>
+    </header>
+
+    <%
+        String msg = (String) request.getAttribute("msg");
+        if (msg != null) {
+            boolean esError = msg.startsWith("error:");
+            String texto = msg.substring(msg.indexOf(":") + 1);
+            String cssClass = esError ? "msg-error" : "msg-ok";
+    %>
+    <div class="<%= cssClass %>" style="max-width:1200px;margin:10px auto 0;"><%= texto %></div>
+    <% } %>
+
+    <form method="post" action="campanas/guardarTodo">
+
+        <input type="hidden" name="campanaEditId"      id="campanaEditId"      value="">
+        <input type="hidden" name="campanaNombre"       id="campanaNombre"      value="">
+        <input type="hidden" name="campanaEstado"       id="campanaEstado"      value="">
+        <input type="hidden" name="campanaTipo"         id="campanaTipo"        value="">
+        <input type="hidden" name="campanaFechaInicio"  id="campanaFechaInicio" value="">
+        <input type="hidden" name="campanaFechaFin"     id="campanaFechaFin"    value="">
+
+        <div class="management-container">
+
+            <!-- ── COLUMNA IZQUIERDA: TIPO DE CAMPAÑA ── -->
+            <div class="campanya-column">
+                <div class="box">
+                    <h2>Tipo de campaña</h2>
+                    <div class="checkbox-grid" style="grid-template-columns:1fr;">
+                        <div class="checkbox-item">
+                            <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
+                                   id="tipo_GR" onchange="seleccionarTipo('GR')">
+                            <label for="tipo_GR">Gran Recogida</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" name="tipoCampanyaSeleccionado" value="primavera"
+                                   id="tipo_primavera" onchange="seleccionarTipo('primavera')">
+                            <label for="tipo_primavera">Operación Primavera</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-frame">
+                    <button type="button" onclick="generarCampana()">Generar campaña</button>
+                    <button type="button" onclick="verHistorial()">Ver historial</button>
+                    <button type="submit">Guardar cambios</button>
+                </div>
+            </div>
+
+            <!-- ── COLUMNA CENTRAL: CADENAS ── -->
+            <div class="box cadenas-box">
+                <h2>Cadenas
+                    <span id="campanaSeleccionadaLabel" style="font-weight:normal;font-size:0.85em;"></span>
+                </h2>
+                <div class="checkbox-grid">
+                    <%
+                        if (cadenas != null) {
+                            for (Cadena cad : cadenas) {
+                    %>
+                    <div class="checkbox-item" id="fila_<%= cad.getIdCadena() %>">
+                        <input type="checkbox" name="cadenaIds"
+                               value="<%= cad.getIdCadena() %>"
+                               id="cad_<%= cad.getIdCadena() %>">
+                        <label for="cad_<%= cad.getIdCadena() %>"><%= cad.getNombreCadena() %></label>
+                        <input type="hidden" name="cadenasBorrar"
+                               value="<%= cad.getIdCadena() %>"
+                               id="borrar_<%= cad.getIdCadena() %>"
+                               disabled>
+                        <div class="cadena-btn-group">
+                            <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
+                            <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">Eliminar</button>
+                        </div>
+                    </div>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+                <div class="cadenas-actions">
+                    <a href="campanas/cadenas/nueva" class="add-cadena-link">+ Añadir cadena</a>
+                </div>
+            </div>
+
+            <!-- ── COLUMNA DERECHA: ACCIONES ADICIONALES ── -->
+            <div class="right-column">
+                <div class="character-container">
+                    <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL.png" alt="Bancosol">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── HISTORIAL (oculto por defecto) ── -->
+        <div id="divHistorial" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Historial de campañas</h2>
+                    <button type="button" class="modal-close-btn" onclick="document.getElementById('divHistorial').style.display='none'">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Fecha inicio</th>
+                            <th>Fecha fin</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbodyHistorial"></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal" onclick="document.getElementById('divHistorial').style.display='none'">Cerrar historial</button>
+                </div>
             </div>
         </div>
 
-        <!-- ── COLUMNA DERECHA: CADENAS ── -->
-        <div>
-            <h2>Cadenas
-                <span id="campanaSeleccionadaLabel" style="font-weight:normal; font-size:0.85em;"></span>
-            </h2>
-            <%
-                if (cadenas != null) {
-                    for (Cadena cad : cadenas) {
-            %>
-            <div id="fila_<%= cad.getIdCadena() %>">
-                <input type="checkbox" name="cadenaIds"
-                       value="<%= cad.getIdCadena() %>"
-                       id="cad_<%= cad.getIdCadena() %>">
-                <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>">
-                    <%= cad.getNombreCadena() %>
-                </a>
-                <input type="hidden" name="cadenasBorrar"
-                       value="<%= cad.getIdCadena() %>"
-                       id="borrar_<%= cad.getIdCadena() %>"
-                       disabled>
-                <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">
-                    Eliminar
-                </button>
+        <!-- ── FORMULARIO NUEVA CAMPAÑA ── -->
+        <div id="modalFechas" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Nueva campaña</h2>
+                    <button type="button" class="modal-close-btn" onclick="cerrarModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalTipoLabel"></p>
+
+                    <div class="form-group">
+                        <label for="inputFechaInicio">Fecha de inicio:</label>
+                        <input type="date" id="inputFechaInicio">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputFechaFin">Fecha de fin:</label>
+                        <input type="date" id="inputFechaFin">
+                    </div>
+
+                    <p id="errorFechas" style="display:none;color:red;"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal" onclick="confirmarGeneracion()">Confirmar</button>
+                    <button type="button" class="btn-modal danger" onclick="cerrarModal()">Cancelar</button>
+                </div>
             </div>
-            <%
-                    }
-                }
-            %>
-            <br>
-            <a href="campanas/cadenas/nueva">Añadir cadena</a>
         </div>
 
-    </div>
+    </form>
 
-    <hr>
-
-    <!-- ── HISTORIAL (oculto por defecto) ── -->
-    <div id="divHistorial" style="display:none;">
-        <h2>Historial de campañas</h2>
-        <table border="1" cellpadding="5">
-            <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Estado</th>
-                <th>Fecha inicio</th>
-                <th>Fecha fin</th>
-            </tr>
-            </thead>
-            <tbody id="tbodyHistorial"></tbody>
-        </table>
-        <br>
-        <button type="button" onclick="document.getElementById('divHistorial').style.display='none'">Cerrar historial</button>
-        <br>
-    </div>
-
-    <!-- ── BOTONES ── -->
-    <button type="button" onclick="generarCampana()">Generar campaña</button>
-    &nbsp;
-    <button type="button" onclick="verHistorial()">Ver historial</button>
-    &nbsp;
-    <input type="submit" value="Guardar cambios">
-
-    <!-- ── FORMULARIO NUEVA CAMPAÑA ── -->
-    <div id="modalFechas" style="display:none;">
-        <hr>
-        <h3>Nueva campaña</h3>
-        <p id="modalTipoLabel"></p>
-
-        <label for="inputFechaInicio">Fecha de inicio:</label>
-        <input type="date" id="inputFechaInicio">
-        <br><br>
-
-        <label for="inputFechaFin">Fecha de fin:</label>
-        <input type="date" id="inputFechaFin">
-        <br><br>
-
-        <p id="errorFechas" style="display:none; color:red;"></p>
-
-        <button type="button" onclick="confirmarGeneracion()">Confirmar</button>
-        <button type="button" onclick="cerrarModal()">Cancelar</button>
-        <hr>
-    </div>
-
-</form>
-
-<br>
-<a href="/">Salir</a>
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 
 <script>
 
@@ -195,7 +228,7 @@
         document.getElementById('inputFechaInicio').value = '';
         document.getElementById('inputFechaFin').value    = '';
         document.getElementById('errorFechas').style.display = 'none';
-        document.getElementById('modalFechas').style.display = 'block';
+        document.getElementById('modalFechas').style.display = 'flex';
     }
 
     function confirmarGeneracion() {
@@ -216,7 +249,7 @@
 
         var anyo = new Date().getFullYear();
         document.getElementById('campanaNombre').value      = tipoSeleccionado + ' ' + anyo;
-        document.getElementById('campanaTipo').value        = tipoSeleccionado;
+        document.getElementById('campanaTipo').value         = tipoSeleccionado;
         document.getElementById('campanaEstado').value      = 'ACTIVA';
         document.getElementById('campanaEditId').value      = '';
         document.getElementById('campanaFechaInicio').value = fi;
@@ -249,7 +282,7 @@
             });
         }
 
-        document.getElementById('divHistorial').style.display = 'block';
+        document.getElementById('divHistorial').style.display = 'flex';
     }
 
     function seleccionarCampana(id) {

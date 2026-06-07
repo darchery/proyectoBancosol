@@ -3,32 +3,33 @@
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.DireccionDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    TiendaDTO tienda = (TiendaDTO) request.getAttribute("tienda");
+    List<CadenaDTO> cadenas = (List<CadenaDTO>) request.getAttribute("cadenas");
+    List<DireccionDTO> direcciones = (List<DireccionDTO>) request.getAttribute("direcciones");
+    boolean esEdicion = (tienda.getIdTienda() != null);
+%>
 <html>
 <head>
-    <title><%= ((TiendaDTO)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</title>
+    <title><%= esEdicion ? "Editar" : "Nueva" %> tienda - Bancosol</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 
 <body>
     <header class="main-header">
-        <h1>Bancosol - Panel de Gestión</h1>
-        <div>
-            <a href="/tiendas" class="btn btn-secondary">Volver al listado</a>
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
+            <div>
+                <h1><%= esEdicion ? "EDITAR" : "NUEVA" %> TIENDA</h1>
+            </div>
         </div>
     </header>
 
     <main class="container">
         <div class="form-container">
-            <h2><%= ((TiendaDTO)request.getAttribute("tienda")).getIdTienda() != null ? "Editar" : "Nueva" %> tienda</h2>
-
-            <%
-                TiendaDTO tienda = (TiendaDTO) request.getAttribute("tienda");
-                List<CadenaDTO> cadenas = (List<CadenaDTO>) request.getAttribute("cadenas");
-                List<DireccionDTO> direcciones = (List<DireccionDTO>) request.getAttribute("direcciones");
-            %>
 
             <form action="/tiendas/guardar" method="post">
-                <% if (tienda.getIdTienda() != null) { %>
+                <% if (esEdicion) { %>
                     <input type="hidden" name="idTienda" value="<%= tienda.getIdTienda() %>">
                 <% } %>
 
@@ -96,5 +97,9 @@
             </form>
         </div>
     </main>
+
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 </body>
 </html>

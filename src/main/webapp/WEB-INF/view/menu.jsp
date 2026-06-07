@@ -1,3 +1,4 @@
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
@@ -6,44 +7,43 @@
     <title>Menú Principal - Bancosol</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
-<body>
-    <div class="container-menu">
-        <%
-            Object userObj = session.getAttribute("user");
-            String userName = userObj != null ? userObj.toString() : "Usuario";
-        %>
+<body class="welcome-page">
 
-        <div class="user-info">
-            Bienvenido, <strong><%= userName %></strong>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
         </div>
+    </header>
 
-        <div class="header">
-            <h1>Bancosol</h1>
-            <p>Gestión y Administración</p>
-        </div>
+    <main>
+        <div class="welcome-box">
 
-        <div class="buttons-grid">
-            <a href="/campanas" class="btn-menu btn-campanias">
-                📋 Gestión Campañas
-            </a>
-            <a href="/entidades" class="btn-menu btn-colaboradores">
-                🤝 Gestión Colaboradores
-            </a>
-            <a href="/usuarios/coordinadores-capitanes" class="btn-menu btn-coordinadores">
-                👔 Gestión Coordinadores-Capitanes
-            </a>
-            <a href="/tiendas" class="btn-menu btn-tiendas">
-                🏪 Gestión Tiendas
-            </a>
-            <a href="/voluntarios/listar" class="btn-menu btn-voluntarios">
-                👥 Gestión Voluntarios
-            </a>
-        </div>
+            <%
+                Usuario userObj = (Usuario) session.getAttribute("user");
+                String userName = userObj != null ? userObj.getNombre() : "Usuario";
+            %>
 
-        <div class="footer">
-            <a href="/salir" class="btn-logout">Cerrar Sesión</a>
+            <div class="panel-control">
+                Bienvenido, <strong><%= userName %></strong>
+            </div>
+
+            <section>
+                <a href="/campanas" class="menu-btn">Gestión Campañas</a>
+                <a href="/entidades" class="menu-btn">Gestión Colaboradores</a>
+                <a href="/usuarios/coordinadores-capitanes" class="menu-btn">Gestión Coordinadores-Capitanes</a>
+                <a href="/tiendas" class="menu-btn">Gestión Tiendas</a>
+                <a href="/voluntarios/listar" class="menu-btn">Gestión Voluntarios</a>
+            </section>
+
+            <div class="logout-container">
+                <a href="/salir" class="boton-logout">Cerrar Sesión</a>
+            </div>
+
         </div>
-    </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 </body>
 </html>
-

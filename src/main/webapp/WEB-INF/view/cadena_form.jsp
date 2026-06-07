@@ -13,23 +13,49 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <body>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
+            <div>
+                <h1><%= esNueva ? "NUEVA CADENA" : "EDITAR CADENA" %></h1>
+            </div>
+        </div>
+    </header>
 
-<h1><%= esNueva ? "Nueva cadena" : "Editar cadena" %></h1>
+    <main class="container">
+        <div class="form-container">
 
-<form method="post" action="<%= ctx %>/campanas/cadenas/guardar">
+            <form method="post" action="<%= ctx %>/campanas/cadenas/guardar">
 
-    <input type="hidden" name="idCadena" value="<%= esNueva ? "" : cadena.getIdCadena() %>">
+                <input type="hidden" name="idCadena" value="<%= esNueva ? "" : cadena.getIdCadena() %>">
 
-    Nombre: <input type="text" name="nombreCadena" value="<%= esNueva ? "" : cadena.getNombreCadena() %>" required><br><br>
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input type="text" name="nombreCadena" value="<%= esNueva ? "" : cadena.getNombreCadena() %>" required>
+                </div>
 
-    Reseña: <input type="text" name="resenyaCadena" value="<%= esNueva ? "" : (cadena.getResenyaCadena() != null ? cadena.getResenyaCadena() : "") %>"><br><br>
+                <div class="form-group">
+                    <label>Reseña:</label>
+                    <input type="text" name="resenyaCadena" value="<%= esNueva ? "" : (cadena.getResenyaCadena() != null ? cadena.getResenyaCadena() : "") %>">
+                </div>
 
-    Logo URL: <input type="text" name="logoUrl" value="<%= esNueva ? "" : (cadena.getLogoUrl() != null ? cadena.getLogoUrl() : "") %>"><br><br>
+                <div class="form-group">
+                    <label>Logo URL:</label>
+                    <input type="text" name="logoUrl" value="<%= esNueva ? "" : (cadena.getLogoUrl() != null ? cadena.getLogoUrl() : "") %>">
+                </div>
 
-    <input type="submit" value="Guardar">
-    <a href="<%= ctx %>/campanas">Cancelar</a>
+                <div class="actions-row">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="<%= ctx %>/campanas" class="btn btn-secondary">Cancelar</a>
+                </div>
 
-</form>
+            </form>
 
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 </body>
 </html>

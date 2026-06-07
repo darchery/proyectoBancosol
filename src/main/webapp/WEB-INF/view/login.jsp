@@ -3,64 +3,52 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-
+    <title>Login - Bancosol</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <%
     String error = (String)request.getAttribute("error");
 %>
-<body class="bg-light">
+<body class="login-page">
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-
-    <div class="card shadow p-4" style="width: 350px;">
-
-        <h3 class="text-center mb-4">Iniciar sesión</h3>
-
-        <%
-            if (error != null) {
-        %>
-        <div class="alert alert-danger" role="alert">
-            <%= error %>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
         </div>
-        <%
-            }
-        %>
+    </header>
 
-        <form action="/autentica" method="post">
+    <main>
+        <div class="login-box">
 
-            <div class="mb-3">
-                <label class="form-label">Usuario</label>
-                <input type="text" name="username"
-                       class="form-control"
-                       placeholder="Introduce tu usuario" required>
+            <h1>Iniciar sesión</h1>
+
+            <%
+                if (error != null) {
+            %>
+            <div class="login-error">
+                <%= error %>
             </div>
+            <%
+                }
+            %>
 
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password" name="password"
-                       class="form-control"
-                       placeholder="Introduce tu contraseña" required>
-            </div>
+            <form action="/autentica" method="post">
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">
-                    Entrar
-                </button>
-            </div>
+                <label>Usuario</label>
+                <input type="text" name="username" placeholder="Introduce tu usuario" required>
 
-        </form>
+                <label>Contraseña</label>
+                <input type="password" name="password" placeholder="Introduce tu contraseña" required>
 
-        <hr>
+                <button type="submit">Entrar</button>
 
-        <div class="text-center small text-muted">
-            SessionID: <%= session.getId() %>
+            </form>
+
         </div>
+    </main>
 
-    </div>
-
-</div>
-
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
 </body>
 </html>

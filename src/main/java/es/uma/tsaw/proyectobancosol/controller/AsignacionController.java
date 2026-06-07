@@ -26,7 +26,10 @@ public class AsignacionController {
     private final TiendaRepositorio tiendaRepositorio;
 
     @GetMapping("/listar")
-    public String listar(@RequestParam Integer idUsuario, Model model) {
+    public String listar(@RequestParam(required = false) Integer idUsuario, Model model) {
+        if (idUsuario == null) {
+            return "redirect:/usuarios/voluntarios";
+        }
         Usuario usuario = usuarioRepositorio.findById(idUsuario).orElse(null);
         List<AsignacionVoluntarioDTO> asignaciones = asignacionVoluntarioService.findByUsuario(idUsuario);
 
