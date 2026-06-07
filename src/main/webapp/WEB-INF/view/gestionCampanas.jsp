@@ -69,6 +69,7 @@
                     <button type="button" onclick="generarCampana()">Generar campaña</button>
                     <button type="button" onclick="verHistorial()">Ver historial</button>
                     <button type="submit">Guardar cambios</button>
+                    <a href="/menu" class="btn-volver-menu">Menú Principal</a>
                 </div>
             </div>
 
