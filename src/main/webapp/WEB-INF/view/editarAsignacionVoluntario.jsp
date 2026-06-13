@@ -2,8 +2,8 @@
 Página JSP que permite editar o crear una asignación de voluntario a un turno.
 
 Autores:
-    - Sergio Aldana: 35%
-    - Laia Díaz: 65%
+    - Sergio Aldana: 25%
+    - Laia Díaz: 75%
 --%>
 
 <%@ page import="java.util.List" %>
