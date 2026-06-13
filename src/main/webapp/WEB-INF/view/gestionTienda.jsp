@@ -76,26 +76,11 @@ Autores:
                 </tbody>
             </table>
 
-            <div class="mt-20">
+            <div class="mt-20" style="display:flex;gap:10px;flex-wrap:wrap;">
                 <a href="/tiendas/editarCrear" class="btn btn-success">Añadir nueva tienda</a>
+                <a href="/menu" class="btn btn-secondary">Menú Principal</a>
             </div>
         </section>
-
-        <aside class="details-panel">
-            <div class="panel-header">TIENDA SELECCIONADA</div>
-            <div id="vista-detalle">
-                <div class="detail-row"><span>ID:</span><strong>---</strong></div>
-                <div class="detail-row"><span>NOMBRE:</span><strong>---</strong></div>
-                <div class="detail-row"><span>DOMICILIO:</span><strong>---</strong></div>
-                <div class="detail-row"><span>FRANQUICIA:</span><strong>---</strong></div>
-                <div class="detail-row"><span>LINEALES:</span><strong>---</strong></div>
-                <div class="detail-row"><span>CP:</span><strong>---</strong></div>
-            </div>
-            <div class="action-buttons mt-10">
-                <a href="/tiendas/editarCrear" class="btn-volver-menu">Añadir tienda</a>
-                <a href="/menu" class="btn-volver-menu" style="grid-column:1/-1;">Menú Principal</a>
-            </div>
-        </aside>
 
     </div>
 

@@ -47,11 +47,4 @@ public class TiendaCampanyaController {
         return "redirect:/tiendas";
     }
 
-    @GetMapping("/asignacion-campanya")
-    public String verAsignaciones(@RequestParam("idCampanya") Integer idCampanya,
-                                  Model model) {
-        List<TiendaCampanyaEntity> asignaciones = tiendaCampanyaRepository.findByCampanyaEntityIdCampanya(idCampanya);
-        model.addAttribute("asignaciones", asignaciones);
-        return "tiendas_por_campanya";
-    }
 }

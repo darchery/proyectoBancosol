@@ -128,22 +128,6 @@ Autores:
             </div>
         </section>
 
-        <aside class="details-panel">
-            <div class="panel-header">USUARIO SELECCIONADO</div>
-            <div id="vista-detalle">
-                <div class="detail-row"><span>ID:</span><strong>---</strong></div>
-                <div class="detail-row"><span>ENTIDAD:</span><strong>---</strong></div>
-                <div class="detail-row"><span>ÁREA:</span><strong>---</strong></div>
-                <div class="detail-row"><span>TELÉFONO:</span><strong>---</strong></div>
-                <div class="detail-row"><span>CORREO:</span><strong>---</strong></div>
-                <div class="detail-row"><span>TIENDAS:</span><strong>---</strong></div>
-                <div class="detail-row"><span>USUARIO:</span><strong>---</strong></div>
-            </div>
-            <div class="action-buttons mt-10">
-                <a href="/menu" class="btn-volver-menu" style="grid-column:1/-1;">Menú Principal</a>
-            </div>
-        </aside>
-
     </div>
 
     </main>

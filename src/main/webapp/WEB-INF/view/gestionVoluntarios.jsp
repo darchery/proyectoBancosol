@@ -95,28 +95,11 @@ Autores:
 
                 </tbody>
             </table>
-            <div class="mt-20">
+            <div class="mt-20" style="display:flex;gap:10px;flex-wrap:wrap;">
                 <a href="/voluntarios/edit?idUsuario=<%= idUsuario %>" class="btn btn-primary">Añadir Asignación</a>
+                <a href="/menu" class="btn btn-secondary">Menú Principal</a>
             </div>
         </section>
-
-        <aside class="details-panel">
-            <div class="panel-header">ASIGNACIÓN SELECCIONADA</div>
-            <div id="vista-detalle">
-                <div class="detail-row"><span>TIENDA:</span><strong>---</strong></div>
-                <div class="detail-row"><span>DOMICILIO:</span><strong>---</strong></div>
-                <div class="detail-row"><span>LOCALIDAD:</span><strong>---</strong></div>
-                <div class="detail-row"><span>CAPITÁN:</span><strong>---</strong></div>
-                <div class="detail-row"><span>VIERNES MAÑANA:</span><strong>---</strong></div>
-                <div class="detail-row"><span>VIERNES TARDE:</span><strong>---</strong></div>
-                <div class="detail-row"><span>SÁBADO MAÑANA:</span><strong>---</strong></div>
-                <div class="detail-row"><span>SÁBADO TARDE:</span><strong>---</strong></div>
-                <div class="detail-row"><span>OBSERVACIONES:</span><strong>---</strong></div>
-            </div>
-            <div class="action-buttons mt-10">
-                <a href="/menu" class="btn-volver-menu" style="grid-column:1/-1;">Menú Principal</a>
-            </div>
-        </aside>
 
     </div>
 

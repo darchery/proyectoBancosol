@@ -51,14 +51,7 @@ Autores:
                 <%
                     for (EntidadColaboradoraDTO e : entidadesColaboradoras) {
                 %>
-                <tr class="fila-entidad"
-                    data-nombre="<%= e.getNombreEntidad() %>"
-                    data-domicilio="<%= e.getDomicilio() != null ? e.getDomicilio() : "" %>"
-                    data-localidad="<%= e.getDistritoLocal() != null ? e.getDistritoLocal() : "" %>"
-                    data-colabora="<%= e.getZonaGeografica() != null ? e.getZonaGeografica() : "" %>"
-                    data-coordinador="<%= e.getNombreResponsable() != null ? e.getNombreResponsable() : "" %>"
-                    data-contacto="<%= e.getNombreContactoPrincipal() != null ? e.getNombreContactoPrincipal() : "" %>"
-                    data-observaciones="<%= e.getObservaciones() != null ? e.getObservaciones() : "" %>">
+                <tr>
                     <td><strong><%= e.getNombreEntidad() %></strong></td>
                     <td><%= e.getDomicilio() %></td>
                     <td><%= e.getDistritoLocal() %></td>
@@ -85,28 +78,11 @@ Autores:
                 </tbody>
             </table>
 
-            <div class="mt-20">
-                <a href="/entidades/nueva" class="btn btn-success">Añadir nueva entidad</a>
+            <div class="mt-20" style="display:flex;gap:10px;flex-wrap:wrap;">
+                <a href="/entidades/nueva" class="btn btn-success">Añadir colaborador</a>
+                <a href="/menu" class="btn btn-secondary">Menú Principal</a>
             </div>
         </section>
-
-        <aside class="details-panel">
-            <div class="panel-header">ENTIDAD SELECCIONADA</div>
-            <div id="vista-detalle">
-                <div class="detail-row"><span>NOMBRE:</span><strong id="det-nombre">---</strong></div>
-                <div class="detail-row"><span>DOMICILIO:</span><strong id="det-domicilio">---</strong></div>
-                <div class="detail-row"><span>LOCALIDAD:</span><strong id="det-localidad">---</strong></div>
-                <div class="detail-row"><span>COLABORA EN:</span><strong id="det-colabora">---</strong></div>
-                <div class="detail-row"><span>COORDINADOR:</span><strong id="det-coordinador">---</strong></div>
-                <div class="detail-row"><span>CONTACTO:</span><strong id="det-contacto">---</strong></div>
-            </div>
-            <div class="panel-section-header">OBSERVACIONES</div>
-            <div class="detail-row"><strong id="det-observaciones">---</strong></div>
-            <div class="action-buttons mt-10">
-                <a href="/entidades/nueva" class="btn-volver-menu">Añadir colaborador</a>
-                <a href="/menu" class="btn-volver-menu" style="grid-column:1/-1;">Menú Principal</a>
-            </div>
-        </aside>
 
     </div>
 
@@ -116,23 +92,6 @@ Autores:
     <p>&copy; 2026 Bancosol | Grupo 4</p>
 </footer>
 
-<script>
-    window.scrollTo(0, 0);
 
-    document.querySelectorAll('.fila-entidad').forEach(function(fila) {
-        fila.style.cursor = 'pointer';
-        fila.addEventListener('click', function() {
-            document.querySelectorAll('.fila-entidad').forEach(f => f.classList.remove('fila-seleccionada'));
-            this.classList.add('fila-seleccionada');
-            document.getElementById('det-nombre').textContent = this.dataset.nombre || '---';
-            document.getElementById('det-domicilio').textContent = this.dataset.domicilio || '---';
-            document.getElementById('det-localidad').textContent = this.dataset.localidad || '---';
-            document.getElementById('det-colabora').textContent = this.dataset.colabora || '---';
-            document.getElementById('det-coordinador').textContent = this.dataset.coordinador || '---';
-            document.getElementById('det-contacto').textContent = this.dataset.contacto || '---';
-            document.getElementById('det-observaciones').textContent = this.dataset.observaciones || '---';
-        });
-    });
-</script>
 </body>
 </html>
