@@ -1,0 +1,129 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.rol (
+  id_rol integer NOT NULL DEFAULT nextval('rol_id_rol_seq'::regclass),
+  nombre_rol character varying NOT NULL,
+  CONSTRAINT rol_pkey PRIMARY KEY (id_rol)
+);
+CREATE TABLE public.campanya (
+  id_campanya integer NOT NULL DEFAULT nextval('campanya_id_campanya_seq'::regclass),
+  nombre_campanya character varying NOT NULL,
+  fecha_inicio date,
+  fecha_fin date,
+  estado character varying,
+  tipo_campanya character varying,
+  CONSTRAINT campanya_pkey PRIMARY KEY (id_campanya)
+);
+CREATE TABLE public.cadena (
+  id_cadena integer NOT NULL DEFAULT nextval('cadena_id_cadena_seq'::regclass),
+  nombre_cadena character varying NOT NULL,
+  resenya_cadena character varying,
+  logo_url character varying,
+  CONSTRAINT cadena_pkey PRIMARY KEY (id_cadena)
+);
+CREATE TABLE public.direccion (
+  id_direccion integer NOT NULL DEFAULT nextval('direccion_id_direccion_seq'::regclass),
+  distrito_local character varying,
+  zona_geografica character varying,
+  domicilio text,
+  CONSTRAINT direccion_pkey PRIMARY KEY (id_direccion)
+);
+CREATE TABLE public.plantilla_turno (
+  id_plantilla integer NOT NULL DEFAULT nextval('plantilla_turno_id_plantilla_seq'::regclass),
+  dia_semana character varying,
+  franja_horaria character varying,
+  CONSTRAINT plantilla_turno_pkey PRIMARY KEY (id_plantilla)
+);
+CREATE TABLE public.usuario (
+  id_usuario integer NOT NULL DEFAULT nextval('usuario_id_usuario_seq'::regclass),
+  id_rol integer,
+  nombre character varying NOT NULL,
+  email character varying NOT NULL UNIQUE,
+  telefono character varying,
+  contrasenya character varying NOT NULL,
+  nombre_usuario character varying NOT NULL UNIQUE,
+  CONSTRAINT usuario_pkey PRIMARY KEY (id_usuario),
+  CONSTRAINT usuario_id_rol_fkey FOREIGN KEY (id_rol) REFERENCES public.rol(id_rol)
+);
+CREATE TABLE public.campanya_cadena (
+  id_campanya integer NOT NULL,
+  id_cadena integer NOT NULL,
+  CONSTRAINT campanya_cadena_pkey PRIMARY KEY (id_campanya, id_cadena),
+  CONSTRAINT campanya_cadena_id_campanya_fkey FOREIGN KEY (id_campanya) REFERENCES public.campanya(id_campanya),
+  CONSTRAINT campanya_cadena_id_cadena_fkey FOREIGN KEY (id_cadena) REFERENCES public.cadena(id_cadena)
+);
+CREATE TABLE public.tienda (
+  id_tienda integer NOT NULL DEFAULT nextval('tienda_id_tienda_seq'::regclass),
+  id_cadena integer,
+  id_direccion integer,
+  nombre_establecimiento character varying NOT NULL,
+  direccion character varying,
+  franquicia boolean DEFAULT false,
+  lineales character varying,
+  cp character varying,
+  CONSTRAINT tienda_pkey PRIMARY KEY (id_tienda),
+  CONSTRAINT tienda_id_cadena_fkey FOREIGN KEY (id_cadena) REFERENCES public.cadena(id_cadena),
+  CONSTRAINT tienda_id_direccion_fkey FOREIGN KEY (id_direccion) REFERENCES public.direccion(id_direccion)
+);
+CREATE TABLE public.entidad_colaboradora (
+  id_entidad integer NOT NULL DEFAULT nextval('entidad_colaboradora_id_entidad_seq'::regclass),
+  id_responsable integer,
+  nombre_entidad character varying NOT NULL,
+  tipo character varying,
+  ligado_bancosol boolean DEFAULT false,
+  id_direccion integer,
+  codigo_colaborador text,
+  fecha_alta date,
+  estado_aprobacion boolean,
+  observaciones text,
+  CONSTRAINT entidad_colaboradora_pkey PRIMARY KEY (id_entidad),
+  CONSTRAINT entidad_colaboradora_id_responsable_fkey FOREIGN KEY (id_responsable) REFERENCES public.usuario(id_usuario),
+  CONSTRAINT entidad_colaboradora_id_direccion_fkey FOREIGN KEY (id_direccion) REFERENCES public.direccion(id_direccion),
+  CONSTRAINT fk_direccion FOREIGN KEY (id_direccion) REFERENCES public.direccion(id_direccion)
+);
+CREATE TABLE public.tienda_campanya (
+  id_tienda_campanya integer NOT NULL DEFAULT nextval('tienda_campanya_id_tienda_campanya_seq'::regclass),
+  id_tienda integer,
+  id_campanya integer,
+  id_coordinador integer,
+  id_capitan integer,
+  CONSTRAINT tienda_campanya_pkey PRIMARY KEY (id_tienda_campanya),
+  CONSTRAINT tienda_campanya_id_tienda_fkey FOREIGN KEY (id_tienda) REFERENCES public.tienda(id_tienda),
+  CONSTRAINT tienda_campanya_id_campanya_fkey FOREIGN KEY (id_campanya) REFERENCES public.campanya(id_campanya),
+  CONSTRAINT tienda_campanya_id_coordinador_fkey FOREIGN KEY (id_coordinador) REFERENCES public.usuario(id_usuario),
+  CONSTRAINT tienda_campanya_id_capitan_fkey FOREIGN KEY (id_capitan) REFERENCES public.usuario(id_usuario)
+);
+CREATE TABLE public.turno_activo (
+  id_turno_activo integer NOT NULL DEFAULT nextval('turno_activo_id_turno_activo_seq'::regclass),
+  id_tienda_campanya integer,
+  id_plantilla integer,
+  fecha_exacta date NOT NULL,
+  hora_inicio time without time zone,
+  hora_fin time without time zone,
+  plazas_disponibles integer DEFAULT 0,
+  CONSTRAINT turno_activo_pkey PRIMARY KEY (id_turno_activo),
+  CONSTRAINT turno_activo_id_tienda_campanya_fkey FOREIGN KEY (id_tienda_campanya) REFERENCES public.tienda_campanya(id_tienda_campanya),
+  CONSTRAINT turno_activo_id_plantilla_fkey FOREIGN KEY (id_plantilla) REFERENCES public.plantilla_turno(id_plantilla)
+);
+CREATE TABLE public.asignacion_voluntario (
+  id_asignacion integer NOT NULL DEFAULT nextval('asignacion_voluntario_id_asignacion_seq'::regclass),
+  id_turno_activo integer,
+  id_usuario integer,
+  id_entidad integer,
+  asistencia boolean DEFAULT false,
+  CONSTRAINT asignacion_voluntario_pkey PRIMARY KEY (id_asignacion),
+  CONSTRAINT asignacion_voluntario_id_turno_activo_fkey FOREIGN KEY (id_turno_activo) REFERENCES public.turno_activo(id_turno_activo),
+  CONSTRAINT asignacion_voluntario_id_usuario_fkey FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario),
+  CONSTRAINT asignacion_voluntario_id_entidad_fkey FOREIGN KEY (id_entidad) REFERENCES public.entidad_colaboradora(id_entidad)
+);
+CREATE TABLE public.contacto (
+  id_contacto integer NOT NULL DEFAULT nextval('contacto_entidad_id_contacto_seq'::regclass),
+  id_entidad integer NOT NULL,
+  nombre character varying,
+  email character varying,
+  telefono character varying,
+  es_principal boolean DEFAULT false,
+  CONSTRAINT contacto_pkey PRIMARY KEY (id_contacto),
+  CONSTRAINT contacto_entidad_id_entidad_fkey FOREIGN KEY (id_entidad) REFERENCES public.entidad_colaboradora(id_entidad)
+);
