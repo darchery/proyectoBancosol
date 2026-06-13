@@ -67,18 +67,6 @@ body.login-page {
     background: #1565c0;
 }
 
-.login-box a {
-    display: block;
-    margin-top: 30px;
-    color: #0d47a1;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.login-box a:hover {
-    text-decoration: underline;
-}
-
 .login-error {
     background: #fdecea;
     color: #c0392b;

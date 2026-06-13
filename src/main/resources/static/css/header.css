@@ -30,17 +30,3 @@ header h1 {
     width: auto;
     display: block;
 }
-
-#logo {
-    height: 60px;
-    width: auto;
-    display: block;
-}
-
-.admin-badge {
-    background: #e67e22;
-    color: white;
-    padding: 15px;
-    font-weight: bold;
-    border-radius: 4px;
-}
