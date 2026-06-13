@@ -8,8 +8,6 @@ Autores:
 --%>
 
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%

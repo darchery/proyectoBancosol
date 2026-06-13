@@ -38,11 +38,4 @@ public class UsuarioEntity {
     @Column(name = "nombre_usuario", nullable = false)
     private String nombreUsuario;
 
-    public String transformarContrasenya(String contrasenya) {
-        String res = "";
-        for (Character c : contrasenya.toCharArray()) {
-            res += "*";
-        }
-        return res;
-    }
 }

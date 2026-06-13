@@ -8,9 +8,6 @@ Autores:
 --%>
 
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">

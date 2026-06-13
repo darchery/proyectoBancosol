@@ -47,8 +47,6 @@ Autores:
     <main class="container">
         <div class="form-container">
 
-<%-- <p>Voluntario: <strong><%= nombreUsuario %></strong> (ID: <%= idUsuario %>)</p> --%>
-
 <form action="/voluntarios/guardar" method="post">
 
     <input type="hidden" name="idUsuario" value="<%= idUsuario %>">

@@ -52,42 +52,9 @@ tr:hover {
     cursor: pointer;
 }
 
-/* === DETAILS PANEL === */
-.details-panel {
-    background: white;
-    border: 2px solid var(--blue-bancosol);
-    padding: 15px;
-}
-
-.panel-header {
-    background: var(--blue-bancosol);
-    color: white;
-    padding: 5px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.detail-row {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 0.9em;
-}
-
 .detail-row span {
     font-weight: bold;
     color: #333;
-}
-
-.panel-section-header {
-    background: var(--blue-bancosol);
-    color: white;
-    padding: 5px;
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 /* === BUTTONS === */

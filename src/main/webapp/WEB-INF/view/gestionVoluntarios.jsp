@@ -8,8 +8,6 @@ Autores:
 --%>
 
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntarioEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO" %>
@@ -38,13 +36,6 @@ Autores:
         String nombreUsuario = (String) request.getAttribute("nombreUsuario");
         List<AsignacionVoluntarioDTO> asignaciones = (List<AsignacionVoluntarioDTO>) request.getAttribute("asignaciones");
     %>
-
-    <%--
-    <p class="usuario-badge">
-        Voluntario: <strong><%= nombreUsuario %></strong>
-        &nbsp;|&nbsp; ID: <%= idUsuario %>
-    </p>
-    --%>
 
     <div class="content-layout">
 
