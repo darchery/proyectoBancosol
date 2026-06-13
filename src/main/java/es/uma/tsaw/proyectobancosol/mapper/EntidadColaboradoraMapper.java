@@ -2,7 +2,8 @@
  * Mapper que convierte entre entidad EntidadColaboradora y su DTO.
  *
  * Autores:
- * - Daniela Calderón: 100%
+ * - Daniela Calderón: 50%
+ * - IA generativa: 50%
  */
 
 package es.uma.tsaw.proyectobancosol.mapper;

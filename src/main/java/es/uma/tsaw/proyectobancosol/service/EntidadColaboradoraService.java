@@ -2,7 +2,8 @@
  * Servicio que implementa la lógica de negocio para las entidades colaboradoras.
  *
  * Autores:
- * - Daniela Calderón: 100%
+ * - Daniela Calderón: 60%
+ * - Daniela Calderón: 40%
  */
 
 package es.uma.tsaw.proyectobancosol.service;

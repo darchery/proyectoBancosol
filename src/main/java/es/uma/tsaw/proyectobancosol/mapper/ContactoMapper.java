@@ -2,7 +2,8 @@
  * Mapper que convierte entre entidad Contacto y su DTO.
  *
  * Autores:
- * - Daniela Calderón: 100%
+ * - Daniela Calderón: 70%
+ * - IA generativa: 30%
  */
 
 package es.uma.tsaw.proyectobancosol.mapper;

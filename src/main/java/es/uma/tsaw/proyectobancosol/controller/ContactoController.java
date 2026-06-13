@@ -2,7 +2,8 @@
  * Controlador que gestiona los contactos asociados a entidades colaboradoras.
  *
  * Autores:
- * - Daniela Calderón: 100%
+ * - Daniela Calderón: 90%
+ * - IA generativa: 10%
  */
 
 package es.uma.tsaw.proyectobancosol.controller;
