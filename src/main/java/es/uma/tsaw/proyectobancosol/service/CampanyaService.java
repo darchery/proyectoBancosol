@@ -15,7 +15,6 @@ import es.uma.tsaw.proyectobancosol.entity.CampanyaEntity;
 import es.uma.tsaw.proyectobancosol.mapper.CampanyaMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
