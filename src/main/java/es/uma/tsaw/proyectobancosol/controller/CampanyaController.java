@@ -50,6 +50,39 @@ public class CampanyaController {
         return "formularioCampanya";
     }
 
+    @GetMapping("/historial")
+    public String doHistorial(Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
+        model.addAttribute("campanas", campanyaService.listarTodas());
+        return "historialCampanyas";
+    }
+
+    @PostMapping("/generarCampanyaConDatos")
+    public String doGenerarCampanyaConDatos(@RequestParam String tipoCampanya,
+                                  @RequestParam String fechaInicio,
+                                  @RequestParam String fechaFin,
+                                  @RequestParam(value = "cadenaIds", required = false) List<Integer> cadenaIds,
+                                  RedirectAttributes redirect,
+                                  HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
+        try {
+            CampanyaDTO campana = new CampanyaDTO();
+            campana.setTipoCampanya(tipoCampanya);
+            String anyo = fechaInicio.substring(0, 4);
+            campana.setNombreCampanya(tipoCampanya + " " + anyo);
+            campana.setEstado("ACTIVA");
+            campana.setFechaInicio(fechaInicio);
+            campana.setFechaFin(fechaFin);
+            campana.setCadenaIds(cadenaIds);
+
+            campanyaService.guardar(campana);
+            redirect.addFlashAttribute("msg", "ok:Campaña \"" + campana.getNombreCampanya() + "\" generada correctamente.");
+        } catch (IllegalArgumentException e) {
+            redirect.addFlashAttribute("msg", "error:" + e.getMessage());
+        }
+        return "redirect:/campanyas";
+    }
+
     @PostMapping("/guardar")
     public String doGuardar(@ModelAttribute("campana") CampanyaDTO campana,
                             @RequestParam(value = "cadenasBorrar", required = false) List<Integer> cadenasBorrar,

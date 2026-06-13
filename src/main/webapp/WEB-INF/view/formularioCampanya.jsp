@@ -2,7 +2,8 @@
 Página JSP que muestra el formulario para editar una campaña existente.
 
 Autores:
-- Marina Ruiz: 100%
+- Marina Ruiz: 80%
+- Sergio Aldana: 20%
 
 --%>
 
@@ -37,7 +38,7 @@ Autores:
     <div class="form-container">
         <form method="post" action="${pageContext.request.contextPath}/campanyas/guardar">
 
-            <input type="hidden" name="idCampanya" value="<%= campana.getIdCampanya() %>">
+            <input type="hidden" name="idCampanya" value="<%= campana.getIdCampanya() != null ? campana.getIdCampanya() : "" %>">
 
             <div class="form-group">
                 <label>Nombre de la campaña:</label>

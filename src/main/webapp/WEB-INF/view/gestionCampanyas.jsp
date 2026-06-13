@@ -2,8 +2,8 @@
 Página JSP que muestra la gestión de campañas de recogida.
 
 Autores:
-- Marina Ruiz: 51%
-- Sergio Aldana: 49%
+- Marina Ruiz: 50%
+- Sergio Aldana: 50%
 
 --%>
 
@@ -43,14 +43,7 @@ Autores:
 <div class="<%= cssClass %>"><%= texto %></div>
 <% } %>
 
-<form method="post" action="guardar">
-
-    <input type="hidden" name="idCampanya"   id="idCampanya"   value="">
-    <input type="hidden" name="nombreCampanya"  id="nombreCampanya"  value="">
-    <input type="hidden" name="estado"          id="estado"          value="">
-    <input type="hidden" name="tipoCampanya"    id="tipoCampanya"    value="">
-    <input type="hidden" name="fechaInicio"     id="fechaInicio"     value="">
-    <input type="hidden" name="fechaFin"        id="fechaFin"        value="">
+<form method="post" action="/campanyas/generarCampanyaConDatos">
 
     <div class="management-container">
 
@@ -59,22 +52,34 @@ Autores:
                 <h2>Tipo de campaña</h2>
                 <div class="radio-grid">
                     <div class="checkbox-item">
-                        <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
-                               id="tipo_GR" onchange="seleccionarTipo('GR')">
+                        <input type="radio" name="tipoCampanya" value="GR"
+                               id="tipo_GR">
                         <label for="tipo_GR">Gran Recogida</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="radio" name="tipoCampanyaSeleccionado" value="primavera"
-                               id="tipo_primavera" onchange="seleccionarTipo('primavera')">
+                        <input type="radio" name="tipoCampanya" value="primavera"
+                               id="tipo_primavera">
                         <label for="tipo_primavera">Operación Primavera</label>
                     </div>
                 </div>
             </div>
 
+            <div class="box">
+                <h2>Fechas</h2>
+                <div class="form-group">
+                    <label for="fechaInicio">Fecha de inicio:</label>
+                    <input type="date" name="fechaInicio" id="fechaInicio" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaFin">Fecha de fin:</label>
+                    <input type="date" name="fechaFin" id="fechaFin" required>
+                </div>
+            </div>
+
             <div class="actions-frame">
-                <button type="button" onclick="generarCampana()">Generar campaña con los datos seleccionados</button>
+                <button type="submit">Generar campaña con los datos seleccionados</button>
                 <a href="/campanyas/generarCampanya" class="btn btn-primary">Generar campaña desde cero</a>
-                <button type="button" onclick="verHistorial()">Ver historial</button>
+                <a href="/campanyas/historial" class="btn btn-primary">Ver historial</a>
                 <a href="/menu" class="btn-volver-menu">Menú Principal</a>
             </div>
         </div>
@@ -116,177 +121,11 @@ Autores:
 
     </div>
 
-    <div id="divHistorial" class="modal-overlay">
-        <div class="modal-content modal-historial">
-            <div class="modal-header">
-                <h2>Historial de campañas</h2>
-                <button type="button" class="modal-close-btn" onclick="document.getElementById('divHistorial').style.display='none'">&times;</button>
-            </div>
-            <div class="modal-body">
-                <table class="tabla-historial">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>Estado</th>
-                        <th>Fecha inicio</th>
-                        <th>Fecha fin</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody id="tbodyHistorial"></tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-modal" onclick="document.getElementById('divHistorial').style.display='none'">Cerrar historial</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="modalFechas" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Nueva campaña</h2>
-                <button type="button" class="modal-close-btn" onclick="cerrarModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p id="modalTipoLabel"></p>
-
-                <div class="form-group">
-                    <label for="inputFechaInicio">Fecha de inicio:</label>
-                    <input type="date" id="inputFechaInicio">
-                </div>
-
-                <div class="form-group">
-                    <label for="inputFechaFin">Fecha de fin:</label>
-                    <input type="date" id="inputFechaFin">
-                </div>
-
-                <p id="errorFechas" class="error-fechas"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-modal" onclick="confirmarGeneracion()">Confirmar</button>
-                <button type="button" class="btn-modal danger" onclick="cerrarModal()">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
 </form>
 
 <footer>
     <p>&copy; 2026 Bancosol | Grupo 4</p>
 </footer>
-
-<script>
-
-    var todasCampanas = [];
-    <%
-        if (campanas != null) {
-            for (CampanyaDTO c : campanas) {
-                String nombre = c.getNombreCampanya() != null ? c.getNombreCampanya().replace("\"","\\\"") : "";
-                String estado = c.getEstado()         != null ? c.getEstado().replace("\"","\\\"")         : "";
-                String tipo   = c.getTipoCampanya()   != null ? c.getTipoCampanya().replace("\"","\\\"")   : "";
-                String fi     = c.getFechaInicio()    != null ? c.getFechaInicio()                         : "";
-                String ff     = c.getFechaFin()       != null ? c.getFechaFin()                            : "";
-    %>
-    todasCampanas.push({ id: <%= c.getIdCampanya() %>, nombre: "<%= nombre %>", tipo: "<%= tipo %>", estado: "<%= estado %>", fechaInicio: "<%= fi %>", fechaFin: "<%= ff %>" });
-    <%
-            }
-        }
-    %>
-
-    var tipoSeleccionado = null;
-
-    function seleccionarTipo(tipo) {
-        tipoSeleccionado = tipo;
-    }
-
-    function generarCampana() {
-        if (!tipoSeleccionado) {
-            alert('Selecciona un tipo de campaña.');
-            return;
-        }
-
-        var etiquetas = { GR: 'Gran Recogida', primavera: 'Operación Primavera' };
-
-        document.getElementById('modalTipoLabel').textContent =
-            (etiquetas[tipoSeleccionado] || tipoSeleccionado);
-
-        document.getElementById('inputFechaInicio').value = '';
-        document.getElementById('inputFechaFin').value    = '';
-        document.getElementById('errorFechas').style.display = 'none';
-        document.getElementById('modalFechas').style.display = 'flex';
-    }
-
-    function confirmarGeneracion() {
-        var fi  = document.getElementById('inputFechaInicio').value;
-        var ff  = document.getElementById('inputFechaFin').value;
-        var err = document.getElementById('errorFechas');
-
-        if (!fi || !ff) {
-            err.textContent = 'Ambas fechas son obligatorias.';
-            err.style.display = 'block';
-            return;
-        }
-        if (ff <= fi) {
-            err.textContent = 'La fecha de fin debe ser posterior a la de inicio.';
-            err.style.display = 'block';
-            return;
-        }
-
-        var anyo = parseInt(fi.substring(0, 4), 10);
-        var etiquetas = { GR: 'Gran Recogida', primavera: 'Operación Primavera' };
-
-        var yaExiste = todasCampanas.some(function(c) {
-            return c.tipo === tipoSeleccionado && c.nombre.indexOf(String(anyo)) !== -1;
-        });
-
-        if (yaExiste) {
-            err.textContent = 'Ya existe una campaña de tipo "' + (etiquetas[tipoSeleccionado] || tipoSeleccionado) + '" para ' + anyo + '.';
-            err.style.display = 'block';
-            return;
-        }
-
-        document.getElementById('nombreCampanya').value = tipoSeleccionado + ' ' + anyo;
-        document.getElementById('tipoCampanya').value    = tipoSeleccionado;
-        document.getElementById('estado').value          = 'ACTIVA';
-        document.getElementById('idCampanya').value      = '';
-        document.getElementById('fechaInicio').value     = fi;
-        document.getElementById('fechaFin').value        = ff;
-
-        cerrarModal();
-        document.querySelector('form').submit();
-    }
-
-    function cerrarModal() {
-        document.getElementById('modalFechas').style.display = 'none';
-    }
-
-    function verHistorial() {
-        var tbody = document.getElementById('tbodyHistorial');
-        tbody.innerHTML = '';
-
-        if (todasCampanas.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6"><em>No hay campañas registradas.</em></td></tr>';
-        } else {
-            todasCampanas.forEach(function(c) {
-                var tr = document.createElement('tr');
-                tr.innerHTML =
-                    '<td>' + (c.nombre || '(sin nombre)') + '</td>' +
-                    '<td>' + (c.tipo        || '') + '</td>' +
-                    '<td>' + (c.estado      || '') + '</td>' +
-                    '<td>' + (c.fechaInicio || '') + '</td>' +
-                    '<td>' + (c.fechaFin    || '') + '</td>' +
-                    '<td><a href="/campanyas/generarCampanya?id=' + c.id + '" class="btn-editar-historial">Editar</a></td>';
-                tbody.appendChild(tr);
-            });
-        }
-
-        document.getElementById('divHistorial').style.display = 'flex';
-    }
-
-
-</script>
 
 </body>
 </html>
