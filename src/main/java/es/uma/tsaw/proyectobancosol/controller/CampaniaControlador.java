@@ -78,13 +78,6 @@ public class CampaniaControlador {
         return "gestionCampanas";
     }
 
-    // ── EDITAR / BORRAR CAMPAÑA ────────────────────────────────────────────
-
-    @GetMapping("/campanas/editar")
-    public String editarCampana(@RequestParam("id") Integer id, Model model) {
-        model.addAttribute("campana", campanyaService.findById(id));
-        return "campana_form";
-    }
 
     @GetMapping("/campanas/borrar")
     public String borrarCampana(@RequestParam("id") Integer id) {
