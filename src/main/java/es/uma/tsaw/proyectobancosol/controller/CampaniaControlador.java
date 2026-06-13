@@ -111,7 +111,11 @@ public class CampaniaControlador {
         return "redirect:/campanas";
     }
 
-
+    @GetMapping("/campanas/cadenas/borrar")
+    public String borrarCadena(@RequestParam("id") Integer id) {
+        campanyaService.borrarCadena(id);
+        return "redirect:/campanas";
+    }
 
     // ── GUARDAR TODO ───────────────────────────────────────────────────────
 
