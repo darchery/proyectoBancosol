@@ -176,7 +176,7 @@ public class UsuarioService {
     }
 
     public UsuarioEntity autenticar(String username, String password) {
-        return this.usuarioRepository.autheticate(username, password);
+        return this.usuarioRepository.autenticar(username, password);
     }
 
     public boolean existeEmail(String email, Integer idUsuario) {

@@ -13,22 +13,20 @@ import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
 import es.uma.tsaw.proyectobancosol.service.DireccionService;
 import es.uma.tsaw.proyectobancosol.service.EntidadColaboradoraService;
 import es.uma.tsaw.proyectobancosol.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@AllArgsConstructor
 public class EntidadColaboradoraController {
 
-    @Autowired
-    private EntidadColaboradoraService entidadService;
+    private final EntidadColaboradoraService entidadService;
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
-    @Autowired
-    private DireccionService direccionService;
+    private final DireccionService direccionService;
 
     @GetMapping("/entidades")
     public String listar(Model model) {

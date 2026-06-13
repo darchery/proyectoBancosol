@@ -9,17 +9,19 @@ Autores:
 
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.*" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.TiendaDTO" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.PlantillaTurnoEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     Integer idUsuario = (Integer) request.getAttribute("idUsuario");
-    String nombreUsuario = (String) request.getAttribute("nombreUsuario");
     AsignacionVoluntarioDTO asignacion = (AsignacionVoluntarioDTO) request.getAttribute("asignacion");
     List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
     List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
 
-    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendas");
+    List<TiendaDTO> tiendas = (List<TiendaDTO>) request.getAttribute("tiendas");
     boolean esEdicion = (asignacion != null);
 
     // Valores actuales para pre-selección en edición
@@ -68,7 +70,7 @@ Autores:
 
                     <select id="selectTienda" onchange="filtrarTurnos()">
                         <%
-                            for (TiendaEntity tienda : tiendaEntities) {
+                            for (TiendaDTO tienda : tiendas) {
                         %>
 
                         <option value="<%= tienda.getIdTienda() %>"

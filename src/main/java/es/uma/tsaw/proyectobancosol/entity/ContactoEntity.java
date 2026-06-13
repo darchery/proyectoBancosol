@@ -9,12 +9,8 @@ package es.uma.tsaw.proyectobancosol.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "contacto", schema = "public")
 public class ContactoEntity {

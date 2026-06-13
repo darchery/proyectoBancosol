@@ -10,16 +10,16 @@ package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.ContactoDTO;
 import es.uma.tsaw.proyectobancosol.service.ContactoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@AllArgsConstructor
 public class ContactoController {
 
-    @Autowired
-    private ContactoService contactoService;
+    private final ContactoService contactoService;
 
     @GetMapping("/entidades/{idEntidad}/contactos")
     public String listar(@PathVariable Integer idEntidad, Model model) {

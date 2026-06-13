@@ -45,9 +45,9 @@ Autores:
                 </thead>
                 <tbody>
                     <%
-                        List<TiendaDTO> tiendaEntities = (List<TiendaDTO>) request.getAttribute("tiendas");
-                        if (tiendaEntities != null) {
-                            for(TiendaDTO tiendaEntity : tiendaEntities) {
+                        List<TiendaDTO> tiendas = (List<TiendaDTO>) request.getAttribute("tiendas");
+                        if (tiendas != null) {
+                            for(TiendaDTO tiendaEntity : tiendas) {
                     %>
                     <tr>
                         <td><%= tiendaEntity.getIdTienda() %></td>
