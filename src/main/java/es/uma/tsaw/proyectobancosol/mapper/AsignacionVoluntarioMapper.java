@@ -2,7 +2,8 @@
  * Mapper que convierte entre entidad AsignacionVoluntario y su DTO.
  *
  * Autores:
- * - Laia Díaz: 100%
+ * - Laia Díaz: 90%
+ * - IA generativa: 10%
  */
 
 package es.uma.tsaw.proyectobancosol.mapper;
@@ -19,34 +20,41 @@ public class AsignacionVoluntarioMapper extends MapperDTO<AsignacionVoluntarioDT
 
     @Override
     public AsignacionVoluntarioDTO toDTO(AsignacionVoluntarioEntity asigVol) {
-        AsignacionVoluntarioDTO voluntario = new AsignacionVoluntarioDTO();
+        AsignacionVoluntarioDTO dto = new AsignacionVoluntarioDTO();
 
-        voluntario.setIdAsignacion(asigVol.getIdAsignacion());
-        voluntario.setAsistencia(asigVol.getAsistencia());
+        dto.setIdAsignacion(asigVol.getIdAsignacion());
+        dto.setAsistencia(asigVol.getAsistencia());
 
         // Turno
-        voluntario.setIdTurno(asigVol.getTurnoActivoEntity().getIdTurnoActivo());
-        PlantillaTurnoEntity plantilla = asigVol.getTurnoActivoEntity().getPlantillaTurnoEntity();
+        var turno = asigVol.getTurnoActivoEntity();
+        dto.setIdTurno(turno.getIdTurnoActivo());
+
+        PlantillaTurnoEntity plantilla = turno.getPlantillaTurnoEntity();
         if (plantilla != null) {
-            voluntario.setDiaFranja(plantilla.getDiaSemana() + " " + plantilla.getFranjaHoraria());
+            dto.setDiaFranja(plantilla.getDiaSemana() + " " + plantilla.getFranjaHoraria());
         }
-        if (asigVol.getTurnoActivoEntity().getFechaExacta() != null) {
-            voluntario.setFecha(asigVol.getTurnoActivoEntity().getFechaExacta().toString());
+        if (turno.getFechaExacta() != null) {
+            dto.setFecha(turno.getFechaExacta().toString());
         }
 
         // Tienda
-        voluntario.setIdTienda(asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getIdTienda());
-        voluntario.setNombreTienda(asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getNombreEstablecimiento());
-        voluntario.setLocalidad(asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getDireccionEntity() != null
-                ? asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getDireccionEntity().getZonaGeografica()
-                : null);
+        var tienda = turno.getTiendaCampanyaEntity().getTiendaEntity();
 
-        // Entidad colaboradora
-        if (asigVol.getEntidadColaboradoraEntity() != null) {
-            voluntario.setIdEntidad(asigVol.getEntidadColaboradoraEntity().getIdEntidad());
-            voluntario.setNombreEntidad(asigVol.getEntidadColaboradoraEntity().getNombreEntidad());
+        dto.setIdTienda(tienda.getIdTienda());
+        dto.setNombreTienda(tienda.getNombreEstablecimiento());
+
+        if (tienda.getDireccionEntity() != null) {
+            dto.setLocalidad(tienda.getDireccionEntity().getZonaGeografica());
         }
 
-        return voluntario;
+        // Entidad colaboradora
+        var entidadColab = asigVol.getEntidadColaboradoraEntity();
+
+        if (entidadColab != null) {
+            dto.setIdEntidad(entidadColab.getIdEntidad());
+            dto.setNombreEntidad(entidadColab.getNombreEntidad());
+        }
+
+        return dto;
     }
 }
