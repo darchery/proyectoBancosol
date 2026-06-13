@@ -42,6 +42,13 @@ public class CampanyaService {
         return campanyaMapper.toDTOList(campanyaRepository.findAll());
     }
 
+    public CampanyaDTO findById(Integer id) {
+        return campanyaRepository.findById(id)
+                .map(campanyaMapper::toDTO)
+                .orElse(null);
+    }
+
+
     @Transactional
     public String guardarTodo(Integer campanaId,
                               Integer campanaEditId,
@@ -90,7 +97,7 @@ public class CampanyaService {
         } else if (nombre != null && !nombre.trim().isEmpty()) {
             List<CampanyaEntity> existentes = campanyaRepository.findByNombreCampanya(nombre.trim());
             if (!existentes.isEmpty()) {
-                return "error:Ya existe una campaña llamada \"" + nombre.trim() + "\" este año.";
+                return "error:Ya existe una campaña llamada \"" + nombre.trim() + "\".";
             }
             CampanyaEntity nueva = new CampanyaEntity();
             nueva.setNombreCampanya(nombre.trim());
@@ -144,6 +151,11 @@ public class CampanyaService {
 
     @Transactional
     public void borrarCadena(Integer id) {
+        List<CampanyaEntity> todasCampanas = campanyaRepository.findAll();
+        for (CampanyaEntity camp : todasCampanas) {
+            camp.getCadenasParticipantes().removeIf(c -> c.getIdCadena().equals(id));
+            campanyaRepository.save(camp);
+        }
         cadenaRepository.deleteById(id);
     }
 }

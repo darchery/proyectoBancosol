@@ -38,44 +38,25 @@ public class CampanyaController {
         List<CampanyaDTO> campanas = campanyaService.findAll();
         List<CadenaEntity> cadenaEntities = campanyaService.findAllCadenas();
 
-        // JSON de cadenas por campaña: { "1": [2, 5], "2": [3] }
-        StringBuilder sbCadenas = new StringBuilder("{");
-        for (int i = 0; i < campanas.size(); i++) {
-            CampanyaDTO c = campanas.get(i);
-            sbCadenas.append("\"").append(c.getIdCampanya()).append("\":[");
-            List<Integer> ids = c.getCadenaIds();
-            if (ids != null) {
-                for (int j = 0; j < ids.size(); j++) {
-                    sbCadenas.append(ids.get(j));
-                    if (j < ids.size() - 1) sbCadenas.append(",");
-                }
-            }
-            sbCadenas.append("]");
-            if (i < campanas.size() - 1) sbCadenas.append(",");
-        }
-        sbCadenas.append("}");
-
-        // JSON de datos de campaña: { "1": { "nombre": "...", ... } }
-        StringBuilder sbCampanas = new StringBuilder("{");
-        for (int i = 0; i < campanas.size(); i++) {
-            CampanyaDTO c = campanas.get(i);
-            sbCampanas.append("\"").append(c.getIdCampanya()).append("\":{");
-            sbCampanas.append("\"nombre\":\"") .append(c.getNombreCampanya()  != null ? c.getNombreCampanya()  : "").append("\",");
-            sbCampanas.append("\"tipo\":\"")   .append(c.getTipoCampanya()    != null ? c.getTipoCampanya()    : "").append("\",");
-            sbCampanas.append("\"estado\":\"") .append(c.getEstado()          != null ? c.getEstado()          : "").append("\",");
-            sbCampanas.append("\"fechaInicio\":\"").append(c.getFechaInicio() != null ? c.getFechaInicio()      : "").append("\",");
-            sbCampanas.append("\"fechaFin\":\"")   .append(c.getFechaFin()    != null ? c.getFechaFin()         : "").append("\"");
-            sbCampanas.append("}");
-            if (i < campanas.size() - 1) sbCampanas.append(",");
-        }
-        sbCampanas.append("}");
-
         model.addAttribute("campanas",      campanas);
         model.addAttribute("cadenas", cadenaEntities);
-        model.addAttribute("cadenasJson",   sbCadenas.toString());
-        model.addAttribute("campanasJson",  sbCampanas.toString());
         model.addAttribute("tiposCampanya", TIPOS_CAMPANYA);
         return "gestionCampanas";
+    }
+
+    // ── EDITAR / BORRAR CAMPAÑA ────────────────────────────────────────────
+
+    @GetMapping("/campanas/editar")
+    public String editarCampana(@RequestParam("id") Integer id, Model model) {
+        model.addAttribute("campana", campanyaService.findById(id));
+        model.addAttribute("cadenas", campanyaService.findAllCadenas());
+        return "campana_form";
+    }
+
+    @GetMapping("/campanas/borrar")
+    public String borrarCampana(@RequestParam("id") Integer id) {
+        campanyaService.borrarCampana(id);
+        return "redirect:/campanas";
     }
 
     // ── CADENAS ────────────────────────────────────────────────────────────
@@ -105,8 +86,9 @@ public class CampanyaController {
     }
 
     @GetMapping("/campanas/cadenas/borrar")
-    public String borrarCadena(@RequestParam("id") Integer id) {
+    public String borrarCadena(@RequestParam("id") Integer id, RedirectAttributes redirect) {
         campanyaService.borrarCadena(id);
+        redirect.addFlashAttribute("msg", "ok:Cadena eliminada correctamente.");
         return "redirect:/campanas";
     }
 
