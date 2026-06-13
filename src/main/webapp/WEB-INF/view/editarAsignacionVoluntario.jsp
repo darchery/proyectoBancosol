@@ -2,9 +2,9 @@
 Página JSP que permite editar o crear una asignación de voluntario a un turno.
 
 Autores:
-- Sergio Aldana: 51%
-- Laia Díaz: 49%
-
+    - Sergio Aldana: 5%
+    - Laia Díaz: 65%
+    - IA Generativa: 30% (usado exclusivamente para el dinamismo de js)
 --%>
 
 <%@ page import="java.util.List" %>
@@ -47,117 +47,124 @@ Autores:
     <main class="container">
         <div class="form-container">
 
-<form action="/voluntarios/guardar" method="post">
+            <form action="/voluntarios/guardar" method="post">
 
-    <input type="hidden" name="idUsuario" value="<%= idUsuario %>">
-    <input type="hidden" name="id"        value="<%= esEdicion ? asignacion.getIdAsignacion() : "" %>">
-    <input type="hidden" name="idTurno"   id="idTurnoHidden" value="<%= idTurnoActual != null ? idTurnoActual : "" %>">
+                <input  type="hidden"
+                        name="idUsuario"
+                        value="<%= idUsuario %>">
 
-    <!-- TIENDA -->
-    <div class="form-group">
-        <label>Tienda:</label>
-        <select id="selectTienda" onchange="filtrarTurnos()">
-            <option value="">-- Selecciona una tienda... --</option>
-            <%
-                for (TiendaEntity tiendaEntity : tiendaEntities) {
-                    boolean sel = idTiendaActual != null && idTiendaActual.equals(tiendaEntity.getIdTienda());
-                    String localidadTienda = tiendaEntity.getDireccionEntity() != null
-                            ? tiendaEntity.getDireccionEntity().getZonaGeografica() : "";
-            %>
-            <option value="<%= tiendaEntity.getIdTienda() %>"
-                    data-localidad="<%= localidadTienda %>"
-                    <%= sel ? "selected" : "" %>>
-                <%= tiendaEntity.getNombreEstablecimiento() %>
-            </option>
-            <%
-                }
-            %>
-        </select>
-    </div>
+                <input  type="hidden"
+                        name="id"
+                        value="<%= esEdicion ? asignacion.getIdAsignacion() : "" %>">
 
-    <!-- LOCALIDAD (se rellena automáticamente) -->
-    <div class="form-group">
-        <label>Localidad:</label>
-        <input type="text" id="localidad" readonly
-               value="<%= esEdicion && asignacion.getLocalidad() != null ? asignacion.getLocalidad() : "" %>">
-    </div>
+                <input  type="hidden"
+                        name="idTurno" id="idTurnoHidden"
+                        value="<%= idTurnoActual != null ? idTurnoActual : "" %>">
 
-    <!-- FRANJA (turnos filtrados por tiendaEntity) -->
-    <div class="form-group">
-        <label>Franja / Turno:</label>
-        <select id="selectTurno" onchange="actualizarTurno()" required>
-            <%
-                for (TurnoActivoEntity turno : turnos) {
-                    String dia = "";
-                    String franja = "";
-                    if (turno.getPlantillaTurnoEntity() != null) {
-                        if (turno.getPlantillaTurnoEntity().getDiaSemana() != null)    dia    = turno.getPlantillaTurnoEntity().getDiaSemana();
-                        if (turno.getPlantillaTurnoEntity().getFranjaHoraria() != null) franja = turno.getPlantillaTurnoEntity().getFranjaHoraria();
-                    }
-                    String fechaTurno = turno.getFechaExacta() != null ? turno.getFechaExacta().toString() : "";
-                    String label = dia + " " + franja + " · " + fechaTurno;
-                    int idTiendaTurno = turno.getTiendaCampanyaEntity().getTiendaEntity().getIdTienda();
-                    boolean sel = idTurnoActual != null && idTurnoActual.equals(turno.getIdTurnoActivo());
-            %>
-            <option value="<%= turno.getIdTurnoActivo() %>"
-                    data-tienda="<%= idTiendaTurno %>"
-                    data-fecha="<%= fechaTurno %>"
-                    <%= sel ? "selected" : "" %>>
-                <%= label %>
-            </option>
-            <%
-                }
-            %>
-        </select>
-    </div>
+                <!-- TIENDA -->
+                <div class="form-group">
 
-    <!-- FECHA (se rellena automáticamente al elegir turno) -->
-    <div class="form-group">
-        <label>Fecha:</label>
-        <input type="text" id="fecha" readonly
-               value="<%= esEdicion && asignacion.getFecha() != null ? asignacion.getFecha() : "" %>">
-    </div>
+                    <label>Tienda:</label>
 
-    <!-- ASISTENCIA -->
-    <div class="form-group">
-        <label>
-            <input type="checkbox" name="asistencia" value="true"
-                <%= esEdicion && Boolean.TRUE.equals(asignacion.getAsistencia()) ? "checked" : "" %>>
-            Asistencia
-        </label>
-    </div>
+                    <select id="selectTienda" onchange="filtrarTurnos()">
+                        <%
+                            for (TiendaEntity tienda : tiendaEntities) {
+                        %>
 
-    <!-- ENTIDAD COLABORADORA -->
-    <div class="form-group">
-        <label>Entidad Colaboradora:</label>
-        <select name="idEntidad" id="selectEntidad" onchange="actualizarIdEntidad()">
-            <option value="">-- Sin entidad --</option>
-            <%
-                for (EntidadColaboradoraEntity entidad : entidades) {
-                    boolean sel = idEntidadActual != null && idEntidadActual.equals(entidad.getIdEntidad());
-            %>
-            <option value="<%= entidad.getIdEntidad() %>" <%= sel ? "selected" : "" %>>
-                <%= entidad.getNombreEntidad() %>
-            </option>
-            <%
-                }
-            %>
-        </select>
-    </div>
+                        <option value="<%= tienda.getIdTienda() %>"
+                                <%= ( idTiendaActual != null && idTiendaActual.equals(tienda.getIdTienda()) ) ? "selected" : "" %>>
+                            <%= tienda.getNombreEstablecimiento() %>
+                        </option>
 
-    <!-- ID ENTIDAD (se rellena automáticamente) -->
-    <div class="form-group">
-        <label>ID Entidad:</label>
-        <input type="text" id="idEntidadMostrado" readonly
-               value="<%= esEdicion && asignacion.getIdEntidad() != null ? asignacion.getIdEntidad() : "" %>">
-    </div>
+                        <%
+                            }
+                        %>
+                    </select>
 
-    <div class="actions-row">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="/voluntarios/listar?idUsuario=<%= idUsuario %>" class="btn btn-secondary">Cancelar</a>
-    </div>
+                </div>
 
-</form>
+
+                <!-- FRANJA (turnos filtrados por tiendaEntity) -->
+                <div class="form-group">
+
+                    <label>Franja / Turno:</label>
+
+                    <select id="selectTurno" onchange="actualizarTurno()" required>
+                        <%
+                            for (TurnoActivoEntity turno : turnos) {
+
+                                PlantillaTurnoEntity plantilla = turno.getPlantillaTurnoEntity();
+
+                                String dia = "";
+                                String franja = "";
+
+                                if (plantilla != null) {
+                                    if (plantilla.getDiaSemana() != null)
+                                        dia = plantilla.getDiaSemana();
+                                    if (plantilla.getFranjaHoraria() != null)
+                                        franja = plantilla.getFranjaHoraria();
+                                }
+
+                                String fechaTurno = turno.getFechaExacta() != null ? turno.getFechaExacta().toString() : "";
+
+                                int idTiendaTurno = turno.getTiendaCampanyaEntity().getTiendaEntity().getIdTienda();
+                        %>
+
+                        <option value="<%= turno.getIdTurnoActivo() %>"
+                                data-tienda="<%= idTiendaTurno %>"
+                                data-fecha="<%= fechaTurno %>"
+                                <%= ( idTurnoActual != null && idTurnoActual.equals(turno.getIdTurnoActivo()) ) ? "selected" : "" %>>
+                            <%= dia %> <%= franja %> · <%= fechaTurno %>
+                        </option>
+
+                        <%
+                            }
+                        %>
+                    </select>
+                </div>
+
+
+                <!-- ASISTENCIA -->
+                <div class="form-group">
+
+                    <label>
+                        <input  type="checkbox"
+                                name="asistencia"
+                                value="true"
+                            <%= esEdicion && Boolean.TRUE.equals(asignacion.getAsistencia()) ? "checked" : "" %>>
+                        Asistencia
+                    </label>
+
+                </div>
+
+                <!-- ENTIDAD COLABORADORA -->
+                <div class="form-group">
+
+                    <label>Entidad Colaboradora:</label>
+
+                    <select name="idEntidad" id="selectEntidad" onchange="actualizarIdEntidad()">
+                        <%
+                            for (EntidadColaboradoraEntity entidad : entidades) {
+                        %>
+
+                        <option value="<%= entidad.getIdEntidad() %>"
+                                <%= ( idEntidadActual != null && idEntidadActual.equals(entidad.getIdEntidad()) ) ? "selected" : "" %>>
+                            <%= entidad.getNombreEntidad() %>
+                        </option>
+
+                        <%
+                            }
+                        %>
+                    </select>
+
+                </div>
+
+                <div class="actions-row">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="/voluntarios/listar?idUsuario=<%= idUsuario %>" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+            </form>
 
         </div>
     </main>
@@ -166,65 +173,37 @@ Autores:
         <p>&copy; 2026 Bancosol | Grupo 4</p>
     </footer>
 
-<script>
-    // Al cargar la página, aplicar filtros si hay selección previa
-    window.onload = function() {
-        filtrarTurnos();
-        actualizarIdEntidad();
-    };
+    <script>
+        window.onload = function () {
+            filtrarTurnos();
+        };
 
-    // Filtra los turnos según la tiendaEntity seleccionada y actualiza localidad
-    function filtrarTurnos() {
-        const selectTienda  = document.getElementById("selectTienda");
-        const selectTurno   = document.getElementById("selectTurno");
-        const inputLocalidad = document.getElementById("localidad");
+        function filtrarTurnos() {
+            const idTiendaSel = document.getElementById("selectTienda").value;
+            const selectTurno = document.getElementById("selectTurno");
 
-        const idTiendaSel = selectTienda.value;
+            // Mostrar/ocultar turnos según tienda seleccionada
+            Array.from(selectTurno.options).forEach(opt => {
+                if (!opt.value) return; // opción vacía siempre visible
+                opt.style.display = (!idTiendaSel || opt.dataset.tienda === idTiendaSel) ? "" : "none";
+            });
 
-        // Actualizar localidad
-        const optTienda = selectTienda.options[selectTienda.selectedIndex];
-        inputLocalidad.value = idTiendaSel ? optTienda.dataset.localidad : "";
-
-        // Filtrar turnos
-        const opciones = selectTurno.options;
-        let primerVisible = null;
-
-        for (let i = 0; i < opciones.length; i++) {
-            const opt = opciones[i];
-            if (opt.value === "") continue; // opción vacía siempre visible
-
-            const visible = !idTiendaSel || opt.dataset.tienda === idTiendaSel;
-            opt.style.display = visible ? "" : "none";
-
-            if (visible && primerVisible === null) primerVisible = opt;
+            // Si el turno seleccionado ya no corresponde a la tienda, limpiar
+            const turnoSel = selectTurno.options[selectTurno.selectedIndex];
+            if (turnoSel && turnoSel.value && turnoSel.dataset.tienda !== idTiendaSel) {
+                selectTurno.value = "";
+                document.getElementById("idTurnoHidden").value = "";
+            } else {
+                actualizarTurno();
+            }
         }
 
-        // Si el turno actualmente seleccionado no pertenece a esta tiendaEntity, limpiar
-        const turnoActual = selectTurno.options[selectTurno.selectedIndex];
-        if (turnoActual && turnoActual.value !== "" && turnoActual.dataset.tienda !== idTiendaSel) {
-            selectTurno.value = "";
-            document.getElementById("fecha").value = "";
-            document.getElementById("idTurnoHidden").value = "";
-        } else {
-            actualizarTurno();
+        function actualizarTurno() {
+            const opt = document.getElementById("selectTurno").options[document.getElementById("selectTurno").selectedIndex];
+            document.getElementById("idTurnoHidden").value = opt && opt.value ? opt.value : "";
         }
-    }
-
-    // Actualiza fecha e idTurnoHidden al elegir un turno
-    function actualizarTurno() {
-        const selectTurno = document.getElementById("selectTurno");
-        const opt = selectTurno.options[selectTurno.selectedIndex];
-        document.getElementById("fecha").value = opt && opt.value ? opt.dataset.fecha : "";
-        document.getElementById("idTurnoHidden").value = opt ? opt.value : "";
-    }
-
-    // Actualiza el campo de ID entidad al elegir una entidad
-    function actualizarIdEntidad() {
-        const selectEntidad = document.getElementById("selectEntidad");
-        const val = selectEntidad.value;
-        document.getElementById("idEntidadMostrado").value = val || "";
-    }
-</script>
+    </script>
 
 </body>
+
 </html>

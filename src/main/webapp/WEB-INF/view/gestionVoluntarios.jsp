@@ -2,8 +2,8 @@
 Página JSP que muestra la gestión de voluntarios.
 
 Autores:
-- Sergio Aldana: 79%
-- Laia Díaz: 21%
+- Sergio Aldana: 10%
+- Laia Díaz: 90%
 
 --%>
 

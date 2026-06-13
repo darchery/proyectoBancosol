@@ -4,7 +4,7 @@
  *
  * Autores:
  * - Daniela Calderón: 95%
- * - IA generativa: 5%
+ * - IA generativa: 10%
  */
 
 package es.uma.tsaw.proyectobancosol.controller;
