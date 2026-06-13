@@ -40,7 +40,6 @@ public class EntidadColaboradoraController {
     public String nueva(Model model) {
         model.addAttribute("entidad", new EntidadColaboradoraDTO());
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
-        model.addAttribute("direcciones", direccionService.listarTodas());
         return "formularioEntidadColaboradora";
     }
 
@@ -48,7 +47,6 @@ public class EntidadColaboradoraController {
     public String editar(@RequestParam("id") Integer id, Model model) {
         model.addAttribute("entidad", entidadService.buscarPorId(id));
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
-        model.addAttribute("direcciones", direccionService.listarTodas());
         return "formularioEntidadColaboradora";
     }
 

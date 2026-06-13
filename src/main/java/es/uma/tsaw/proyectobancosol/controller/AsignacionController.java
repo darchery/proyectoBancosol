@@ -7,12 +7,13 @@
  * - Sergio Aldana: 5%
  */
 
+
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.*;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
-import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
+import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
 import es.uma.tsaw.proyectobancosol.service.AsignacionVoluntarioService;
+import es.uma.tsaw.proyectobancosol.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,33 +27,30 @@ import java.util.List;
 public class AsignacionController {
 
     private final AsignacionVoluntarioService asignacionVoluntarioService;
-    private final UsuarioRepository usuarioRepository;
-    private final TurnoActivoRepository turnoActivoRepository;
-    private final EntidadColaboradoraRepository entidadColaboradoraRepository;
-    private final TiendaRepository tiendaRepository;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/listar")
     public String listar(@RequestParam(required = false) Integer idUsuario, Model model) {
         if (idUsuario == null) {
             return "redirect:/usuarios/voluntarios";
         }
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElse(null);
+        UsuarioDTO usuarioDTO = usuarioService.buscarOCrear(idUsuario);
         List<AsignacionVoluntarioDTO> asignaciones = asignacionVoluntarioService.findByUsuario(idUsuario);
 
         model.addAttribute("idUsuario", idUsuario);
-        model.addAttribute("nombreUsuario", usuarioEntity != null ? usuarioEntity.getNombre() : "-");
+        model.addAttribute("nombreUsuario", usuarioDTO != null ? usuarioDTO.getNombre() : "-");
         model.addAttribute("asignaciones", asignaciones);
         return "gestionVoluntarios";
     }
 
     private String editarCrear(Integer idUsuario, Integer id, Model model) {
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElse(new UsuarioEntity());
+        UsuarioDTO usuarioDTO = usuarioService.buscarOCrear(idUsuario);
 
         model.addAttribute("idUsuario", idUsuario);
-        model.addAttribute("nombreUsuario", usuarioEntity.getNombre());
-        model.addAttribute("turnos", turnoActivoRepository.findAll());
-        model.addAttribute("entidades", entidadColaboradoraRepository.findAll());
-        model.addAttribute("tiendas", tiendaRepository.findAll());
+        model.addAttribute("nombreUsuario", usuarioDTO != null ? usuarioDTO.getNombre() : "-");
+        model.addAttribute("turnos", asignacionVoluntarioService.findAllTurnosActivos());
+        model.addAttribute("entidades", asignacionVoluntarioService.findAllEntidadesColaboradoras());
+        model.addAttribute("tiendas", asignacionVoluntarioService.findAllTiendas());
 
         if (id != null) {
             AsignacionVoluntarioDTO asignacion = asignacionVoluntarioService.findById(id);

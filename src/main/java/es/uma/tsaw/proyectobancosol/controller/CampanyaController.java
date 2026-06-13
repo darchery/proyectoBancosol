@@ -25,7 +25,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-public class CampaniaControlador {
+public class CampanyaController {
 
     private final CampanyaService campanyaService;
 

@@ -42,13 +42,6 @@ public class CampanyaService {
         return campanyaMapper.toDTOList(campanyaRepository.findAll());
     }
 
-    public CampanyaDTO findById(Integer id) {
-        return campanyaRepository.findById(id)
-                .map(campanyaMapper::toDTO)
-                .orElse(null);
-    }
-
-
     @Transactional
     public String guardarTodo(Integer campanaId,
                               Integer campanaEditId,
