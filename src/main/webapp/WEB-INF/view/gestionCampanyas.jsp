@@ -7,16 +7,14 @@ Autores:
 
 --%>
 
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.CadenaDTO" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.CampanyaDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     List<CampanyaDTO> campanas = (List<CampanyaDTO>) request.getAttribute("campanas");
-    List<CadenaEntity> cadenas = (List<CadenaEntity>)      request.getAttribute("cadenas");
-    String cadenasJson         = (String) request.getAttribute("cadenasJson");
-    String campanasJson        = (String) request.getAttribute("campanasJson");
+    List<CadenaDTO> cadenaEntities = (List<CadenaDTO>) request.getAttribute("cadenas");
 %>
 
 <html>
@@ -42,17 +40,17 @@ Autores:
         String texto = msg.substring(msg.indexOf(":") + 1);
         String cssClass = esError ? "msg-error" : "msg-ok";
 %>
-<div class="<%= cssClass %>" style="max-width:1200px;margin:10px auto 0;"><%= texto %></div>
+<div class="<%= cssClass %>"><%= texto %></div>
 <% } %>
 
-<form method="post" action="campanas/guardarTodo">
+<form method="post" action="guardar">
 
-    <input type="hidden" name="campanaEditId"      id="campanaEditId"      value="">
-    <input type="hidden" name="campanaNombre"       id="campanaNombre"      value="">
-    <input type="hidden" name="campanaEstado"       id="campanaEstado"      value="">
-    <input type="hidden" name="campanaTipo"         id="campanaTipo"        value="">
-    <input type="hidden" name="campanaFechaInicio"  id="campanaFechaInicio" value="">
-    <input type="hidden" name="campanaFechaFin"     id="campanaFechaFin"    value="">
+    <input type="hidden" name="idCampanya"   id="idCampanya"   value="">
+    <input type="hidden" name="nombreCampanya"  id="nombreCampanya"  value="">
+    <input type="hidden" name="estado"          id="estado"          value="">
+    <input type="hidden" name="tipoCampanya"    id="tipoCampanya"    value="">
+    <input type="hidden" name="fechaInicio"     id="fechaInicio"     value="">
+    <input type="hidden" name="fechaFin"        id="fechaFin"        value="">
 
     <div class="management-container">
 
@@ -60,7 +58,7 @@ Autores:
         <div class="campanya-column">
             <div class="box">
                 <h2>Tipo de campaña</h2>
-                <div class="checkbox-grid" style="grid-template-columns:1fr;">
+                <div class="radio-grid">
                     <div class="checkbox-item">
                         <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
                                id="tipo_GR" onchange="seleccionarTipo('GR')">
@@ -84,26 +82,22 @@ Autores:
 
         <!-- ── COLUMNA CENTRAL: CADENAS ── -->
         <div class="box cadenas-box">
-            <h2>Cadenas
-                <span id="campanaSeleccionadaLabel" style="font-weight:normal;font-size:0.85em;"></span>
-            </h2>
+            <h2>Cadenas</h2>
             <div class="checkbox-grid">
                 <%
-                    if (cadenas != null) {
-                        for (CadenaEntity cad : cadenas) {
+                    if (cadenaEntities != null) {
+                        for (CadenaDTO cad : cadenaEntities) {
                 %>
                 <div class="checkbox-item" id="fila_<%= cad.getIdCadena() %>">
                     <input type="checkbox" name="cadenaIds"
                            value="<%= cad.getIdCadena() %>"
                            id="cad_<%= cad.getIdCadena() %>">
                     <label for="cad_<%= cad.getIdCadena() %>"><%= cad.getNombreCadena() %></label>
-                    <input type="hidden" name="cadenasBorrar"
-                           value="<%= cad.getIdCadena() %>"
-                           id="borrar_<%= cad.getIdCadena() %>"
-                           disabled>
+
                     <div class="cadena-btn-group">
-                        <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
-                        <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">Eliminar</button>
+                        <a href="/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
+                        <a href="/cadenas/borrar?id=<%= cad.getIdCadena() %>"
+                               class="btn btn-sm btn-danger">Eliminar</a>
                     </div>
                 </div>
                 <%
@@ -112,7 +106,7 @@ Autores:
                 %>
             </div>
             <div class="cadenas-actions">
-                <a href="campanas/cadenas/nueva" class="add-cadena-link">+ Añadir cadena</a>
+                <a href="/cadenas/nueva" class="add-cadena-link">+ Añadir cadena</a>
             </div>
         </div>
 
@@ -127,13 +121,13 @@ Autores:
 
     <!-- ── HISTORIAL (oculto por defecto) ── -->
     <div id="divHistorial" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content modal-historial">
             <div class="modal-header">
                 <h2>Historial de campañas</h2>
                 <button type="button" class="modal-close-btn" onclick="document.getElementById('divHistorial').style.display='none'">&times;</button>
             </div>
             <div class="modal-body">
-                <table>
+                <table class="tabla-historial">
                     <thead>
                     <tr>
                         <th>Nombre</th>
@@ -173,7 +167,7 @@ Autores:
                     <input type="date" id="inputFechaFin">
                 </div>
 
-                <p id="errorFechas" style="display:none;color:red;"></p>
+                <p id="errorFechas" class="error-fechas"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-modal" onclick="confirmarGeneracion()">Confirmar</button>
@@ -189,9 +183,6 @@ Autores:
 </footer>
 
 <script>
-
-    var cadenasporCampana = <%= cadenasJson  != null ? cadenasJson  : "{}" %>;
-    var datosCampanas     = <%= campanasJson != null ? campanasJson : "{}" %>;
 
     var todasCampanas = [];
     <%
@@ -221,20 +212,10 @@ Autores:
             return;
         }
 
-        var anyo = new Date().getFullYear();
         var etiquetas = { GR: 'Gran Recogida', primavera: 'Operación Primavera' };
 
-        var yaExiste = todasCampanas.some(function(c) {
-            return c.tipo === tipoSeleccionado && c.nombre.indexOf(String(anyo)) !== -1;
-        });
-
-        if (yaExiste) {
-            alert('Ya existe una campaña de tipo "' + (etiquetas[tipoSeleccionado] || tipoSeleccionado) + '" para ' + anyo + '.');
-            return;
-        }
-
         document.getElementById('modalTipoLabel').textContent =
-            (etiquetas[tipoSeleccionado] || tipoSeleccionado) + ' ' + anyo;
+            (etiquetas[tipoSeleccionado] || tipoSeleccionado);
 
         document.getElementById('inputFechaInicio').value = '';
         document.getElementById('inputFechaFin').value    = '';
@@ -258,13 +239,25 @@ Autores:
             return;
         }
 
-        var anyo = new Date().getFullYear();
-        document.getElementById('campanaNombre').value      = tipoSeleccionado + ' ' + anyo;
-        document.getElementById('campanaTipo').value         = tipoSeleccionado;
-        document.getElementById('campanaEstado').value      = 'ACTIVA';
-        document.getElementById('campanaEditId').value      = '';
-        document.getElementById('campanaFechaInicio').value = fi;
-        document.getElementById('campanaFechaFin').value    = ff;
+        var anyo = parseInt(fi.substring(0, 4), 10);
+        var etiquetas = { GR: 'Gran Recogida', primavera: 'Operación Primavera' };
+
+        var yaExiste = todasCampanas.some(function(c) {
+            return c.tipo === tipoSeleccionado && c.nombre.indexOf(String(anyo)) !== -1;
+        });
+
+        if (yaExiste) {
+            err.textContent = 'Ya existe una campaña de tipo "' + (etiquetas[tipoSeleccionado] || tipoSeleccionado) + '" para ' + anyo + '.';
+            err.style.display = 'block';
+            return;
+        }
+
+        document.getElementById('nombreCampanya').value = tipoSeleccionado + ' ' + anyo;
+        document.getElementById('tipoCampanya').value    = tipoSeleccionado;
+        document.getElementById('estado').value          = 'ACTIVA';
+        document.getElementById('idCampanya').value      = '';
+        document.getElementById('fechaInicio').value     = fi;
+        document.getElementById('fechaFin').value        = ff;
 
         cerrarModal();
         document.querySelector('form').submit();
@@ -289,7 +282,7 @@ Autores:
                     '<td>' + (c.estado      || '') + '</td>' +
                     '<td>' + (c.fechaInicio || '') + '</td>' +
                     '<td>' + (c.fechaFin    || '') + '</td>' +
-                    '<td><button type="button" onclick="seleccionarCampana(' + c.id + ')">Editar</button></td>';
+                    '<td><a href="editar?id=' + c.id + '" class="btn-editar-historial">Editar</a></td>';
                 tbody.appendChild(tr);
             });
         }
@@ -297,33 +290,6 @@ Autores:
         document.getElementById('divHistorial').style.display = 'flex';
     }
 
-    function seleccionarCampana(id) {
-        var datos = datosCampanas[id];
-        if (!datos) return;
-
-        document.getElementById('campanaEditId').value       = id;
-        document.getElementById('campanaNombre').value       = datos.nombre;
-        document.getElementById('campanaTipo').value         = datos.tipo;
-        document.getElementById('campanaEstado').value       = datos.estado;
-        document.getElementById('campanaFechaInicio').value  = datos.fechaInicio;
-        document.getElementById('campanaFechaFin').value     = datos.fechaFin;
-
-        document.getElementById('campanaSeleccionadaLabel').textContent =
-            '— editando: ' + (datos.nombre || '(sin nombre)');
-
-        var ids = cadenasporCampana[id] || [];
-        document.querySelectorAll('input[name="cadenaIds"]').forEach(function(cb) {
-            cb.checked = ids.indexOf(parseInt(cb.value)) !== -1;
-        });
-
-        document.getElementById('divHistorial').style.display = 'none';
-    }
-
-    function marcarParaBorrar(idCadena) {
-        document.getElementById('fila_'   + idCadena).style.display = 'none';
-        document.getElementById('cad_'    + idCadena).checked = false;
-        document.getElementById('borrar_' + idCadena).disabled = false;
-    }
 
 </script>
 

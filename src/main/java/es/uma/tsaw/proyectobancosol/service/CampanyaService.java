@@ -2,7 +2,8 @@
  * Servicio que implementa la lógica de negocio para las campañas de recogida.
  *
  * Autores:
- * - Marina Ruiz: 100%
+ * - Marina Ruiz: 90 %
+ * - Sergio Aldana: 10 %
  */
 
 package es.uma.tsaw.proyectobancosol.service;
@@ -15,11 +16,8 @@ import es.uma.tsaw.proyectobancosol.entity.CampanyaEntity;
 import es.uma.tsaw.proyectobancosol.mapper.CampanyaMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,102 +28,57 @@ public class CampanyaService {
     private final CadenaRepository cadenaRepository;
     private final CampanyaMapper campanyaMapper;
 
-    public List<CampanyaDTO> findAll() {
+    public List<CampanyaDTO> listarTodas() {
         return campanyaMapper.toDTOList(campanyaRepository.findAll());
     }
 
-    public String guardarTodo(Integer campanaId,
-                              Integer campanaEditId,
-                              List<Integer> cadenaIds,
-                              List<Integer> cadenasBorrar,
-                              String nombre,
-                              String tipo,
-                              String estado,
-                              String fechaInicio,
-                              String fechaFin) throws ParseException {
+    public CampanyaDTO buscarOCrear(Integer id) {
+        if (id == null) return new CampanyaDTO();
+        return campanyaRepository.findById(id)
+                .map(campanyaMapper::toDTO)
+                .orElse(null);
+    }
 
-
-        if (cadenasBorrar != null && !cadenasBorrar.isEmpty()) {
-            cadenaRepository.deleteAllById(cadenasBorrar);
-        }
-
-
-        List<Integer> idsLimpios = new ArrayList<>();
-        if (cadenaIds != null) {
-            for (Integer id : cadenaIds) {
-                if (cadenasBorrar == null || !cadenasBorrar.contains(id)) {
-                    idsLimpios.add(id);
-                }
-            }
-        }
-        List<CadenaEntity> cadenaEntities = idsLimpios.isEmpty()
-                ? List.of()
-                : cadenaRepository.findAllById(idsLimpios);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-
-        if (campanaEditId != null) {
-            CampanyaEntity campana = campanyaRepository.findById(campanaEditId)
-                    .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + campanaEditId));
-            if (nombre != null && !nombre.trim().isEmpty()) campana.setNombreCampanya(nombre.trim());
-            if (tipo   != null) campana.setTipoCampanya(tipo);
-            if (estado != null) campana.setEstado(estado);
-            if (fechaInicio != null && !fechaInicio.isEmpty()) campana.setFechaInicio(sdf.parse(fechaInicio));
-            if (fechaFin    != null && !fechaFin.isEmpty())    campana.setFechaFin(sdf.parse(fechaFin));
-            campana.setCadenasParticipantes(cadenaEntities);
-            campanyaRepository.save(campana);
-            return "ok:Cambios guardados correctamente.";
-
-
-        } else if (nombre != null && !nombre.trim().isEmpty()) {
-            List<CampanyaEntity> existentes = campanyaRepository.findByNombreCampanya(nombre.trim());
+    public void guardar(CampanyaDTO dto) {
+        CampanyaEntity campana;
+        if (dto.getIdCampanya() == null) {
+            List<CampanyaEntity> existentes = campanyaRepository.findByNombreCampanya(dto.getNombreCampanya().trim());
             if (!existentes.isEmpty()) {
-                return "error:Ya existe una campaña llamada \"" + nombre.trim() + "\" este año.";
+                throw new IllegalArgumentException("Ya existe una campaña llamada \"" + dto.getNombreCampanya().trim() + "\".");
             }
-            CampanyaEntity nueva = new CampanyaEntity();
-            nueva.setNombreCampanya(nombre.trim());
-            nueva.setTipoCampanya(tipo);
-            nueva.setEstado(estado);
-            if (fechaInicio != null && !fechaInicio.isEmpty()) nueva.setFechaInicio(sdf.parse(fechaInicio));
-            if (fechaFin    != null && !fechaFin.isEmpty())    nueva.setFechaFin(sdf.parse(fechaFin));
-            nueva.setCadenasParticipantes(cadenaEntities);
-            campanyaRepository.save(nueva);
-            return "ok:Campaña \"" + nombre.trim() + "\" generada correctamente.";
-
-
-        } else if (campanaId != null) {
-            CampanyaEntity campana = campanyaRepository.findById(campanaId)
-                    .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + campanaId));
-            campana.setCadenasParticipantes(cadenaEntities);
-            campanyaRepository.save(campana);
-            return "ok:Cambios guardados correctamente.";
+            campana = new CampanyaEntity();
+            campana.setNombreCampanya(dto.getNombreCampanya().trim());
+        } else {
+            campana = campanyaRepository.findById(dto.getIdCampanya())
+                    .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + dto.getIdCampanya()));
+            if (dto.getNombreCampanya() != null && !dto.getNombreCampanya().trim().isEmpty()) {
+                campana.setNombreCampanya(dto.getNombreCampanya().trim());
+            }
         }
 
-        return null;
+        if (dto.getTipoCampanya() != null) campana.setTipoCampanya(dto.getTipoCampanya());
+        if (dto.getEstado() != null) campana.setEstado(dto.getEstado());
+        if (dto.getFechaInicio() != null && !dto.getFechaInicio().isEmpty())
+            campana.setFechaInicio(java.sql.Date.valueOf(LocalDate.parse(dto.getFechaInicio())));
+        if (dto.getFechaFin() != null && !dto.getFechaFin().isEmpty())
+            campana.setFechaFin(java.sql.Date.valueOf(LocalDate.parse(dto.getFechaFin())));
+
+        List<Integer> cadenaIds = dto.getCadenaIds();
+        List<CadenaEntity> cadenas = (cadenaIds == null || cadenaIds.isEmpty())
+                ? List.of()
+                : cadenaRepository.findAllById(cadenaIds);
+        campana.setCadenasParticipantes(cadenas);
+
+        campanyaRepository.save(campana);
     }
 
-    public List<CadenaEntity> findAllCadenas() {
-        return cadenaRepository.findAll();
+    public void borrarCadenas(List<Integer> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            cadenaRepository.deleteAllById(ids);
+        }
     }
 
-    public CadenaEntity findCadenaById(Integer id) {
-        return cadenaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cadena no encontrada: " + id));
-    }
-
-    public void guardarCadena(Integer idCadena, String nombre, String resenya, String logoUrl) {
-        CadenaEntity cadenaEntity = (idCadena == null)
-                ? new CadenaEntity()
-                : cadenaRepository.findById(idCadena)
-                  .orElseThrow(() -> new IllegalArgumentException("Cadena no encontrada: " + idCadena));
-        cadenaEntity.setNombreCadena(nombre);
-        cadenaEntity.setResenyaCadena(resenya);
-        cadenaEntity.setLogoUrl(logoUrl);
-        cadenaRepository.save(cadenaEntity);
-    }
-
-    public void borrarCadena(Integer id) {
-        cadenaRepository.deleteById(id);
+    public void borrar(Integer id) {
+        campanyaRepository.deleteById(id);
     }
 }

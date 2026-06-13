@@ -236,6 +236,14 @@ body.page-campanya {
     margin-bottom: 2em;
 }
 
+.page-campanya .radio-grid,
+.page-campanya .checkbox-grid-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 2em;
+}
+
 .page-campanya .checkbox-item {
     display: flex;
     align-items: center;
@@ -282,6 +290,11 @@ body.page-campanya {
 
 .page-campanya .btn-edit-cadena:hover {
     background: #d68910;
+}
+
+.btn-editar-historial {
+    display: inline-block;
+    text-decoration: none;
 }
 
 .page-campanya .cadenas-actions {
@@ -491,7 +504,18 @@ body.page-campanya {
     color: white;
 }
 
+.error-fechas {
+    display: none;
+    color: red;
+}
+
 /* === MESSAGES === */
+.msg-ok,
+.msg-error {
+    max-width: 1200px;
+    margin: 10px auto 0;
+}
+
 .msg-ok {
     background: #e8f8f0;
     color: #27ae60;

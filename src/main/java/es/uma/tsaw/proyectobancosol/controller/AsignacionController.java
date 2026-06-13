@@ -11,7 +11,6 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
-import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
 import es.uma.tsaw.proyectobancosol.service.AsignacionVoluntarioService;
 import es.uma.tsaw.proyectobancosol.service.UsuarioService;
 import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
@@ -29,7 +28,6 @@ import java.util.List;
 public class AsignacionController {
 
     private final AsignacionVoluntarioService asignacionVoluntarioService;
-    private final UsuarioService usuarioService;
 
     @GetMapping("/listar")
     public String listar(@RequestParam(required = false) Integer idUsuario, Model model, HttpSession session) {
@@ -39,11 +37,9 @@ public class AsignacionController {
         if (idUsuario == null) {
             return "redirect:/usuarios/voluntarios";
         }
-        UsuarioDTO usuarioDTO = usuarioService.buscarOCrear(idUsuario);
         List<AsignacionVoluntarioDTO> asignaciones = asignacionVoluntarioService.findByUsuario(idUsuario);
 
         model.addAttribute("idUsuario", idUsuario);
-        model.addAttribute("nombreUsuario", usuarioDTO != null ? usuarioDTO.getNombre() : "-");
         model.addAttribute("asignaciones", asignaciones);
         return "gestionVoluntarios";
     }
@@ -55,10 +51,7 @@ public class AsignacionController {
         // Acceden admins y coordinadores
         if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
 
-        UsuarioDTO usuarioDTO = usuarioService.buscarOCrear(idUsuario);
-
         model.addAttribute("idUsuario", idUsuario);
-        model.addAttribute("nombreUsuario", usuarioDTO != null ? usuarioDTO.getNombre() : "-");
         model.addAttribute("turnos", asignacionVoluntarioService.findAllTurnosActivos());
         model.addAttribute("entidades", asignacionVoluntarioService.findAllEntidadesColaboradoras());
         model.addAttribute("tiendas", asignacionVoluntarioService.findAllTiendas());

@@ -7,11 +7,11 @@ Autores:
 
 --%>
 
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.CadenaDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    CadenaEntity cadena = (CadenaEntity) request.getAttribute("cadena");
+    CadenaDTO cadena = (CadenaDTO) request.getAttribute("cadena");
     String ctx = request.getContextPath();
     boolean esNueva = (cadena.getIdCadena() == null);
 %>
@@ -34,7 +34,7 @@ Autores:
     <main class="container">
         <div class="form-container">
 
-            <form method="post" action="<%= ctx %>/campanas/cadenas/guardar">
+            <form method="post" action="<%= ctx %>/cadenas/guardar">
 
                 <input type="hidden" name="idCadena" value="<%= esNueva ? "" : cadena.getIdCadena() %>">
 
