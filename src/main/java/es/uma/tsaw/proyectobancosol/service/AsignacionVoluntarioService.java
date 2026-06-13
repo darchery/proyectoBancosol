@@ -2,8 +2,8 @@
  * Servicio que implementa la lógica de negocio para las asignaciones de voluntarios a turnos.
  *
  * Autores:
- * - Laia Díaz: 70%
- * - IA Generativa: 30%
+ * - Laia Díaz: 80%
+ * - IA Generativa: 20%
  */
 
 package es.uma.tsaw.proyectobancosol.service;
