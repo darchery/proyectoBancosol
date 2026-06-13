@@ -14,6 +14,7 @@ import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
 import es.uma.tsaw.proyectobancosol.entity.CampanyaEntity;
 import es.uma.tsaw.proyectobancosol.mapper.CampanyaMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
