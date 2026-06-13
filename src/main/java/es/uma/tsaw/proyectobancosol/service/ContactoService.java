@@ -1,10 +1,10 @@
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.ContactoRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.ContactoRepository;
+import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepository;
 import es.uma.tsaw.proyectobancosol.dto.ContactoDTO;
-import es.uma.tsaw.proyectobancosol.entity.Contacto;
-import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora;
+import es.uma.tsaw.proyectobancosol.entity.ContactoEntity;
+import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity;
 import es.uma.tsaw.proyectobancosol.mapper.ContactoMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,30 +15,30 @@ import java.util.List;
 @AllArgsConstructor
 public class ContactoService {
 
-    private final ContactoRepositorio contactoRepo;
-    private final EntidadColaboradoraRepositorio entidadRepo;
+    private final ContactoRepository contactoRepo;
+    private final EntidadColaboradoraRepository entidadRepo;
     private final ContactoMapper mapper;
 
     public List<ContactoDTO> listarPorEntidad(Integer idEntidad) {
-        EntidadColaboradora entidad = entidadRepo.findById(idEntidad).get();
+        EntidadColaboradoraEntity entidad = entidadRepo.findById(idEntidad).get();
         return mapper.toDTOList(contactoRepo.findByEntidad(entidad));
     }
 
     public void guardar(Integer idContacto, Integer idEntidad, String nombre,
                         String email, String telefono, Boolean esPrincipal) {
 
-        Contacto contacto = (idContacto == null)
-                ? new Contacto()
+        ContactoEntity contactoEntity = (idContacto == null)
+                ? new ContactoEntity()
                 : contactoRepo.findById(idContacto).get();
 
-        EntidadColaboradora entidad = entidadRepo.findById(idEntidad).get();
-        contacto.setEntidad(entidad);
-        contacto.setNombre(nombre);
-        contacto.setEmail(email);
-        contacto.setTelefono(telefono);
-        contacto.setEsPrincipal(esPrincipal != null ? esPrincipal : false);
+        EntidadColaboradoraEntity entidad = entidadRepo.findById(idEntidad).get();
+        contactoEntity.setEntidad(entidad);
+        contactoEntity.setNombre(nombre);
+        contactoEntity.setEmail(email);
+        contactoEntity.setTelefono(telefono);
+        contactoEntity.setEsPrincipal(esPrincipal != null ? esPrincipal : false);
 
-        contactoRepo.save(contacto);
+        contactoRepo.save(contactoEntity);
     }
 
     public ContactoDTO buscarPorId(Integer id) {

@@ -48,7 +48,7 @@
                     <td><%= e.getZonaGeografica() %></td>
                     <td><%= e.getNombreResponsable() %></td>
                     <td>
-                        <%= (e.getNombreContactoPrincipal() != null ? e.getNombreContactoPrincipal() : "<em class='text-muted'>Sin contacto</em>") %>
+                        <%= (e.getNombreContactoPrincipal() != null ? e.getNombreContactoPrincipal() : "<em class='text-muted'>Sin contactoEntity</em>") %>
                         <%= (e.getTelefonoContactoPrincipal() != null ? "(" + e.getTelefonoContactoPrincipal() + ")" : "") %>
                     </td>
                     <td><%= (e.getObservaciones() != null) ? e.getObservaciones() : "<em class='text-muted'>No hay observaciones</em>" %></td>

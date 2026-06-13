@@ -1,11 +1,12 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Campanya" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Cadena" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.CampanyaEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    List<Campanya> campanas    = (List<Campanya>) request.getAttribute("campanas");
-    List<Cadena>   cadenas     = (List<Cadena>)   request.getAttribute("cadenas");
+    List<CampanyaEntity> campanas    = (List<CampanyaEntity>) request.getAttribute("campanas");
+    List<CadenaEntity> cadenaEntities = (List<CadenaEntity>)   request.getAttribute("cadenaEntities");
     String         cadenasJson = (String)          request.getAttribute("cadenasJson");
     String         campanasJson = (String)         request.getAttribute("campanasJson");
 %>
@@ -28,7 +29,7 @@
     <h2>Campaña</h2>
     <%
         if (campanas != null) {
-            for (Campanya camp : campanas) {
+            for (CampanyaEntity camp : campanas) {
     %>
     <div>
         <input type="radio" name="campanaId" value="<%= camp.getIdCampanya() %>" id="camp_<%= camp.getIdCampanya() %>">
@@ -63,15 +64,15 @@
 
     <!-- ── CADENAS ── -->
     <h2>Cadenas</h2>
-    <p id="mensajeCadenas"><em>Selecciona una campaña para ver sus cadenas.</em></p>
+    <p id="mensajeCadenas"><em>Selecciona una campaña para ver sus cadenaEntities.</em></p>
 
     <%
-        if (cadenas != null) {
-            for (Cadena cad : cadenas) {
+        if (cadenaEntities != null) {
+            for (CadenaEntity cad : cadenaEntities) {
     %>
-    <div class="fila-cadena" id="fila_<%= cad.getIdCadena() %>" style="display:none;">
+    <div class="fila-cadenaEntity" id="fila_<%= cad.getIdCadena() %>" style="display:none;">
         <input type="checkbox" name="cadenaIds" value="<%= cad.getIdCadena() %>" id="cad_<%= cad.getIdCadena() %>">
-        <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>"><%= cad.getNombreCadena() %></a>
+        <a href="campanas/cadenaEntities/editar?id=<%= cad.getIdCadena() %>"><%= cad.getNombreCadena() %></a>
         <input type="hidden" name="cadenasBorrar" value="<%= cad.getIdCadena() %>" id="borrar_<%= cad.getIdCadena() %>" disabled>
         <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">Eliminar</button>
     </div>
@@ -81,7 +82,7 @@
     %>
 
     <br>
-    <a href="campanas/cadenas/nueva">Añadir cadena</a>
+    <a href="campanas/cadenaEntities/nueva">Añadir cadenaEntity</a>
 
     <hr>
 
@@ -98,7 +99,7 @@
 
     function mostrarCadenas(marcarIds) {
         var ids = marcarIds || [];
-        document.querySelectorAll('.fila-cadena').forEach(function (fila) {
+        document.querySelectorAll('.fila-cadenaEntity').forEach(function (fila) {
             fila.style.display = 'block';
             var cb = fila.querySelector('input[type="checkbox"]');
             cb.checked = ids.indexOf(parseInt(cb.value)) !== -1;
@@ -125,7 +126,7 @@
         cerrarFormulario();
         document.getElementById('formCampanaTitulo').textContent = 'Nueva campaña:';
         div.style.display = 'block';
-        // Deseleccionar radios y mostrar cadenas sin marcar
+        // Deseleccionar radios y mostrar cadenaEntities sin marcar
         document.querySelectorAll('input[name="campanaId"]').forEach(function (rb) { rb.checked = false; });
         mostrarCadenas([]);
     }
@@ -142,7 +143,7 @@
         document.getElementById('campanaFechaFin').value      = datos.fechaFin;
         document.getElementById('formCampanaTitulo').textContent = 'Modificar campaña:';
         document.getElementById('formCampana').style.display = 'block';
-        // Seleccionar el radio y mostrar sus cadenas
+        // Seleccionar el radio y mostrar sus cadenaEntities
         var rb = document.getElementById('camp_' + id);
         if (rb) rb.checked = true;
         mostrarCadenas(cadenasporCampana[id] || []);

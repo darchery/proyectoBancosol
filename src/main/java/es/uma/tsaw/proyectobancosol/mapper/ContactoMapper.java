@@ -1,21 +1,21 @@
 package es.uma.tsaw.proyectobancosol.mapper;
 
 import es.uma.tsaw.proyectobancosol.dto.ContactoDTO;
-import es.uma.tsaw.proyectobancosol.entity.Contacto;
+import es.uma.tsaw.proyectobancosol.entity.ContactoEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContactoMapper extends MapperDTO<ContactoDTO, Contacto> {
+public class ContactoMapper extends MapperDTO<ContactoDTO, ContactoEntity> {
 
     @Override
-    public ContactoDTO toDTO(Contacto contacto) {
+    public ContactoDTO toDTO(ContactoEntity contactoEntity) {
         ContactoDTO dto = new ContactoDTO();
-        dto.setIdContacto(contacto.getIdContacto());
-        dto.setIdEntidad(contacto.getEntidad().getIdEntidad());
-        dto.setNombre(contacto.getNombre());
-        dto.setEmail(contacto.getEmail());
-        dto.setTelefono(contacto.getTelefono());
-        dto.setEsPrincipal(contacto.getEsPrincipal());
+        dto.setIdContacto(contactoEntity.getIdContacto());
+        dto.setIdEntidad(contactoEntity.getEntidad().getIdEntidad());
+        dto.setNombre(contactoEntity.getNombre());
+        dto.setEmail(contactoEntity.getEmail());
+        dto.setTelefono(contactoEntity.getTelefono());
+        dto.setEsPrincipal(contactoEntity.getEsPrincipal());
         return dto;
     }
 }

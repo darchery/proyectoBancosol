@@ -5,10 +5,7 @@
 
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.AsignacionVoluntarioRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.RolRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.*;
 import es.uma.tsaw.proyectobancosol.dto.RolDTO;
 import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
 import es.uma.tsaw.proyectobancosol.entity.*;
@@ -23,30 +20,30 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UsuarioService {
-    private final UsuarioRepositorio usuarioRepositorio;
+    private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
 
-    private final RolRepositorio rolRepositorio;
+    private final RolRepository rolRepository;
     private final RolMapper rolMapper;
 
-    private final AsignacionVoluntarioRepositorio asignacionVoluntarioRepositorio;
-    private final TiendaCampanyaRepositorio tiendaCampanyaRepositorio;
+    private final AsignacionVoluntarioRepository asignacionVoluntarioRepository;
+    private final TiendaCampanyaRepository tiendaCampanyaRepository;
 
     // Listar usuarios por rol
     public List<UsuarioDTO> listarPorRol(Integer rolId) {
-        List<Usuario> usuarios = this.usuarioRepositorio.findUsuarioByRolID(rolId);
+        List<UsuarioEntity> usuarioEntities = this.usuarioRepository.findUsuarioByRolID(rolId);
 
-        return  this.usuarioMapper.toDTOList(usuarios);
+        return  this.usuarioMapper.toDTOList(usuarioEntities);
     }
 
     // Listar coordinadores/capitanes con datos enriquecidos
     //    (entidad, area, numTiendas)
     public List<UsuarioDTO> listarCoordinadoresCapitanes(Integer rolId) {
         // Valores a usar 2(Coordinador), 3() y 6
-        List<Usuario> usuarios = this.usuarioRepositorio.findUsuarioByRolID(rolId);
+        List<UsuarioEntity> usuarioEntities = this.usuarioRepository.findUsuarioByRolID(rolId);
         List<UsuarioDTO> usuarioDTOS = new ArrayList<>();
 
-        for (Usuario u : usuarios) {
+        for (UsuarioEntity u : usuarioEntities) {
             usuarioDTOS.add(enriquecerCoordinadorCapitan(u));
         }
         return usuarioDTOS;
@@ -54,25 +51,25 @@ public class UsuarioService {
 
     // Enriquecce el meodo listarCoordinadores/Capitanes
     // Mét0do auxiliar para añadir los campos entidad, area y numTiendas a un coordinador/capitán
-    private UsuarioDTO enriquecerCoordinadorCapitan(Usuario usuario) {
-        UsuarioDTO dto = this.usuarioMapper.toDTO(usuario);
+    private UsuarioDTO enriquecerCoordinadorCapitan(UsuarioEntity usuarioEntity) {
+        UsuarioDTO dto = this.usuarioMapper.toDTO(usuarioEntity);
 
-        List<AsignacionVoluntario> asignaciones = this.asignacionVoluntarioRepositorio.findByUsuario(usuario);
-        if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradora() != null) {
-            dto.setEntidad(asignaciones.get(0).getEntidadColaboradora().getNombreEntidad());
+        List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuario(usuarioEntity);
+        if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradoraEntity() != null) {
+            dto.setEntidad(asignaciones.get(0).getEntidadColaboradoraEntity().getNombreEntidad());
         } else {
             dto.setEntidad("-");
         }
 
-        List<TiendaCampanya> tiendas = this.tiendaCampanyaRepositorio.findByCoordinador(usuario);
+        List<TiendaCampanyaEntity> tiendas = this.tiendaCampanyaRepository.findByCoordinador(usuarioEntity);
         dto.setNumTiendas(tiendas.size());
 
-        if (!tiendas.isEmpty() && tiendas.get(0).getTienda().getDireccion() != null) {
-            Direccion direccion = tiendas.get(0).getTienda().getDireccion();
-            if (direccion.getZonaGeografica().equals("Málaga Capital")) {
-                dto.setArea(direccion.getDistritoLocal());
+        if (!tiendas.isEmpty() && tiendas.get(0).getTiendaEntity().getDireccionEntity() != null) {
+            DireccionEntity direccionEntity = tiendas.get(0).getTiendaEntity().getDireccionEntity();
+            if (direccionEntity.getZonaGeografica().equals("Málaga Capital")) {
+                dto.setArea(direccionEntity.getDistritoLocal());
             } else {
-                dto.setArea(direccion.getZonaGeografica());
+                dto.setArea(direccionEntity.getZonaGeografica());
             }
         } else {
             dto.setArea("-");
@@ -87,9 +84,9 @@ public class UsuarioService {
         if (id == null) {
             return new UsuarioDTO();
         } else {
-            Usuario usuario = this.usuarioRepositorio.findById(id).orElse(null);
-            if (usuario != null) {
-                return this.usuarioMapper.toDTO(usuario);
+            UsuarioEntity usuarioEntity = this.usuarioRepository.findById(id).orElse(null);
+            if (usuarioEntity != null) {
+                return this.usuarioMapper.toDTO(usuarioEntity);
             } else {
                 return null;
             }
@@ -98,9 +95,9 @@ public class UsuarioService {
 
     // Buscar rol (para el formulario)
     public RolDTO buscarRol(Integer idRol) {
-        Rol rol = this.rolRepositorio.findById(idRol).orElse(null);
-        if (rol != null) {
-            return this.rolMapper.toDTO(rol);
+        RolEntity rolEntity = this.rolRepository.findById(idRol).orElse(null);
+        if (rolEntity != null) {
+            return this.rolMapper.toDTO(rolEntity);
         }  else {
             return null;
         }
@@ -109,77 +106,77 @@ public class UsuarioService {
     // Guardar (crear o editar)
     public void guardar(Integer id, Integer idRol, String nombre,
                               String email, String telefono, String contrasenya) {
-        Usuario usuario;
+        UsuarioEntity usuarioEntity;
 
         if (id == null) { // Guardar CREACIÓN
-            usuario = new Usuario();
+            usuarioEntity = new UsuarioEntity();
             // id_usuario se auto-genera en BD (SERIAL)
-            usuario.setNombreUsuario(email.split("@")[0]);
+            usuarioEntity.setNombreUsuario(email.split("@")[0]);
 
         } else { // Guardar EDICIÓN
-            usuario = this.usuarioRepositorio.findById(id).orElse(null);
+            usuarioEntity = this.usuarioRepository.findById(id).orElse(null);
         }
 
-        if (usuario != null) {
+        if (usuarioEntity != null) {
             if (nombre != null) {
-                usuario.setNombre(nombre);
+                usuarioEntity.setNombre(nombre);
             }
             if (email != null) {
-                usuario.setEmail(email);
+                usuarioEntity.setEmail(email);
             }
             if (telefono != null) {
-                usuario.setTelefono(telefono);
+                usuarioEntity.setTelefono(telefono);
             }
             if (contrasenya != null) {
-                usuario.setContrasenya(contrasenya);
+                usuarioEntity.setContrasenya(contrasenya);
             }
 
-            Rol rol = this.rolRepositorio.findById(idRol).orElseThrow();
-            usuario.setRol(rol);
-            this.usuarioRepositorio.save(usuario);
+            RolEntity rolEntity = this.rolRepository.findById(idRol).orElseThrow();
+            usuarioEntity.setRolEntity(rolEntity);
+            this.usuarioRepository.save(usuarioEntity);
         }
     }
 
     // Borrar para coordinador, coordinadorCapitan y capitan
     public void borrar(Integer id) {
-        Usuario usuario = usuarioRepositorio.findById(id).orElse(null);
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElse(null);
 
-        if (usuario != null) {
+        if (usuarioEntity != null) {
             // 1. Desvincular tiendas donde es coordinador
-            List<TiendaCampanya> tiendas = this.tiendaCampanyaRepositorio.findByCoordinador(usuario);
-            for (TiendaCampanya tc : tiendas) {
+            List<TiendaCampanyaEntity> tiendas = this.tiendaCampanyaRepository.findByCoordinador(usuarioEntity);
+            for (TiendaCampanyaEntity tc : tiendas) {
                 tc.setCoordinador(null);
-                this.tiendaCampanyaRepositorio.save(tc);
+                this.tiendaCampanyaRepository.save(tc);
             }
 
             // 2. Borrar asignaciones de voluntario
-            List<AsignacionVoluntario> asignaciones = this.asignacionVoluntarioRepositorio.findByUsuario(usuario);
-            this.asignacionVoluntarioRepositorio.deleteAll(asignaciones);
+            List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuario(usuarioEntity);
+            this.asignacionVoluntarioRepository.deleteAll(asignaciones);
 
             // 3. Borrar usuario
-            this.usuarioRepositorio.delete(usuario);
+            this.usuarioRepository.delete(usuarioEntity);
         }
     }
 
     // Función para listar los voluntarios(para asignación voluntario de laia)
     public List<UsuarioDTO> listarVoluntarios() {
-        List<Usuario> usuarios = this.usuarioRepositorio.findUsuarioByRolID(4);
-        if (usuarios != null) {
-            return this.usuarioMapper.toDTOList(usuarios);
+        List<UsuarioEntity> usuarioEntities = this.usuarioRepository.findUsuarioByRolID(4);
+        if (usuarioEntities != null) {
+            return this.usuarioMapper.toDTOList(usuarioEntities);
         } else {
             return null;
         }
     }
     // Función listar coordinadores
     public List<UsuarioDTO> listarCoordinadores() {
-        List<Usuario> coordinadores = new ArrayList<>();
-        coordinadores.addAll(this.usuarioRepositorio.findUsuarioByRolID(2));  // Coordinador
-        coordinadores.addAll(this.usuarioRepositorio.findUsuarioByRolID(6));  // CoordinadorCapitan
+        List<UsuarioEntity> coordinadores = new ArrayList<>();
+        coordinadores.addAll(this.usuarioRepository.findUsuarioByRolID(2));  // Coordinador
+        coordinadores.addAll(this.usuarioRepository.findUsuarioByRolID(6));  // CoordinadorCapitan
         return this.usuarioMapper.toDTOList(coordinadores);
     }
 
     public boolean existeEmail(String email, Integer idUsuario) {
-        Usuario existente = this.usuarioRepositorio.findByEmail(email);
+        UsuarioEntity existente = this.usuarioRepository.findByEmail(email);
         if (existente == null) return false;
         // Si es edición y el email es del mismo usuario, no hay conflicto
         if (idUsuario != null && existente.getIdUsuario().equals(idUsuario)) return false;

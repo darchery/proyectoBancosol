@@ -1,4 +1,4 @@
-INSERT INTO "public"."contacto" ("id_contacto", "id_entidad", "nombre", "email", "telefono", "es_principal")
+INSERT INTO "public"."contactoEntity" ("id_contacto", "id_entidad", "nombre", "email", "telefono", "es_principal")
 VALUES (1, 6, 'Javier Sánchez', null, '633555666', true),
        (2, 7, 'Luis Pérez', null, '644666777', true),
        (3, 8, 'Sofía Torres', null, '655777888', true),

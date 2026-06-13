@@ -1,7 +1,7 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.CampanyaDTO;
-import es.uma.tsaw.proyectobancosol.entity.Cadena;
+import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
 import es.uma.tsaw.proyectobancosol.service.CampanyaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class CampaniaControlador {
     @GetMapping("/campanas")
     public String listar(Model model) {
         List<CampanyaDTO> campanas = campanyaService.findAll();
-        List<Cadena>      cadenas  = campanyaService.findAllCadenas();
+        List<CadenaEntity> cadenaEntities = campanyaService.findAllCadenas();
 
         // JSON de cadenas por campaña: { "1": [2, 5], "2": [3] }
         StringBuilder sbCadenas = new StringBuilder("{");
@@ -63,7 +63,7 @@ public class CampaniaControlador {
         sbCampanas.append("}");
 
         model.addAttribute("campanas",      campanas);
-        model.addAttribute("cadenas",       cadenas);
+        model.addAttribute("cadenas", cadenaEntities);
         model.addAttribute("cadenasJson",   sbCadenas.toString());
         model.addAttribute("campanasJson",  sbCampanas.toString());
         model.addAttribute("tiposCampanya", TIPOS_CAMPANYA);
@@ -88,7 +88,7 @@ public class CampaniaControlador {
 
     @GetMapping("/campanas/cadenas/nueva")
     public String nuevaCadena(Model model) {
-        model.addAttribute("cadena", new Cadena());
+        model.addAttribute("cadena", new CadenaEntity());
         return "cadena_form";
     }
 

@@ -3,7 +3,7 @@ SET search_path TO public;
 -- ==========================================
 -- 1. INSERTAR ROLES Y PLANTILLAS DE TURNO
 -- ==========================================
-INSERT INTO rol (nombre_rol) VALUES 
+INSERT INTO rolEntity (nombre_rol) VALUES
 ('Administrador'), 
 ('Coordinador'), 
 ('Capitan'), 
@@ -21,7 +21,7 @@ INSERT INTO plantilla_turno (dia_semana, franja_horaria) VALUES
 -- ==========================================
 -- 2. INSERTAR CAMPAÑAS Y PARTICIPACIÓN
 -- ==========================================
-INSERT INTO campanya (nombre_campanya, fecha_inicio, fecha_fin, estado) VALUES
+INSERT INTO campanyaEntity (nombre_campanya, fecha_inicio, fecha_fin, estado) VALUES
 ('Gran Recogida 2023', '2023-11-24', '2023-11-26', 'Finalizada'),
 ('Operación Primavera 2024', '2024-05-10', '2024-05-12', 'Finalizada'),
 ('Gran Recogida 2024', '2024-11-22', '2024-11-24', 'Activa');
@@ -32,7 +32,7 @@ INSERT INTO campanya_cadena (id_campanya, id_cadena) VALUES
 -- ==========================================
 -- 3. INSERTAR USUARIOS (Sin especificar ID, la BD lo auto-genera)
 -- ==========================================
-INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES
+INSERT INTO usuarioEntity (id_rol, nombre, email, telefono, contrasenya) VALUES
 (1, 'Admin Supremo', 'admin@test.com', '600100100', '1234'),
 (2, 'Coordinador Zona Sur', 'coordinador@test.com', '600200200', 'migato'),
 (3, 'Capitán Mercadona', 'capitan@test.com', '600300300', 'batman'),

@@ -1,14 +1,8 @@
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.AsignacionVoluntarioRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.TurnoActivoRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.*;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
-import es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntario;
-import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora;
-import es.uma.tsaw.proyectobancosol.entity.TurnoActivo;
-import es.uma.tsaw.proyectobancosol.entity.Usuario;
+import es.uma.tsaw.proyectobancosol.entity.*;
 import es.uma.tsaw.proyectobancosol.mapper.AsignacionVoluntarioMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,47 +13,47 @@ import java.util.List;
 @AllArgsConstructor
 public class AsignacionVoluntarioService {
 
-    private final AsignacionVoluntarioRepositorio asignacionVoluntarioRepositorio;
+    private final AsignacionVoluntarioRepository asignacionVoluntarioRepository;
     private final AsignacionVoluntarioMapper asignacionVoluntarioMapper;
-    private final UsuarioRepositorio usuarioRepositorio;
-    private final TurnoActivoRepositorio turnoActivoRepositorio;
-    private final EntidadColaboradoraRepositorio entidadColaboradoraRepositorio;
+    private final UsuarioRepository usuarioRepository;
+    private final TurnoActivoRepository turnoActivoRepository;
+    private final EntidadColaboradoraRepository entidadColaboradoraRepository;
 
     public List<AsignacionVoluntarioDTO> findByUsuario(Integer idUsuario) {
-        Usuario usuario = usuarioRepositorio.findById(idUsuario).orElseThrow();
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElseThrow();
         return asignacionVoluntarioMapper.toDTOList(
-                asignacionVoluntarioRepositorio.findByUsuario(usuario));
+                asignacionVoluntarioRepository.findByUsuario(usuarioEntity));
     }
 
     public AsignacionVoluntarioDTO findById(Integer id) {
-        return asignacionVoluntarioRepositorio.findById(id)
+        return asignacionVoluntarioRepository.findById(id)
                 .map(asignacionVoluntarioMapper::toDTO)
                 .orElse(null);
     }
 
     public void guardar(Integer idUsuario, Integer id,
                         Integer idTurno, Integer idEntidad, Boolean asistencia) {
-        AsignacionVoluntario asignacion;
+        AsignacionVoluntarioEntity asignacion;
 
         if (id == null) {
-            asignacion = new AsignacionVoluntario();
-            asignacion.setUsuario(usuarioRepositorio.findById(idUsuario).orElseThrow());
+            asignacion = new AsignacionVoluntarioEntity();
+            asignacion.setUsuarioEntity(usuarioRepository.findById(idUsuario).orElseThrow());
         } else {
-            asignacion = asignacionVoluntarioRepositorio.findById(id).orElseThrow();
+            asignacion = asignacionVoluntarioRepository.findById(id).orElseThrow();
         }
 
-        TurnoActivo turno = turnoActivoRepositorio.findById(idTurno).orElseThrow();
-        asignacion.setTurnoActivo(turno);
+        TurnoActivoEntity turno = turnoActivoRepository.findById(idTurno).orElseThrow();
+        asignacion.setTurnoActivoEntity(turno);
 
-        EntidadColaboradora entidad = idEntidad != null
-                ? entidadColaboradoraRepositorio.findById(idEntidad).orElse(null) : null;
-        asignacion.setEntidadColaboradora(entidad);
+        EntidadColaboradoraEntity entidad = idEntidad != null
+                ? entidadColaboradoraRepository.findById(idEntidad).orElse(null) : null;
+        asignacion.setEntidadColaboradoraEntity(entidad);
 
         asignacion.setAsistencia(Boolean.TRUE.equals(asistencia));
-        asignacionVoluntarioRepositorio.save(asignacion);
+        asignacionVoluntarioRepository.save(asignacion);
     }
 
     public void borrar(Integer id) {
-        asignacionVoluntarioRepositorio.deleteById(id);
+        asignacionVoluntarioRepository.deleteById(id);
     }
 }

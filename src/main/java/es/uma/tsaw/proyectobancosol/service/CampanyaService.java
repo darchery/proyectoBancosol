@@ -1,10 +1,10 @@
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.CadenaRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.CampanyaRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.CadenaRepository;
+import es.uma.tsaw.proyectobancosol.dao.CampanyaRepository;
 import es.uma.tsaw.proyectobancosol.dto.CampanyaDTO;
-import es.uma.tsaw.proyectobancosol.entity.Cadena;
-import es.uma.tsaw.proyectobancosol.entity.Campanya;
+import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
+import es.uma.tsaw.proyectobancosol.entity.CampanyaEntity;
 import es.uma.tsaw.proyectobancosol.mapper.CampanyaMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,26 +17,26 @@ import java.util.List;
 @Service
 public class CampanyaService {
 
-    private final CampanyaRepositorio campanyaRepositorio;
-    private final CadenaRepositorio cadenaRepositorio;
+    private final CampanyaRepository campanyaRepository;
+    private final CadenaRepository cadenaRepository;
     private final CampanyaMapper campanyaMapper;
 
-    public CampanyaService(CampanyaRepositorio campanyaRepositorio,
-                           CadenaRepositorio cadenaRepositorio,
+    public CampanyaService(CampanyaRepository campanyaRepository,
+                           CadenaRepository cadenaRepository,
                            CampanyaMapper campanyaMapper) {
-        this.campanyaRepositorio = campanyaRepositorio;
-        this.cadenaRepositorio   = cadenaRepositorio;
+        this.campanyaRepository = campanyaRepository;
+        this.cadenaRepository = cadenaRepository;
         this.campanyaMapper      = campanyaMapper;
     }
 
 
 
     public List<CampanyaDTO> findAll() {
-        return campanyaMapper.toDTOList(campanyaRepositorio.findAll());
+        return campanyaMapper.toDTOList(campanyaRepository.findAll());
     }
 
     public CampanyaDTO findById(Integer id) {
-        return campanyaRepositorio.findById(id)
+        return campanyaRepository.findById(id)
                 .map(campanyaMapper::toDTO)
                 .orElse(null);
     }
@@ -55,7 +55,7 @@ public class CampanyaService {
 
 
         if (cadenasBorrar != null && !cadenasBorrar.isEmpty()) {
-            cadenaRepositorio.deleteAllById(cadenasBorrar);
+            cadenaRepository.deleteAllById(cadenasBorrar);
         }
 
 
@@ -67,47 +67,47 @@ public class CampanyaService {
                 }
             }
         }
-        List<Cadena> cadenas = idsLimpios.isEmpty()
+        List<CadenaEntity> cadenaEntities = idsLimpios.isEmpty()
                 ? List.of()
-                : cadenaRepositorio.findAllById(idsLimpios);
+                : cadenaRepository.findAllById(idsLimpios);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
         if (campanaEditId != null) {
-            Campanya campana = campanyaRepositorio.findById(campanaEditId)
+            CampanyaEntity campana = campanyaRepository.findById(campanaEditId)
                     .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + campanaEditId));
             if (nombre != null && !nombre.trim().isEmpty()) campana.setNombreCampanya(nombre.trim());
             if (tipo   != null) campana.setTipoCampanya(tipo);
             if (estado != null) campana.setEstado(estado);
             if (fechaInicio != null && !fechaInicio.isEmpty()) campana.setFechaInicio(sdf.parse(fechaInicio));
             if (fechaFin    != null && !fechaFin.isEmpty())    campana.setFechaFin(sdf.parse(fechaFin));
-            campana.setCadenasParticipantes(cadenas);
-            campanyaRepositorio.save(campana);
+            campana.setCadenasParticipantes(cadenaEntities);
+            campanyaRepository.save(campana);
             return "ok:Cambios guardados correctamente.";
 
 
         } else if (nombre != null && !nombre.trim().isEmpty()) {
-            List<Campanya> existentes = campanyaRepositorio.findByNombreCampanya(nombre.trim());
+            List<CampanyaEntity> existentes = campanyaRepository.findByNombreCampanya(nombre.trim());
             if (!existentes.isEmpty()) {
                 return "error:Ya existe una campaña llamada \"" + nombre.trim() + "\" este año.";
             }
-            Campanya nueva = new Campanya();
+            CampanyaEntity nueva = new CampanyaEntity();
             nueva.setNombreCampanya(nombre.trim());
             nueva.setTipoCampanya(tipo);
             nueva.setEstado(estado);
             if (fechaInicio != null && !fechaInicio.isEmpty()) nueva.setFechaInicio(sdf.parse(fechaInicio));
             if (fechaFin    != null && !fechaFin.isEmpty())    nueva.setFechaFin(sdf.parse(fechaFin));
-            nueva.setCadenasParticipantes(cadenas);
-            campanyaRepositorio.save(nueva);
+            nueva.setCadenasParticipantes(cadenaEntities);
+            campanyaRepository.save(nueva);
             return "ok:Campaña \"" + nombre.trim() + "\" generada correctamente.";
 
 
         } else if (campanaId != null) {
-            Campanya campana = campanyaRepositorio.findById(campanaId)
+            CampanyaEntity campana = campanyaRepository.findById(campanaId)
                     .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + campanaId));
-            campana.setCadenasParticipantes(cadenas);
-            campanyaRepositorio.save(campana);
+            campana.setCadenasParticipantes(cadenaEntities);
+            campanyaRepository.save(campana);
             return "ok:Cambios guardados correctamente.";
         }
 
@@ -117,33 +117,33 @@ public class CampanyaService {
 
     @Transactional
     public void borrarCampana(Integer id) {
-        campanyaRepositorio.deleteById(id);
+        campanyaRepository.deleteById(id);
     }
 
 
-    public List<Cadena> findAllCadenas() {
-        return cadenaRepositorio.findAll();
+    public List<CadenaEntity> findAllCadenas() {
+        return cadenaRepository.findAll();
     }
 
-    public Cadena findCadenaById(Integer id) {
-        return cadenaRepositorio.findById(id)
+    public CadenaEntity findCadenaById(Integer id) {
+        return cadenaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Cadena no encontrada: " + id));
     }
 
     @Transactional
     public void guardarCadena(Integer idCadena, String nombre, String resenya, String logoUrl) {
-        Cadena cadena = (idCadena == null)
-                ? new Cadena()
-                : cadenaRepositorio.findById(idCadena)
+        CadenaEntity cadenaEntity = (idCadena == null)
+                ? new CadenaEntity()
+                : cadenaRepository.findById(idCadena)
                   .orElseThrow(() -> new IllegalArgumentException("Cadena no encontrada: " + idCadena));
-        cadena.setNombreCadena(nombre);
-        cadena.setResenyaCadena(resenya);
-        cadena.setLogoUrl(logoUrl);
-        cadenaRepositorio.save(cadena);
+        cadenaEntity.setNombreCadena(nombre);
+        cadenaEntity.setResenyaCadena(resenya);
+        cadenaEntity.setLogoUrl(logoUrl);
+        cadenaRepository.save(cadenaEntity);
     }
 
     @Transactional
     public void borrarCadena(Integer id) {
-        cadenaRepositorio.deleteById(id);
+        cadenaRepository.deleteById(id);
     }
 }

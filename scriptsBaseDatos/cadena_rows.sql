@@ -1,4 +1,4 @@
-INSERT INTO "public"."cadena" ("id_cadena", "nombre_cadena", "resenya_cadena", "logo_url")
+INSERT INTO "public"."cadenaEntity" ("id_cadena", "nombre_cadena", "resenya_cadena", "logo_url")
 
 VALUES (1, 'Mercadona', 'Supermercado estándar', 'https://ejemplo.com/logos/mercadona.png'),
        (2, 'Carrefour', 'Hipermercado', 'https://ejemplo.com/logos/carrefour.png'),

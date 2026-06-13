@@ -1,4 +1,4 @@
-INSERT INTO "public"."usuario" ("id_usuario", "id_rol", "nombre", "email", "telefono", "contrasenya", "nombre_usuario")
+INSERT INTO "public"."usuarioEntity" ("id_usuario", "id_rol", "nombre", "email", "telefono", "contrasenya", "nombre_usuario")
 VALUES (1, 1, 'Admin Supremo', 'admin@test.com', '600100100', '1234', 'admin1'),
        (2, 2, 'Coordinador Zona Sur', 'coordinador@test.com', '600200777', 'migato', 'coordinador1'),
        (3, 3, 'Capitán Mercadona', 'capitan@test.com', '600300300', 'batman', 'capitan1'),

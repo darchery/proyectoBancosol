@@ -1,11 +1,8 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.TiendaRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.TurnoActivoRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.*;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
-import es.uma.tsaw.proyectobancosol.entity.Usuario;
+import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
 import es.uma.tsaw.proyectobancosol.service.AsignacionVoluntarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,33 +17,33 @@ import java.util.List;
 public class AsignacionController {
 
     private final AsignacionVoluntarioService asignacionVoluntarioService;
-    private final UsuarioRepositorio usuarioRepositorio;
-    private final TurnoActivoRepositorio turnoActivoRepositorio;
-    private final EntidadColaboradoraRepositorio entidadColaboradoraRepositorio;
-    private final TiendaRepositorio tiendaRepositorio;
+    private final UsuarioRepository usuarioRepository;
+    private final TurnoActivoRepository turnoActivoRepository;
+    private final EntidadColaboradoraRepository entidadColaboradoraRepository;
+    private final TiendaRepository tiendaRepository;
 
     @GetMapping("/listar")
     public String listar(@RequestParam(required = false) Integer idUsuario, Model model) {
         if (idUsuario == null) {
             return "redirect:/usuarios/voluntarios";
         }
-        Usuario usuario = usuarioRepositorio.findById(idUsuario).orElse(null);
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElse(null);
         List<AsignacionVoluntarioDTO> asignaciones = asignacionVoluntarioService.findByUsuario(idUsuario);
 
         model.addAttribute("idUsuario", idUsuario);
-        model.addAttribute("nombreUsuario", usuario != null ? usuario.getNombre() : "-");
+        model.addAttribute("nombreUsuario", usuarioEntity != null ? usuarioEntity.getNombre() : "-");
         model.addAttribute("asignaciones", asignaciones);
         return "gestionVoluntarios";
     }
 
     private String editarCrear(Integer idUsuario, Integer id, Model model) {
-        Usuario usuario = usuarioRepositorio.findById(idUsuario).orElse(new Usuario());
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElse(new UsuarioEntity());
 
         model.addAttribute("idUsuario", idUsuario);
-        model.addAttribute("nombreUsuario", usuario.getNombre());
-        model.addAttribute("turnos", turnoActivoRepositorio.findAll());
-        model.addAttribute("entidades", entidadColaboradoraRepositorio.findAll());
-        model.addAttribute("tiendas", tiendaRepositorio.findAll());
+        model.addAttribute("nombreUsuario", usuarioEntity.getNombre());
+        model.addAttribute("turnos", turnoActivoRepository.findAll());
+        model.addAttribute("entidades", entidadColaboradoraRepository.findAll());
+        model.addAttribute("tiendas", tiendaRepository.findAll());
 
         if (id != null) {
             AsignacionVoluntarioDTO asignacion = asignacionVoluntarioService.findById(id);

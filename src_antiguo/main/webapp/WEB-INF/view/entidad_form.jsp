@@ -1,10 +1,12 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    EntidadColaboradora entidad = (EntidadColaboradora) request.getAttribute("entidad");
-    List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
+    EntidadColaboradoraEntity entidad = (EntidadColaboradoraEntity) request.getAttribute("entidad");
+    List<UsuarioEntity> usuarioEntities = (List<UsuarioEntity>) request.getAttribute("usuarioEntities");
     boolean esEdicion = (entidad.getIdEntidad() != null);
 %>
 <html>
@@ -39,7 +41,7 @@
             <select name="responsableId" class="form-control">
                 <option value="">-- Sin asignar --</option>
                 <%
-                    for (Usuario u : usuarios) {
+                    for (UsuarioEntity u : usuarioEntities) {
                         String selected = "";
                         if (esEdicion && entidad.getResponsable() != null &&
                                 u.getIdUsuario().equals(entidad.getResponsable().getIdUsuario())) {

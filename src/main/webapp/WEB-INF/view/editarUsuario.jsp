@@ -1,0 +1,87 @@
+<%
+    /*
+        Lucas: 80%
+        Sergio: 10%
+        IA: 10%
+    */
+%>
+
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.RolDTO" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.UsuarioDTO" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    RolDTO rolEntity = (RolDTO) request.getAttribute("rolEntity");
+    UsuarioDTO usuarioEntity = (UsuarioDTO) request.getAttribute("usuarioEntity");
+%>
+
+<html>
+<head>
+    <title><%= usuarioEntity == null ? "Añadir" : "Editar"%> <%= rolEntity.getNombreRol()%></title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo-area">
+            <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
+            <div>
+                <h1><%= usuarioEntity == null ? "AÑADIR" : "EDITAR"%> <%= rolEntity.getNombreRol().toUpperCase()%></h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <%
+                String error = (String) request.getAttribute("error");
+                if ("email_duplicado".equals(error)) {
+            %>
+                <p class="msg-error">Ese email ya está registrado. Prueba con otro.</p>
+            <%
+                }
+            %>
+
+            <form action="/usuarioEntities/guardar" method="post">
+                <%
+                    if (usuarioEntity != null) {
+                %>
+                    <input type="hidden" name="id" value="<%= usuarioEntity.getIdUsuario()%>">
+                <%
+                    }
+                %>
+
+                <input type="hidden" name="idRol" value="<%= rolEntity.getIdRol()%>">
+
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input value="<%= usuarioEntity != null ? usuarioEntity.getNombre() : ""%>" type="text" name="nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Correo:</label>
+                    <input value="<%= usuarioEntity != null ? usuarioEntity.getEmail() : ""%>" type="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono:</label>
+                    <input value="<%= usuarioEntity != null ? usuarioEntity.getTelefono() : ""%>" type="text" name="telefono">
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input value="<%= usuarioEntity != null ? usuarioEntity.getContrasenya() : ""%>" type="password" name="contrasenya" required>
+                </div>
+
+                <div class="actions-row">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="/usuarioEntities/coordinadores-capitanes" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Bancosol | Grupo 4</p>
+    </footer>
+</body>
+</html>

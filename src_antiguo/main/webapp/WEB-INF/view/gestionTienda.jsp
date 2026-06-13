@@ -1,5 +1,6 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.TiendaEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.TiendaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,7 +17,7 @@
     </header>
 
     <main class="container">
-        <h2>Gestión de tiendas</h2>
+        <h2>Gestión de tiendaEntities</h2>
 
         <table>
             <thead>
@@ -32,22 +33,22 @@
             </thead>
             <tbody>
                 <%
-                    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
-                    if (tiendas != null) {
-                        for(Tienda tienda : tiendas) {
+                    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendaEntities");
+                    if (tiendaEntities != null) {
+                        for(TiendaEntity tiendaEntity : tiendaEntities) {
                 %>
                 <tr>
-                    <td><%= tienda.getIdTienda() %></td>
-                    <td><%= tienda.getDireccionEstablecimiento() != null ? tienda.getDireccionEstablecimiento() : "-" %></td>
-                    <td><%= tienda.getNombreEstablecimiento() %></td>
-                    <td><%= (tienda.getFranquicia() != null && tienda.getFranquicia()) ? "Sí" : "No" %></td>
-                    <td><%= tienda.getLineales() %></td>
-                    <td><%= tienda.getCp() %></td>
+                    <td><%= tiendaEntity.getIdTienda() %></td>
+                    <td><%= tiendaEntity.getDireccionEstablecimiento() != null ? tiendaEntity.getDireccionEstablecimiento() : "-" %></td>
+                    <td><%= tiendaEntity.getNombreEstablecimiento() %></td>
+                    <td><%= (tiendaEntity.getFranquicia() != null && tiendaEntity.getFranquicia()) ? "Sí" : "No" %></td>
+                    <td><%= tiendaEntity.getLineales() %></td>
+                    <td><%= tiendaEntity.getCp() %></td>
                     <td class="text-center">
-                        <a href="/tiendas/editarCrear?id=<%=tienda.getIdTienda()%>" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="/tiendaEntities/editarCrear?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-warning">Editar</a>
                     </td>
                     <td class="text-center">
-                        <a href="/tiendas/borrar?id=<%=tienda.getIdTienda()%>" class="btn btn-sm btn-danger">Eliminar</a>
+                        <a href="/tiendaEntities/borrar?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-danger">Eliminar</a>
                     </td>
                 </tr>
                 <%
@@ -55,7 +56,7 @@
                     } else {
                 %>
                 <tr>
-                    <td colspan="8" class="text-center">No hay tiendas registradas</td>
+                    <td colspan="8" class="text-center">No hay tiendaEntities registradas</td>
                 </tr>
                 <%
                     }
@@ -64,7 +65,7 @@
         </table>
 
         <div class="mt-20">
-            <a href="/tiendas/editarCrear" class="btn btn-success">Añadir nueva tienda</a>
+            <a href="/tiendaEntities/editarCrear" class="btn btn-success">Añadir nueva tiendaEntity</a>
         </div>
     </main>
 </body>

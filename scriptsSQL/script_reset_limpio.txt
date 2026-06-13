@@ -26,14 +26,14 @@ DELETE FROM asignacion_voluntario;
 DELETE FROM turno_activo;
 DELETE FROM tienda_campanya;
 DELETE FROM entidad_colaboradora;
-DELETE FROM usuario;
+DELETE FROM usuarioEntity;
 DELETE FROM campanya_cadena;
-DELETE FROM campanya;
-DELETE FROM tienda;
+DELETE FROM campanyaEntity;
+DELETE FROM tiendaEntity;
 DELETE FROM plantilla_turno;
-DELETE FROM rol;
-DELETE FROM cadena;
-DELETE FROM direccion;
+DELETE FROM rolEntity;
+DELETE FROM cadenaEntity;
+DELETE FROM direccionEntity;
 
 -- ============================================================
 -- FASE 2: RESETEAR TODOS LOS SECUENCIALES A 1

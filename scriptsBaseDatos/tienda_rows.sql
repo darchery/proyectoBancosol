@@ -1,4 +1,4 @@
-INSERT INTO "public"."tienda" ("id_tienda", "id_cadena", "id_direccion", "nombre_establecimiento", "direccion",
+INSERT INTO "public"."tiendaEntity" ("id_tienda", "id_cadena", "id_direccion", "nombre_establecimiento", "direccionEntity",
                                "franquicia", "lineales", "cp")
 VALUES (1, 1, 1, 'Mercadona Atarazanas', 'Calle Mercado 12', false, '15', '29005'),
        (2, 3, 2, 'Carrefour Express Bulevar', 'Bulevar Louis Pasteur 33', true, '4', '29010'),

@@ -34,7 +34,7 @@
                 <label class="form-label">Usuario</label>
                 <input type="text" name="username"
                        class="form-control"
-                       placeholder="Introduce tu usuario" required>
+                       placeholder="Introduce tu usuarioEntity" required>
             </div>
 
             <div class="mb-3">

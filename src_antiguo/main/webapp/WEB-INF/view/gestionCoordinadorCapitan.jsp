@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,9 +8,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <%
-    List<Usuario> coordinadores = (List<Usuario>) request.getAttribute("coordinadores");
-    List<Usuario> capitanes = (List<Usuario>) request.getAttribute("capitanes");
-    List<Usuario> capitanesCoordinadores = (List<Usuario>) request.getAttribute("capitanesCoordinadores");
+    List<UsuarioEntity> coordinadores = (List<UsuarioEntity>) request.getAttribute("coordinadores");
+    List<UsuarioEntity> capitanes = (List<UsuarioEntity>) request.getAttribute("capitanes");
+    List<UsuarioEntity> capitanesCoordinadores = (List<UsuarioEntity>) request.getAttribute("capitanesCoordinadores");
 
 %>
 
@@ -32,10 +33,10 @@
     </tr>
     <%
         if(coordinadores != null){
-            for (Usuario c: coordinadores) {
+            for (UsuarioEntity c: coordinadores) {
     %>
     <tr>
-        <td><%= c.getRol().getNombreRol() %></td>
+        <td><%= c.getRolEntity().getNombreRol() %></td>
         <td><%= c.getNombre() %></td>
         <td><%= request.getAttribute("entidad_" + c.getIdUsuario())%></td>
         <td><%= request.getAttribute("area_" + c.getIdUsuario())%></td>
@@ -44,8 +45,8 @@
         <td><%= request.getAttribute("tiendas_" + c.getIdUsuario())%></td>
         <td><%= c.getIdUsuario()%></td>
         <td><%= c.tranformarContrasenya(c.getContrasenya())%></td>
-        <td><a href="/usuarios/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRol().getIdRol()%>">Editar</a></td>
-        <td><a href="/usuarios/borrar?id=<%= c.getIdUsuario()%>">Borrar</a></td>
+        <td><a href="/usuarioEntities/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRolEntity().getIdRol()%>">Editar</a></td>
+        <td><a href="/usuarioEntities/borrar?id=<%= c.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
             }
@@ -55,10 +56,10 @@
 
     <%
         if(capitanes != null){
-            for (Usuario cap: capitanes) {
+            for (UsuarioEntity cap: capitanes) {
     %>
     <tr>
-        <td><%= cap.getRol().getNombreRol() %></td>
+        <td><%= cap.getRolEntity().getNombreRol() %></td>
         <td><%= cap.getNombre() %></td>
         <td><%= request.getAttribute("entidad_" + cap.getIdUsuario())%></td>
         <td><%= request.getAttribute("area_" + cap.getIdUsuario())%></td>
@@ -67,8 +68,8 @@
         <td><%= request.getAttribute("tiendas_" + cap.getIdUsuario())%></td>
         <td><%= cap.getIdUsuario()%></td>
         <td><%= cap.tranformarContrasenya(cap.getContrasenya())%></td>
-        <td><a href="/usuarios/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRol().getIdRol()%>">Editar</a></td>
-        <td><a href="/usuarios/borrar?id=<%= cap.getIdUsuario()%>">Borrar</a></td>
+        <td><a href="/usuarioEntities/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRolEntity().getIdRol()%>">Editar</a></td>
+        <td><a href="/usuarioEntities/borrar?id=<%= cap.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
             }
@@ -77,10 +78,10 @@
 
     <%
         if(capitanesCoordinadores != null){
-            for (Usuario cc: capitanesCoordinadores) {
+            for (UsuarioEntity cc: capitanesCoordinadores) {
     %>
     <tr>
-        <td><%= cc.getRol().getNombreRol() %></td>
+        <td><%= cc.getRolEntity().getNombreRol() %></td>
         <td><%= cc.getNombre() %></td>
         <td><%= request.getAttribute("entidad_" + cc.getIdUsuario())%></td>
         <td><%= request.getAttribute("area_" + cc.getIdUsuario())%></td>
@@ -89,8 +90,8 @@
         <td><%= request.getAttribute("tiendas_" + cc.getIdUsuario())%></td>
         <td><%= cc.getIdUsuario()%></td>
         <td><%= cc.tranformarContrasenya(cc.getContrasenya())%></td>
-        <td><a href="/usuarios/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRol().getIdRol()%>">Editar</a></td>
-        <td><a href="/usuarios/borrar?id=<%= cc.getIdUsuario()%>">Borrar</a></td>
+        <td><a href="/usuarioEntities/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRolEntity().getIdRol()%>">Editar</a></td>
+        <td><a href="/usuarioEntities/borrar?id=<%= cc.getIdUsuario()%>">Borrar</a></td>
     </tr>
     <%
             }
@@ -99,9 +100,9 @@
 </table>
 
 <section>
-    <a href="/usuarios/editarCrear?idRol=<%=2%>"><button type="button">Añadir Coordinador</button></a>
-    <a href="/usuarios/editarCrear?idRol=<%=3%>"><button type="button">Añadir Capitán</button></a>
-    <a href="/usuarios/editarCrear?idRol=<%=6%>"><button type="button">Añadir Coordinador - Capitán</button></a>
+    <a href="/usuarioEntities/editarCrear?idRol=<%=2%>"><button type="button">Añadir Coordinador</button></a>
+    <a href="/usuarioEntities/editarCrear?idRol=<%=3%>"><button type="button">Añadir Capitán</button></a>
+    <a href="/usuarioEntities/editarCrear?idRol=<%=6%>"><button type="button">Añadir Coordinador - Capitán</button></a>
 </section>
 
 </body>

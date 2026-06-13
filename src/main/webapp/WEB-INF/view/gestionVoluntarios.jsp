@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntario" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntarioEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO" %>
@@ -30,7 +30,7 @@
         List<AsignacionVoluntarioDTO> asignaciones = (List<AsignacionVoluntarioDTO>) request.getAttribute("asignaciones");
     %>
 
-    <p class="usuario-badge">
+    <p class="usuarioEntity-badge">
         Voluntario: <strong><%= nombreUsuario %></strong>
         &nbsp;|&nbsp; ID: <%= idUsuario %>
     </p>

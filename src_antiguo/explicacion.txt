@@ -1,0 +1,2 @@
+Carpeta que contiene el src antes de migrar a la nueva estructura.
+Contiene archivos incompletos, se ha mantenido en el proyecto para que se pueda observar la estructura antigua.

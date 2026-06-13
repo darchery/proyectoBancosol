@@ -29,10 +29,10 @@
             <a href="/entidades" class="btn-menu btn-colaboradores">
                 🤝 Gestión Colaboradores
             </a>
-            <a href="/usuarios/coordinadores-capitanes" class="btn-menu btn-coordinadores">
+            <a href="/usuarioEntities/coordinadores-capitanes" class="btn-menu btn-coordinadores">
                 👔 Gestión Coordinadores-Capitanes
             </a>
-            <a href="/tiendas" class="btn-menu btn-tiendas">
+            <a href="/tiendaEntities" class="btn-menu btn-tiendaEntities">
                 🏪 Gestión Tiendas
             </a>
             <a href="/voluntarios/listar" class="btn-menu btn-voluntarios">

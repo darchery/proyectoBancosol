@@ -1,4 +1,4 @@
-INSERT INTO "public"."direccion" ("id_direccion", "distrito_local", "zona_geografica", "domicilio")
+INSERT INTO "public"."direccionEntity" ("id_direccion", "distrito_local", "zona_geografica", "domicilio")
 VALUES (1, 'Centro', 'Málaga Capital', 'Calle Larios, 2'),
        (2, 'Teatinos-Universidad', 'Málaga Capital', 'Avda. Bulevar Louis Pasteur, 5'),
        (3, 'Carretera de Cádiz', 'Málaga Capital', 'Calle Héroe de Sostoa, 12'),

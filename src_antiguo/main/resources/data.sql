@@ -77,29 +77,29 @@ INSERT INTO CAMPANYAS.TIENDA (ID_CADENA, ID_DIRECCION, PARTICIPA, FRANQUICIA, LI
 -- COORDINADOR
 -- -------------------------------------------------------------
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (2, 1, 'José M. Cobos',        0, '600000001', 'jmcobos@bancosol.es',     'Zona Axarquía - 40 tiendas');
+    VALUES (2, 1, 'José M. Cobos',        0, '600000001', 'jmcobos@bancosol.es',     'Zona Axarquía - 40 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (3, 5, 'Arantxa',              0, '600000002', 'arantxa@bancosol.es',      'Zona Málaga Capital - 72 tiendas');
+    VALUES (3, 5, 'Arantxa',              0, '600000002', 'arantxa@bancosol.es',      'Zona Málaga Capital - 72 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (4, NULL, 'Cristóbal Aragón',  0, '600000003', 'aragon@bancosol.es',       'Zona Interior - 48 tiendas');
+    VALUES (4, NULL, 'Cristóbal Aragón',  0, '600000003', 'aragon@bancosol.es',       'Zona Interior - 48 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (5, NULL, 'Diego Vázquez',     0, '600000004', 'diego@bancosol.es',        'Costa Occidental - 43 tiendas');
+    VALUES (5, NULL, 'Diego Vázquez',     0, '600000004', 'diego@bancosol.es',        'Costa Occidental - 43 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (6, NULL, 'Fran Jiménez',      0, '600000005', 'franjimenez@colegiolosolivos.es', 'Entidad: Colegio Los Olivos - 12 tiendas');
+    VALUES (6, NULL, 'Fran Jiménez',      0, '600000005', 'franjimenez@colegiolosolivos.es', 'Entidad: Colegio Los Olivos - 12 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (7, NULL, 'Manuel Ladoux',     0, '600000006', 'ladoux@uma.es',            'Entidad: UMA - 10 tiendas');
+    VALUES (7, NULL, 'Manuel Ladoux',     0, '600000006', 'ladoux@uma.es',            'Entidad: UMA - 10 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (8, NULL, 'Mari Carmen Chamizo', 0, '600000007', 'chamizo@bancosol.es',    'Benalmádena - 19 tiendas');
+    VALUES (8, NULL, 'Mari Carmen Chamizo', 0, '600000007', 'chamizo@bancosol.es',    'Benalmádena - 19 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (9, NULL, 'Mari Luz Pérez',    0, '600000008', 'mariluz@bancosol.es',      'Estepona - 16 tiendas');
+    VALUES (9, NULL, 'Mari Luz Pérez',    0, '600000008', 'mariluz@bancosol.es',      'Estepona - 16 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (10, NULL, 'María Victoria Ruiz', 0, '600000009', 'victoria@bancosol.es', 'Antequera - 11 tiendas');
+    VALUES (10, NULL, 'María Victoria Ruiz', 0, '600000009', 'victoria@bancosol.es', 'Antequera - 11 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (11, NULL, 'Coord Torremolinos', 0, '600000010', 'torre@bancosol.es',     'Torremolinos - 14 tiendas');
+    VALUES (11, NULL, 'Coord Torremolinos', 0, '600000010', 'torre@bancosol.es',     'Torremolinos - 14 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (12, NULL, 'Vicente Morato',   0, '600000011', 'morato@bancosol.es',       'Málaga - 26 tiendas');
+    VALUES (12, NULL, 'Vicente Morato',   0, '600000011', 'morato@bancosol.es',       'Málaga - 26 tiendaEntities');
 INSERT INTO CAMPANYAS.COORDINADOR (ID_USUARIO, ID_TIENDA, NOMBRE_COMPLETO, CAPITAN, TELEFONO, EMAIL, OBSERVACIONES)
-    VALUES (13, NULL, 'Zona Marbella',    0, '600000012', 'marbella@bancosol.es',     'Marbella - 45 tiendas');
+    VALUES (13, NULL, 'Zona Marbella',    0, '600000012', 'marbella@bancosol.es',     'Marbella - 45 tiendaEntities');
 
 -- -------------------------------------------------------------
 -- CAMPANYA
@@ -110,7 +110,7 @@ INSERT INTO CAMPANYAS.CAMPANYA (TIPO_CAMPANYA, FECHA_INICIO, FECHA_FIN, ESTADO)
     VALUES ('GR',        '2025-11-28', '2025-11-30', 'activa');
 
 -- -------------------------------------------------------------
--- CAMPANYA_CADENA  (cadenas que participan en cada campaña)
+-- CAMPANYA_CADENA  (cadenaEntities que participan en cada campaña)
 -- -------------------------------------------------------------
 -- Primavera 2025 (ID_CAMPANYA=1): Alcampo, Aldi, DIA, El Jamon, Lidl, MAS, Mercadona
 INSERT INTO CAMPANYAS.CAMPANYA_CADENA (ID_CAMPANYA, ID_CADENA) VALUES (1, 1);
@@ -133,7 +133,7 @@ INSERT INTO CAMPANYAS.CAMPANYA_CADENA (ID_CAMPANYA, ID_CADENA) VALUES (2, 11);
 -- -------------------------------------------------------------
 -- ASIGNACION_COORDINADOR
 -- -------------------------------------------------------------
--- GR 2025: JMCobos (ID=2) -> tiendas Carrefour Axarquía
+-- GR 2025: JMCobos (ID=2) -> tiendaEntities Carrefour Axarquía
 INSERT INTO CAMPANYAS.ASIGNACION_COORDINADOR (ID_CAMPANYA, ID_TIENDA, ID_COORDINADOR) VALUES (2, 1, 2);
 INSERT INTO CAMPANYAS.ASIGNACION_COORDINADOR (ID_CAMPANYA, ID_TIENDA, ID_COORDINADOR) VALUES (2, 2, 2);
 INSERT INTO CAMPANYAS.ASIGNACION_COORDINADOR (ID_CAMPANYA, ID_TIENDA, ID_COORDINADOR) VALUES (2, 3, 2);
@@ -172,13 +172,13 @@ INSERT INTO CAMPANYAS.CONTACTO (ID_COLABORADOR, NOMBRE, EMAIL, TELEFONO) VALUES 
 -- -------------------------------------------------------------
 -- PARTICIPACION_VOLUNTARIOS
 -- -------------------------------------------------------------
--- GR 2025, Carrefour Hiper (tienda 1), Ayto. Almachar (colab 1)
+-- GR 2025, Carrefour Hiper (tiendaEntity 1), Ayto. Almachar (colab 1)
 INSERT INTO CAMPANYAS.PARTICIPACION_VOLUNTARIOS (ID_CAMPANYA, ID_TIENDA, ID_COLABORADOR)
     VALUES (2, 1, 1);
--- GR 2025, Carrefour Hiper (tienda 1), Ayto. Moclinejo (colab 2)
+-- GR 2025, Carrefour Hiper (tiendaEntity 1), Ayto. Moclinejo (colab 2)
 INSERT INTO CAMPANYAS.PARTICIPACION_VOLUNTARIOS (ID_CAMPANYA, ID_TIENDA, ID_COLABORADOR)
     VALUES (2, 1, 2);
--- GR 2025, Mercadona Centro (tienda 5), Guardia Civil (colab 3)
+-- GR 2025, Mercadona Centro (tiendaEntity 5), Guardia Civil (colab 3)
 INSERT INTO CAMPANYAS.PARTICIPACION_VOLUNTARIOS (ID_CAMPANYA, ID_TIENDA, ID_COLABORADOR)
     VALUES (2, 5, 3);
 

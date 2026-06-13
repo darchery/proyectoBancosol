@@ -1,8 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntario" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.TurnoActivo" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -14,56 +11,56 @@
 <body>
 
 <%
-    Usuario usuario = (Usuario) request.getAttribute("usuario");
-    AsignacionVoluntario asignacion = (AsignacionVoluntario) request.getAttribute("asignacion");
-    List<TurnoActivo> turnos = (List<TurnoActivo>) request.getAttribute("turnos");
-    List<EntidadColaboradora> entidades = (List<EntidadColaboradora>) request.getAttribute("entidades");
+    UsuarioEntity usuarioEntity = (UsuarioEntity) request.getAttribute("usuarioEntity");
+    AsignacionVoluntarioEntity asignacion = (AsignacionVoluntarioEntity) request.getAttribute("asignacion");
+    List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
+    List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
     boolean esEdicion = (asignacion != null);
 %>
 
 <h1><%= esEdicion ? "Editar" : "Añadir" %> Asignación</h1>
 
 <p>
-    Voluntario: <strong><%= usuario.getNombre() %></strong>
-    (ID: <%= usuario.getIdUsuario() %>)
+    Voluntario: <strong><%= usuarioEntity.getNombre() %></strong>
+    (ID: <%= usuarioEntity.getIdUsuario() %>)
 </p>
 
 <form action="/voluntarios/guardar" method="post">
 
-    <input type="hidden" name="idUsuario" value="<%= usuario.getIdUsuario() %>">
+    <input type="hidden" name="idUsuario" value="<%= usuarioEntity.getIdUsuario() %>">
     <input type="hidden" name="id" value="<%= esEdicion ? asignacion.getIdAsignacion() : "" %>">
 
     <label>Turno:</label><br>
     <select name="idTurno" required>
         <option value="">-- Selecciona un turno --</option>
         <%
-            for (TurnoActivo turno : turnos) {
+            for (TurnoActivoEntity turno : turnos) {
 
                 String dia = "";
                 String franja = "";
 
-                if (turno.getPlantillaTurno() != null) {
-                    if (turno.getPlantillaTurno().getDiaSemana() != null) {
-                        dia = turno.getPlantillaTurno().getDiaSemana();
+                if (turno.getPlantillaTurnoEntity() != null) {
+                    if (turno.getPlantillaTurnoEntity().getDiaSemana() != null) {
+                        dia = turno.getPlantillaTurnoEntity().getDiaSemana();
                     }
-                    if (turno.getPlantillaTurno().getFranjaHoraria() != null) {
-                        franja = turno.getPlantillaTurno().getFranjaHoraria();
+                    if (turno.getPlantillaTurnoEntity().getFranjaHoraria() != null) {
+                        franja = turno.getPlantillaTurnoEntity().getFranjaHoraria();
                     }
                 }
 
-                String tienda = turno.getTiendaCampanya()
-                        .getTienda()
+                String tiendaEntity = turno.getTiendaCampanyaEntity()
+                        .getTiendaEntity()
                         .getNombreEstablecimiento();
 
                 String fecha = turno.getFechaExacta() != null
                         ? turno.getFechaExacta().toString()
                         : "";
 
-                String label = tienda + " · " + dia + " " + franja + " · " + fecha;
+                String label = tiendaEntity + " · " + dia + " " + franja + " · " + fecha;
 
                 boolean seleccionado = esEdicion
-                        && asignacion.getTurnoActivo() != null
-                        && asignacion.getTurnoActivo().getIdTurnoActivo()
+                        && asignacion.getTurnoActivoEntity() != null
+                        && asignacion.getTurnoActivoEntity().getIdTurnoActivo()
                         .equals(turno.getIdTurnoActivo());
         %>
         <option value="<%= turno.getIdTurnoActivo() %>"
@@ -81,11 +78,11 @@
         <option value="">-- Sin entidad --</option>
 
         <%
-            for (EntidadColaboradora entidad : entidades) {
+            for (EntidadColaboradoraEntity entidad : entidades) {
 
                 boolean seleccionada = esEdicion
-                        && asignacion.getEntidadColaboradora() != null
-                        && asignacion.getEntidadColaboradora().getIdEntidad()
+                        && asignacion.getEntidadColaboradoraEntity() != null
+                        && asignacion.getEntidadColaboradoraEntity().getIdEntidad()
                         .equals(entidad.getIdEntidad());
         %>
 
@@ -108,7 +105,7 @@
     <br>
 
     <button type="submit">Guardar</button>
-    <a href="/voluntarios/listar?idUsuario=<%= usuario.getIdUsuario() %>"><button type="button">Cancelar</button></a>
+    <a href="/voluntarios/listar?idUsuario=<%= usuarioEntity.getIdUsuario() %>"><button type="button">Cancelar</button></a>
 
 </form>
 

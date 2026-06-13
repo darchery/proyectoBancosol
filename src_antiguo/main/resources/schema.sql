@@ -44,7 +44,7 @@ CREATE TABLE CAMPANYAS.USUARIO (
 -- -------------------------------------------------------------
 -- CADENA
 -- Cadena de supermercados (Mercadona, Carrefour, Lidl...).
--- Una cadena participa en muchas campañas.
+-- Una cadenaEntity participa en muchas campañas.
 -- -------------------------------------------------------------
 CREATE TABLE CAMPANYAS.CADENA (
     ID_CADENA      INTEGER      NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
@@ -55,8 +55,8 @@ CREATE TABLE CAMPANYAS.CADENA (
 
 -- -------------------------------------------------------------
 -- TIENDA
--- Tienda de una cadena. Pertenece a una cadena y tiene dirección.
--- Una tienda está asignada a un coordinador (vía AsignacionCoordinador).
+-- Tienda de una cadenaEntity. Pertenece a una cadenaEntity y tiene dirección.
+-- Una tiendaEntity está asignada a un coordinador (vía AsignacionCoordinador).
 -- -------------------------------------------------------------
 CREATE TABLE CAMPANYAS.TIENDA (
     ID_TIENDA      INTEGER      NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
@@ -76,8 +76,8 @@ CREATE TABLE CAMPANYAS.TIENDA (
 
 -- -------------------------------------------------------------
 -- COORDINADOR
--- Extiende Usuario (1:1). Gestiona tiendas y colaboradores asignados.
--- Una tienda tiene X coordinadores.
+-- Extiende Usuario (1:1). Gestiona tiendaEntities y colaboradores asignados.
+-- Una tiendaEntity tiene X coordinadores.
 -- -------------------------------------------------------------
 CREATE TABLE CAMPANYAS.COORDINADOR (
     ID_USUARIO      INTEGER      NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE CAMPANYAS.COORDINADOR (
 -- -------------------------------------------------------------
 -- CAMPANYA
 -- Campaña de recogida. Tipo: GR (Gran Recogida) / primavera.
--- Una cadena participa en muchas campañas (relación N:M via CAMPANYA_CADENA).
+-- Una cadenaEntity participa en muchas campañas (relación N:M via CAMPANYA_CADENA).
 -- -------------------------------------------------------------
 CREATE TABLE CAMPANYAS.CAMPANYA (
     ID_CAMPANYA    INTEGER      NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
@@ -108,8 +108,8 @@ CREATE TABLE CAMPANYAS.CAMPANYA (
 
 -- -------------------------------------------------------------
 -- CAMPANYA_CADENA  (tabla puente N:M)
--- Una cadena participa en muchas campañas.
--- Una tienda participa en una campaña.
+-- Una cadenaEntity participa en muchas campañas.
+-- Una tiendaEntity participa en una campaña.
 -- -------------------------------------------------------------
 CREATE TABLE CAMPANYAS.CAMPANYA_CADENA (
     ID_CAMPANYA  INTEGER NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE CAMPANYAS.CAMPANYA_CADENA (
 
 -- -------------------------------------------------------------
 -- ASIGNACION_COORDINADOR
--- Asignación de un coordinador a una tienda dentro de una campaña.
+-- Asignación de un coordinador a una tiendaEntity dentro de una campaña.
 -- La asignación es distinta en Primavera que en Gran Recogida.
 -- Un coordinador se relaciona con sus asignaciones.
 -- -------------------------------------------------------------
@@ -139,7 +139,7 @@ CREATE TABLE CAMPANYAS.ASIGNACION_COORDINADOR (
 -- -------------------------------------------------------------
 -- ENTIDAD_COLABORADORA
 -- Entidad que aporta voluntarios (ayuntamiento, colegio, familia...).
--- Cada colaborador puede tener múltiples personas de contacto.
+-- Cada colaborador puede tener múltiples personas de contactoEntity.
 -- Un colaborador está asignado a un coordinador.
 -- -------------------------------------------------------------
 CREATE TABLE CAMPANYAS.ENTIDAD_COLABORADORA (
@@ -157,7 +157,7 @@ CREATE TABLE CAMPANYAS.ENTIDAD_COLABORADORA (
 
 -- -------------------------------------------------------------
 -- CONTACTO
--- Persona de contacto de una entidad colaboradora.
+-- Persona de contactoEntity de una entidad colaboradora.
 -- Cada colaborador puede tener múltiples contactos.
 -- -------------------------------------------------------------
 CREATE TABLE CAMPANYAS.CONTACTO (
@@ -172,7 +172,7 @@ CREATE TABLE CAMPANYAS.CONTACTO (
 
 -- -------------------------------------------------------------
 -- PARTICIPACION_VOLUNTARIOS
--- Participación de una entidad colaboradora en una tienda
+-- Participación de una entidad colaboradora en una tiendaEntity
 -- dentro de una campaña.
 -- Cada participación tiene uno o más colaboradores.
 -- El número de registros VOLUNTARIO asociados indica cuántos participan.
