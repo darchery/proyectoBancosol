@@ -6,14 +6,14 @@ Autores:
 
 --%>
 
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.CadenaDTO" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.CampanyaDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     CampanyaDTO campana = (CampanyaDTO) request.getAttribute("campana");
-    List<CadenaEntity> cadenas = (List<CadenaEntity>) request.getAttribute("cadenas");
+    List<CadenaDTO> cadenas = (List<CadenaDTO>) request.getAttribute("cadenas");
     List<Integer> cadenaIds = campana.getCadenaIds();
 %>
 
@@ -35,25 +35,25 @@ Autores:
 
 <main class="container">
     <div class="form-container">
-        <form method="post" action="${pageContext.request.contextPath}/campanas/guardarTodo">
+        <form method="post" action="${pageContext.request.contextPath}/campanas/guardar">
 
-            <input type="hidden" name="campanaEditId" value="<%= campana.getIdCampanya() %>">
+            <input type="hidden" name="idCampanya" value="<%= campana.getIdCampanya() %>">
 
             <div class="form-group">
                 <label>Nombre de la campaña:</label>
-                <input type="text" name="campanaNombre"
+                <input type="text" name="nombreCampanya"
                        value="<%= campana.getNombreCampanya() != null ? campana.getNombreCampanya() : "" %>" required>
             </div>
 
             <div class="form-group">
                 <label>Tipo de campaña:</label>
-                <input type="text" name="campanaTipo"
+                <input type="text" name="tipoCampanya"
                        value="<%= campana.getTipoCampanya() != null ? campana.getTipoCampanya() : "" %>">
             </div>
 
             <div class="form-group">
                 <label>Estado:</label>
-                <select name="campanaEstado">
+                <select name="estado">
                     <%
                         String estado = campana.getEstado() != null ? campana.getEstado() : "";
                         String[] estados = { "ACTIVA", "FINALIZADA", "CANCELADA" };
@@ -67,22 +67,22 @@ Autores:
 
             <div class="form-group">
                 <label>Fecha de inicio:</label>
-                <input type="date" name="campanaFechaInicio"
+                <input type="date" name="fechaInicio"
                        value="<%= campana.getFechaInicio() != null ? campana.getFechaInicio() : "" %>">
             </div>
 
             <div class="form-group">
                 <label>Fecha de fin:</label>
-                <input type="date" name="campanaFechaFin"
+                <input type="date" name="fechaFin"
                        value="<%= campana.getFechaFin() != null ? campana.getFechaFin() : "" %>">
             </div>
 
             <div class="form-group">
                 <label>Cadenas participantes:</label>
-                <div class="checkbox-grid" style="grid-template-columns:1fr;">
+                <div class="checkbox-grid-single">
                     <%
                         if (cadenas != null) {
-                            for (CadenaEntity cad : cadenas) {
+                            for (CadenaDTO cad : cadenas) {
                                 boolean marcado = cadenaIds != null && cadenaIds.contains(cad.getIdCadena());
                     %>
                     <div class="checkbox-item">

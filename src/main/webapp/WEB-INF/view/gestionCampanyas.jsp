@@ -7,14 +7,14 @@ Autores:
 
 --%>
 
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.CadenaDTO" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.CampanyaDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     List<CampanyaDTO> campanas = (List<CampanyaDTO>) request.getAttribute("campanas");
-    List<CadenaEntity> cadenaEntities = (List<CadenaEntity>) request.getAttribute("cadenas");
+    List<CadenaDTO> cadenaEntities = (List<CadenaDTO>) request.getAttribute("cadenas");
 %>
 
 <html>
@@ -40,17 +40,17 @@ Autores:
         String texto = msg.substring(msg.indexOf(":") + 1);
         String cssClass = esError ? "msg-error" : "msg-ok";
 %>
-<div class="<%= cssClass %>" style="max-width:1200px;margin:10px auto 0;"><%= texto %></div>
+<div class="<%= cssClass %>"><%= texto %></div>
 <% } %>
 
-<form method="post" action="campanas/guardarTodo">
+<form method="post" action="guardar">
 
-    <input type="hidden" name="campanaEditId"      id="campanaEditId"      value="">
-    <input type="hidden" name="campanaNombre"       id="campanaNombre"      value="">
-    <input type="hidden" name="campanaEstado"       id="campanaEstado"      value="">
-    <input type="hidden" name="campanaTipo"         id="campanaTipo"        value="">
-    <input type="hidden" name="campanaFechaInicio"  id="campanaFechaInicio" value="">
-    <input type="hidden" name="campanaFechaFin"     id="campanaFechaFin"    value="">
+    <input type="hidden" name="idCampanya"   id="idCampanya"   value="">
+    <input type="hidden" name="nombreCampanya"  id="nombreCampanya"  value="">
+    <input type="hidden" name="estado"          id="estado"          value="">
+    <input type="hidden" name="tipoCampanya"    id="tipoCampanya"    value="">
+    <input type="hidden" name="fechaInicio"     id="fechaInicio"     value="">
+    <input type="hidden" name="fechaFin"        id="fechaFin"        value="">
 
     <div class="management-container">
 
@@ -58,7 +58,7 @@ Autores:
         <div class="campanya-column">
             <div class="box">
                 <h2>Tipo de campaña</h2>
-                <div class="checkbox-grid" style="grid-template-columns:1fr;">
+                <div class="radio-grid">
                     <div class="checkbox-item">
                         <input type="radio" name="tipoCampanyaSeleccionado" value="GR"
                                id="tipo_GR" onchange="seleccionarTipo('GR')">
@@ -86,7 +86,7 @@ Autores:
             <div class="checkbox-grid">
                 <%
                     if (cadenaEntities != null) {
-                        for (CadenaEntity cad : cadenaEntities) {
+                        for (CadenaDTO cad : cadenaEntities) {
                 %>
                 <div class="checkbox-item" id="fila_<%= cad.getIdCadena() %>">
                     <input type="checkbox" name="cadenaIds"
@@ -95,9 +95,9 @@ Autores:
                     <label for="cad_<%= cad.getIdCadena() %>"><%= cad.getNombreCadena() %></label>
 
                     <div class="cadena-btn-group">
-                        <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
-                        <button type="button"
-                                onclick="if(confirm('¿Seguro que quieres eliminar la cadena &quot;<%= cad.getNombreCadena() %>&quot;?')) window.location.href='campanas/cadenas/borrar?id=<%= cad.getIdCadena() %>'">Eliminar</button>
+                        <a href="/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
+                        <a href="/cadenas/borrar?id=<%= cad.getIdCadena() %>"
+                               class="btn btn-sm btn-danger">Eliminar</a>
                     </div>
                 </div>
                 <%
@@ -106,7 +106,7 @@ Autores:
                 %>
             </div>
             <div class="cadenas-actions">
-                <a href="campanas/cadenas/nueva" class="add-cadena-link">+ Añadir cadena</a>
+                <a href="/cadenas/nueva" class="add-cadena-link">+ Añadir cadena</a>
             </div>
         </div>
 
@@ -167,7 +167,7 @@ Autores:
                     <input type="date" id="inputFechaFin">
                 </div>
 
-                <p id="errorFechas" style="display:none;color:red;"></p>
+                <p id="errorFechas" class="error-fechas"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-modal" onclick="confirmarGeneracion()">Confirmar</button>
@@ -252,12 +252,12 @@ Autores:
             return;
         }
 
-        document.getElementById('campanaNombre').value      = tipoSeleccionado + ' ' + anyo;
-        document.getElementById('campanaTipo').value         = tipoSeleccionado;
-        document.getElementById('campanaEstado').value      = 'ACTIVA';
-        document.getElementById('campanaEditId').value      = '';
-        document.getElementById('campanaFechaInicio').value = fi;
-        document.getElementById('campanaFechaFin').value    = ff;
+        document.getElementById('nombreCampanya').value = tipoSeleccionado + ' ' + anyo;
+        document.getElementById('tipoCampanya').value    = tipoSeleccionado;
+        document.getElementById('estado').value          = 'ACTIVA';
+        document.getElementById('idCampanya').value      = '';
+        document.getElementById('fechaInicio').value     = fi;
+        document.getElementById('fechaFin').value        = ff;
 
         cerrarModal();
         document.querySelector('form').submit();
@@ -282,7 +282,7 @@ Autores:
                     '<td>' + (c.estado      || '') + '</td>' +
                     '<td>' + (c.fechaInicio || '') + '</td>' +
                     '<td>' + (c.fechaFin    || '') + '</td>' +
-                    '<td><a href="campanas/editar?id=' + c.id + '" class="btn-editar-historial" style="display:inline-block;text-decoration:none;">Editar</a></td>';
+                    '<td><a href="editar?id=' + c.id + '" class="btn-editar-historial">Editar</a></td>';
                 tbody.appendChild(tr);
             });
         }

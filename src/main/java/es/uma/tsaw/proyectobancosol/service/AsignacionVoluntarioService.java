@@ -14,13 +14,17 @@ import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
 import es.uma.tsaw.proyectobancosol.dao.TurnoActivoRepository;
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
+import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
 import es.uma.tsaw.proyectobancosol.dto.TiendaDTO;
+import es.uma.tsaw.proyectobancosol.dto.TurnoActivoDTO;
 import es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntarioEntity;
 import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity;
 import es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity;
 import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
 import es.uma.tsaw.proyectobancosol.mapper.AsignacionVoluntarioMapper;
+import es.uma.tsaw.proyectobancosol.mapper.EntidadColaboradoraMapper;
 import es.uma.tsaw.proyectobancosol.mapper.TiendaMapper;
+import es.uma.tsaw.proyectobancosol.mapper.TurnoActivoMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +41,8 @@ public class AsignacionVoluntarioService {
     private final EntidadColaboradoraRepository entidadColaboradoraRepository;
     private final TiendaRepository tiendaRepository;
     private final TiendaMapper tiendaMapper;
+    private final EntidadColaboradoraMapper entidadColaboradoraMapper;
+    private final TurnoActivoMapper turnoActivoMapper;
 
     public List<AsignacionVoluntarioDTO> findByUsuario(Integer idUsuario) {
         UsuarioEntity usuario = usuarioRepository.findById(idUsuario).orElseThrow();
@@ -81,12 +87,12 @@ public class AsignacionVoluntarioService {
         asignacionVoluntarioRepository.deleteById(id);
     }
 
-    public List<TurnoActivoEntity> findAllTurnosActivos() {
-        return turnoActivoRepository.findAll();
+    public List<TurnoActivoDTO> findAllTurnosActivos() {
+        return turnoActivoMapper.toDTOList(turnoActivoRepository.findAll());
     }
 
-    public List<EntidadColaboradoraEntity> findAllEntidadesColaboradoras() {
-        return entidadColaboradoraRepository.findAll();
+    public List<EntidadColaboradoraDTO> findAllEntidadesColaboradoras() {
+        return entidadColaboradoraMapper.toDTOList(entidadColaboradoraRepository.findAll());
     }
 
     public List<TiendaDTO> findAllTiendas() {

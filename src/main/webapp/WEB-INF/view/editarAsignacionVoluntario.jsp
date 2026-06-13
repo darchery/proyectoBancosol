@@ -10,16 +10,15 @@ Autores:
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.TiendaDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.PlantillaTurnoEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.dto.TurnoActivoDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     Integer idUsuario = (Integer) request.getAttribute("idUsuario");
     AsignacionVoluntarioDTO asignacion = (AsignacionVoluntarioDTO) request.getAttribute("asignacion");
-    List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
-    List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
+    List<TurnoActivoDTO> turnos = (List<TurnoActivoDTO>) request.getAttribute("turnos");
+    List<EntidadColaboradoraDTO> entidades = (List<EntidadColaboradoraDTO>) request.getAttribute("entidades");
 
     List<TiendaDTO> tiendas = (List<TiendaDTO>) request.getAttribute("tiendas");
     boolean esEdicion = (asignacion != null);
@@ -93,30 +92,17 @@ Autores:
 
                     <select id="selectTurno" onchange="actualizarTurno()" required>
                         <%
-                            for (TurnoActivoEntity turno : turnos) {
-
-                                PlantillaTurnoEntity plantilla = turno.getPlantillaTurnoEntity();
-
-                                String dia = "";
-                                String franja = "";
-
-                                if (plantilla != null) {
-                                    if (plantilla.getDiaSemana() != null)
-                                        dia = plantilla.getDiaSemana();
-                                    if (plantilla.getFranjaHoraria() != null)
-                                        franja = plantilla.getFranjaHoraria();
-                                }
-
-                                String fechaTurno = turno.getFechaExacta() != null ? turno.getFechaExacta().toString() : "";
-
-                                int idTiendaTurno = turno.getTiendaCampanyaEntity().getTiendaEntity().getIdTienda();
+                            for (TurnoActivoDTO turno : turnos) {
+                                String diaFranja = turno.getDiaFranja();
+                                String fechaTurno = turno.getFecha() != null ? turno.getFecha() : "";
+                                Integer idTiendaTurno = turno.getIdTienda();
                         %>
 
                         <option value="<%= turno.getIdTurnoActivo() %>"
-                                data-tienda="<%= idTiendaTurno %>"
+                                data-tienda="<%= idTiendaTurno != null ? idTiendaTurno : "" %>"
                                 data-fecha="<%= fechaTurno %>"
                                 <%= ( idTurnoActual != null && idTurnoActual.equals(turno.getIdTurnoActivo()) ) ? "selected" : "" %>>
-                            <%= dia %> <%= franja %> · <%= fechaTurno %>
+                            <%= diaFranja %> · <%= fechaTurno %>
                         </option>
 
                         <%
@@ -146,7 +132,7 @@ Autores:
 
                     <select name="idEntidad" id="selectEntidad" onchange="actualizarIdEntidad()">
                         <%
-                            for (EntidadColaboradoraEntity entidad : entidades) {
+                            for (EntidadColaboradoraDTO entidad : entidades) {
                         %>
 
                         <option value="<%= entidad.getIdEntidad() %>"

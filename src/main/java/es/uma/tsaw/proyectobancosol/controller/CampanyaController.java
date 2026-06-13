@@ -3,116 +3,72 @@
  * Permite listar, crear, editar y eliminar campañas.
  *
  * Autores:
- * - Marina Ruiz: 100%
+ * - Marina Ruiz: 90 %
+ * - Sergio Aldana: 10 %
  */
 
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.CampanyaDTO;
-import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
+import es.uma.tsaw.proyectobancosol.service.CadenaService;
 import es.uma.tsaw.proyectobancosol.service.CampanyaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/campanas")
 public class CampanyaController {
 
     private final CampanyaService campanyaService;
+    private final CadenaService cadenaService;
 
-    private static final List<String> TIPOS_CAMPANYA = Arrays.asList("GR", "primavera");
-
-    // ── LISTAR ─────────────────────────────────────────────────────────────
-
-    @GetMapping("/campanas")
-    public String listar(Model model) {
-        List<CampanyaDTO> campanas = campanyaService.findAll();
-        List<CadenaEntity> cadenaEntities = campanyaService.findAllCadenas();
-
-        model.addAttribute("campanas",      campanas);
-        model.addAttribute("cadenas", cadenaEntities);
-        model.addAttribute("tiposCampanya", TIPOS_CAMPANYA);
-        return "gestionCampanas";
+    @GetMapping("")
+    public String doInit(Model model) {
+        model.addAttribute("campanas", campanyaService.listarTodas());
+        model.addAttribute("cadenas", cadenaService.listarTodas());
+        return "gestionCampanyas";
     }
 
-    // ── EDITAR / BORRAR CAMPAÑA ────────────────────────────────────────────
-
-    @GetMapping("/campanas/editar")
-    public String editarCampana(@RequestParam("id") Integer id, Model model) {
-        model.addAttribute("campana", campanyaService.findById(id));
-        model.addAttribute("cadenas", campanyaService.findAllCadenas());
-        return "campana_form";
+    @GetMapping("/editar")
+    public String doEditarCrear(@RequestParam(required = false) Integer id, Model model) {
+        model.addAttribute("campana", campanyaService.buscarOCrear(id));
+        model.addAttribute("cadenas", cadenaService.listarTodas());
+        return "formularioCampanya";
     }
 
-    @GetMapping("/campanas/borrar")
-    public String borrarCampana(@RequestParam("id") Integer id) {
-        campanyaService.borrarCampana(id);
+    @PostMapping("/guardar")
+    public String doGuardar(@ModelAttribute("campana") CampanyaDTO campana,
+                            @RequestParam(value = "cadenasBorrar", required = false) List<Integer> cadenasBorrar,
+                            RedirectAttributes redirect) {
+        try {
+            if (cadenasBorrar != null && !cadenasBorrar.isEmpty()) {
+                campanyaService.borrarCadenas(cadenasBorrar);
+            }
+            campanyaService.guardar(campana);
+
+            String msg = (campana.getIdCampanya() != null)
+                    ? "ok:Cambios guardados correctamente."
+                    : "ok:Campaña \"" + campana.getNombreCampanya() + "\" generada correctamente.";
+            redirect.addFlashAttribute("msg", msg);
+        } catch (IllegalArgumentException e) {
+            redirect.addFlashAttribute("msg", "error:" + e.getMessage());
+        }
         return "redirect:/campanas";
     }
 
-    // ── CADENAS ────────────────────────────────────────────────────────────
-
-    @GetMapping("/campanas/cadenas/nueva")
-    public String nuevaCadena(Model model) {
-        model.addAttribute("cadena", new CadenaEntity());
-        return "formularioCadena";
-    }
-
-    @GetMapping("/campanas/cadenas/editar")
-    public String editarCadena(@RequestParam("id") Integer id, Model model) {
-        model.addAttribute("cadena", campanyaService.findCadenaById(id));
-        return "formularioCadena";
-    }
-
-    @Transactional
-    @PostMapping("/campanas/cadenas/guardar")
-    public String guardarCadena(
-            @RequestParam(value = "idCadena",      required = false) Integer idCadena,
-            @RequestParam("nombreCadena")                             String  nombreCadena,
-            @RequestParam(value = "resenyaCadena", required = false) String  resenyaCadena,
-            @RequestParam(value = "logoUrl",       required = false) String  logoUrl) {
-
-        campanyaService.guardarCadena(idCadena, nombreCadena, resenyaCadena, logoUrl);
-        return "redirect:/campanas";
-    }
-
-    @GetMapping("/campanas/cadenas/borrar")
-    public String borrarCadena(@RequestParam("id") Integer id, RedirectAttributes redirect) {
-        campanyaService.borrarCadena(id);
-        redirect.addFlashAttribute("msg", "ok:Cadena eliminada correctamente.");
-        return "redirect:/campanas";
-    }
-
-    // ── GUARDAR TODO ───────────────────────────────────────────────────────
-
-    @Transactional
-    @PostMapping("/campanas/guardarTodo")
-    public String guardarTodo(
-            @RequestParam(value = "campanaId",         required = false) Integer       campanaId,
-            @RequestParam(value = "campanaEditId",      required = false) Integer       campanaEditId,
-            @RequestParam(value = "cadenaIds",          required = false) List<Integer> cadenaIds,
-            @RequestParam(value = "cadenasBorrar",      required = false) List<Integer> cadenasBorrar,
-            @RequestParam(value = "campanaNombre",      required = false) String        nombre,
-            @RequestParam(value = "campanaTipo",        required = false) String        tipo,
-            @RequestParam(value = "campanaEstado",      required = false) String        estado,
-            @RequestParam(value = "campanaFechaInicio", required = false) String        fechaInicio,
-            @RequestParam(value = "campanaFechaFin",    required = false) String        fechaFin,
-            RedirectAttributes redirect) throws Exception {
-
-        String msg = campanyaService.guardarTodo(
-                campanaId, campanaEditId, cadenaIds, cadenasBorrar,
-                nombre, tipo, estado, fechaInicio, fechaFin);
-
-        if (msg != null) redirect.addFlashAttribute("msg", msg);
+    @GetMapping("/borrar")
+    public String doBorrar(@RequestParam("id") Integer id) {
+        campanyaService.borrar(id);
         return "redirect:/campanas";
     }
 }
