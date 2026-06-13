@@ -31,7 +31,7 @@ public class CadenaController {
 
     @GetMapping("/nueva")
     public String doNueva(Model model, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("cadena", new CadenaDTO());
         return "formularioCadena";
@@ -39,7 +39,7 @@ public class CadenaController {
 
     @GetMapping("/editar")
     public String doEditar(@RequestParam("id") Integer id, Model model, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("cadena", cadenaService.buscarOCrear(id));
         return "formularioCadena";
@@ -47,7 +47,7 @@ public class CadenaController {
 
     @PostMapping("/guardar")
     public String doGuardar(@ModelAttribute("cadena") CadenaDTO cadena, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         cadenaService.guardar(cadena);
         return "redirect:/campanyas";
@@ -55,7 +55,7 @@ public class CadenaController {
 
     @GetMapping("/borrar")
     public String doBorrar(@RequestParam("id") Integer id, RedirectAttributes redirect, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         cadenaService.borrar(id);
         redirect.addFlashAttribute("msg", "ok:Cadena eliminada correctamente.");
