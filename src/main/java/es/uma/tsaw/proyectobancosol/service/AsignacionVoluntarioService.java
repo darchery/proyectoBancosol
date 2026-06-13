@@ -22,7 +22,7 @@ public class AsignacionVoluntarioService {
     public List<AsignacionVoluntarioDTO> findByUsuario(Integer idUsuario) {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElseThrow();
         return asignacionVoluntarioMapper.toDTOList(
-                asignacionVoluntarioRepository.findByUsuario(usuarioEntity));
+                asignacionVoluntarioRepository.findByUsuarioEntity(usuarioEntity));
     }
 
     public AsignacionVoluntarioDTO findById(Integer id) {

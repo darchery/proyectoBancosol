@@ -89,13 +89,13 @@ public class CampaniaControlador {
     @GetMapping("/campanas/cadenas/nueva")
     public String nuevaCadena(Model model) {
         model.addAttribute("cadena", new CadenaEntity());
-        return "cadena_form";
+        return "formularioCadena";
     }
 
     @GetMapping("/campanas/cadenas/editar")
     public String editarCadena(@RequestParam("id") Integer id, Model model) {
         model.addAttribute("cadena", campanyaService.findCadenaById(id));
-        return "cadena_form";
+        return "formularioCadena";
     }
 
     @Transactional

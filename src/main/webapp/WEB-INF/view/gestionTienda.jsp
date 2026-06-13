@@ -36,22 +36,22 @@
                 </thead>
                 <tbody>
                     <%
-                        List<TiendaDTO> tiendaEntities = (List<TiendaDTO>) request.getAttribute("tiendaEntities");
-                        if (tiendaEntities != null) {
-                            for(TiendaDTO tiendaEntity : tiendaEntities) {
+                        List<TiendaDTO> tiendas = (List<TiendaDTO>) request.getAttribute("tiendas");
+                        if (tiendas != null) {
+                            for(TiendaDTO tienda : tiendas) {
                     %>
                     <tr>
-                        <td><%= tiendaEntity.getIdTienda() %></td>
-                        <td><%= tiendaEntity.getDireccionEstablecimiento() != null ? tiendaEntity.getDireccionEstablecimiento() : "-" %></td>
-                        <td><%= tiendaEntity.getNombreEstablecimiento() %></td>
-                        <td><%= (tiendaEntity.getFranquicia() != null && tiendaEntity.getFranquicia()) ? "Sí" : "No" %></td>
-                        <td><%= tiendaEntity.getLineales() %></td>
-                        <td><%= tiendaEntity.getCp() %></td>
+                        <td><%= tienda.getIdTienda() %></td>
+                        <td><%= tienda.getDireccionEstablecimiento() != null ? tienda.getDireccionEstablecimiento() : "-" %></td>
+                        <td><%= tienda.getNombreEstablecimiento() %></td>
+                        <td><%= (tienda.getFranquicia() != null && tienda.getFranquicia()) ? "Sí" : "No" %></td>
+                        <td><%= tienda.getLineales() %></td>
+                        <td><%= tienda.getCp() %></td>
                         <td class="text-center">
-                            <a href="/tiendaEntities/editarCrear?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="/tiendas/editarCrear?id=<%=tienda.getIdTienda()%>" class="btn btn-sm btn-warning">Editar</a>
                         </td>
                         <td class="text-center">
-                            <a href="/tiendaEntities/borrar?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-danger">Eliminar</a>
+                            <a href="/tiendas/borrar?id=<%=tienda.getIdTienda()%>" class="btn btn-sm btn-danger">Eliminar</a>
                         </td>
                     </tr>
                     <%
@@ -59,7 +59,7 @@
                         } else {
                     %>
                     <tr>
-                        <td colspan="8" class="text-center">No hay tiendaEntities registradas</td>
+                        <td colspan="8" class="text-center">No hay tiendas registradas</td>
                     </tr>
                     <%
                         }
@@ -68,7 +68,7 @@
             </table>
 
             <div class="mt-20">
-                <a href="/tiendaEntities/editarCrear" class="btn btn-success">Añadir nueva tiendaEntity</a>
+                <a href="/tiendas/editarCrear" class="btn btn-success">Añadir nueva tienda</a>
             </div>
         </section>
 
@@ -83,7 +83,7 @@
                 <div class="detail-row"><span>CP:</span><strong>---</strong></div>
             </div>
             <div class="action-buttons mt-10">
-                <a href="/tiendaEntities/editarCrear" class="btn-volver-menu">Añadir tiendaEntity</a>
+                <a href="/tiendas/editarCrear" class="btn-volver-menu">Añadir tienda</a>
                 <a href="/menu" class="btn-volver-menu" style="grid-column:1/-1;">Menú Principal</a>
             </div>
         </aside>

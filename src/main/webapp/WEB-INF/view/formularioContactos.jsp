@@ -56,7 +56,7 @@
             </table>
 
             <div class="mt-20">
-                <a href="/entidades/<%= idEntidad %>/contactos/nuevo" class="btn btn-success">Añadir contactoEntity</a>
+                <a href="/entidades/<%= idEntidad %>/contactos/nuevo" class="btn btn-success">Añadir contacto</a>
                 <a href="/entidades" class="btn btn-secondary">Volver a entidades</a>
             </div>
         </section>
@@ -70,7 +70,7 @@
                 <div class="detail-row"><span>PRINCIPAL:</span><strong>---</strong></div>
             </div>
             <div class="action-buttons mt-10">
-                <a href="/entidades/<%= idEntidad %>/contactos/nuevo" class="btn-volver-menu">Añadir contactoEntity</a>
+                <a href="/entidades/<%= idEntidad %>/contactos/nuevo" class="btn-volver-menu">Añadir contacto</a>
                 <a href="/entidades" class="btn-volver-menu" style="grid-column:1/-1;">Volver a entidades</a>
             </div>
         </aside>

@@ -17,14 +17,14 @@ public class ContactoController {
     public String listar(@PathVariable Integer idEntidad, Model model) {
         model.addAttribute("contactos", contactoService.listarPorEntidad(idEntidad));
         model.addAttribute("idEntidad", idEntidad);
-        return "contactos_form";
+        return "formularioContactos";
     }
 
     @GetMapping("/entidades/{idEntidad}/contactos/nuevo")
     public String nuevo(@PathVariable Integer idEntidad, Model model) {
         model.addAttribute("contacto", new ContactoDTO());
         model.addAttribute("idEntidad", idEntidad);
-        return "contacto_form";
+        return "formularioContacto";
     }
 
     @PostMapping("/entidades/{idEntidad}/contactos/guardar")
@@ -45,7 +45,7 @@ public class ContactoController {
                          @RequestParam("id") Integer id, Model model) {
         model.addAttribute("contacto", contactoService.buscarPorId(id));
         model.addAttribute("idEntidad", idEntidad);
-        return "contacto_form";
+        return "formularioContacto";
     }
 
     @GetMapping("/entidades/{idEntidad}/contactos/borrar")

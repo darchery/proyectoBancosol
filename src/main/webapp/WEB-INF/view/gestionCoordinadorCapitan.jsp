@@ -64,8 +64,8 @@
                     <td><%= c.getNumTiendas()%></td>
                     <td><%= c.getIdUsuario()%></td>
                     <td><%= c.tranformarContrasenya(c.getContrasenya())%></td>
-                    <td><a href="/usuarioEntities/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
-                    <td><a href="/usuarioEntities/borrar?id=<%= c.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
+                    <td><a href="/usuarios/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
+                    <td><a href="/usuarios/borrar?id=<%= c.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
                 </tr>
                 <%
                         }
@@ -86,8 +86,8 @@
                     <td><%= cap.getNumTiendas()%></td>
                     <td><%= cap.getIdUsuario()%></td>
                     <td><%= cap.tranformarContrasenya(cap.getContrasenya())%></td>
-                    <td><a href="/usuarioEntities/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
-                    <td><a href="/usuarioEntities/borrar?id=<%= cap.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
+                    <td><a href="/usuarios/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
+                    <td><a href="/usuarios/borrar?id=<%= cap.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
                 </tr>
                 <%
                         }
@@ -108,8 +108,8 @@
                     <td><%= cc.getNumTiendas()%></td>
                     <td><%= cc.getIdUsuario()%></td>
                     <td><%= cc.tranformarContrasenya(cc.getContrasenya())%></td>
-                    <td><a href="/usuarioEntities/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
-                    <td><a href="/usuarioEntities/borrar?id=<%= cc.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
+                    <td><a href="/usuarios/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
+                    <td><a href="/usuarios/borrar?id=<%= cc.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
                 </tr>
                 <%
                         }
@@ -119,9 +119,9 @@
             </table>
 
             <div class="mt-20" style="display:flex;gap:10px;flex-wrap:wrap;">
-                <a href="/usuarioEntities/editarCrear?idRol=<%=2%>" class="btn btn-primary">Añadir Coordinador</a>
-                <a href="/usuarioEntities/editarCrear?idRol=<%=3%>" class="btn btn-primary">Añadir Capitán</a>
-                <a href="/usuarioEntities/editarCrear?idRol=<%=6%>" class="btn btn-primary">Añadir Coordinador - Capitán</a>
+                <a href="/usuarios/editarCrear?idRol=<%=2%>" class="btn btn-primary">Añadir Coordinador</a>
+                <a href="/usuarios/editarCrear?idRol=<%=3%>" class="btn btn-primary">Añadir Capitán</a>
+                <a href="/usuarios/editarCrear?idRol=<%=6%>" class="btn btn-primary">Añadir Coordinador - Capitán</a>
                 <a href="/menu" class="btn btn-secondary">Volver al menú</a>
             </div>
         </section>

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TiendaCampanyaRepository extends JpaRepository<TiendaCampanyaEntity, Integer> {
-    List<TiendaCampanyaEntity> findByCampanyaIdCampanya(Integer idCampanya);
+    List<TiendaCampanyaEntity> findByCampanyaEntityIdCampanya(Integer idCampanya);
     List<TiendaCampanyaEntity> findByCoordinador(UsuarioEntity coordinador);
 }

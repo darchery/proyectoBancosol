@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TiendaRepository extends JpaRepository<TiendaEntity, Integer> {
 
-    @Query("SELECT t FROM TiendaEntity t LEFT JOIN FETCH t.cadena LEFT JOIN FETCH t.direccion WHERE t.idTienda = :id")
+    @Query("SELECT t FROM TiendaEntity t LEFT JOIN FETCH t.cadenaEntity LEFT JOIN FETCH t.direccionEntity WHERE t.idTienda = :id")
     Optional<TiendaEntity> findByIdConRelaciones(@Param("id") Integer id);
 
 }

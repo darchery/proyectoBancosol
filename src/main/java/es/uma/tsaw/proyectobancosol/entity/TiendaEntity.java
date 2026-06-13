@@ -43,6 +43,6 @@ public class TiendaEntity {
 
     // --- RELACIONES BIDIRECCIONALES (Opcionales pero útiles) ---
     // Si quieres saber desde una Tienda en qué campañas participa:
-    @OneToMany(mappedBy = "tienda")
+    @OneToMany(mappedBy = "tiendaEntity")
     private List<TiendaCampanyaEntity> tiendaCampanyasListEntity;
 }

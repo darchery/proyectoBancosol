@@ -10,7 +10,7 @@
     List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
     List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
 
-    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendaEntities");
+    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendas");
     boolean esEdicion = (asignacion != null);
 
     // Valores actuales para pre-selección en edición

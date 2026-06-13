@@ -46,7 +46,7 @@ public class UsuarioController {
     public String listarVoluntarios(Model model) {
         List<UsuarioDTO> voluntarios = this.usuarioService.listarVoluntarios();
         model.addAttribute("voluntarios", voluntarios);
-        return "lista_voluntarios";
+        return "listarVoluntarios";
     }
 
     @GetMapping("/editarCrear")
@@ -60,7 +60,7 @@ public class UsuarioController {
             UsuarioDTO usuarioDTO = this.usuarioService.buscarOCrear(id);
             model.addAttribute("usuario", usuarioDTO);
         } // Crear
-        return "editarCrearUsuario";
+        return "editarUsuario";
     }
 
     // Sólo para coordinadores, coordinadoresCapitanes y Capitanes

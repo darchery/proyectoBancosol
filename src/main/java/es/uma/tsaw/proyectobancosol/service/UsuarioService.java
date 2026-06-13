@@ -54,7 +54,7 @@ public class UsuarioService {
     private UsuarioDTO enriquecerCoordinadorCapitan(UsuarioEntity usuarioEntity) {
         UsuarioDTO dto = this.usuarioMapper.toDTO(usuarioEntity);
 
-        List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuario(usuarioEntity);
+        List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuarioEntity(usuarioEntity);
         if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradoraEntity() != null) {
             dto.setEntidad(asignaciones.get(0).getEntidadColaboradoraEntity().getNombreEntidad());
         } else {
@@ -150,7 +150,7 @@ public class UsuarioService {
             }
 
             // 2. Borrar asignaciones de voluntario
-            List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuario(usuarioEntity);
+            List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuarioEntity(usuarioEntity);
             this.asignacionVoluntarioRepository.deleteAll(asignaciones);
 
             // 3. Borrar usuario
