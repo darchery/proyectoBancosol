@@ -20,9 +20,9 @@ Autores:
     List<EntidadColaboradoraDTO> entidades = (List<EntidadColaboradoraDTO>) request.getAttribute("entidades");
 
     List<TiendaDTO> tiendas = (List<TiendaDTO>) request.getAttribute("tiendas");
-    boolean esEdicion = (asignacion != null);
 
     // Valores actuales para pre-selección en edición
+    boolean esEdicion = (asignacion != null);
     Integer idTurnoActual   = esEdicion ? asignacion.getIdTurno() : null;
     Integer idEntidadActual = esEdicion ? asignacion.getIdEntidad() : null;
 
@@ -73,6 +73,7 @@ Autores:
                             for (TurnoActivoDTO turno : turnos) {
                                 String tiendaName = tiendaMap.get(turno.getIdTienda());
                                 if (tiendaName == null) tiendaName = "Otras ubicaciones";
+
                                 String diaFranja = turno.getDiaFranja();
                                 String fechaTurno = turno.getFecha() != null ? turno.getFecha() : "";
                         %>
