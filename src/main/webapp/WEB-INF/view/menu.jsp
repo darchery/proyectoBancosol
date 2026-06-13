@@ -1,4 +1,14 @@
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Usuario" %>
+<%--
+Página JSP que muestra el menú principal de la aplicación con acceso a los distintos módulos.
+
+Autores:
+- Sergio Aldana: 67%
+- IA generativa: 33%
+
+--%>
+
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,7 +29,7 @@
         <div class="welcome-box">
 
             <%
-                Usuario userObj = (Usuario) session.getAttribute("user");
+                UsuarioEntity userObj = (UsuarioEntity) session.getAttribute("user");
                 String userName = userObj != null ? userObj.getNombre() : "Usuario";
             %>
 
@@ -30,8 +40,8 @@
             <section>
                 <a href="/campanas" class="menu-btn">Gestión Campañas</a>
                 <a href="/entidades" class="menu-btn">Gestión Colaboradores</a>
-                <a href="/usuarios/coordinadores-capitanes" class="menu-btn">Gestión Coordinadores-Capitanes</a>
-                <a href="/tiendas" class="menu-btn">Gestión Tiendas</a>
+                <a href="/usuarioEntities/coordinadores-capitanes" class="menu-btn">Gestión Coordinadores-Capitanes</a>
+                <a href="/tiendaEntities" class="menu-btn">Gestión Tiendas</a>
                 <a href="/voluntarios/listar" class="menu-btn">Gestión Voluntarios</a>
             </section>
 

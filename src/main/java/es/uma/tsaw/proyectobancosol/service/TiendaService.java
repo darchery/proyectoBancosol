@@ -1,10 +1,17 @@
+/**
+ * Servicio que implementa la lógica de negocio para las tiendas.
+ *
+ * Autores:
+ * - Sergio Aldana: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.CadenaRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.DireccionRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.TiendaRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.CadenaRepository;
+import es.uma.tsaw.proyectobancosol.dao.DireccionRepository;
+import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
 import es.uma.tsaw.proyectobancosol.dto.TiendaDTO;
-import es.uma.tsaw.proyectobancosol.entity.Tienda;
+import es.uma.tsaw.proyectobancosol.entity.TiendaEntity;
 import es.uma.tsaw.proyectobancosol.mapper.TiendaMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,41 +22,41 @@ import java.util.List;
 @AllArgsConstructor
 public class TiendaService {
 
-    private final TiendaRepositorio tiendaRepositorio;
-    private final CadenaRepositorio cadenaRepositorio;
-    private final DireccionRepositorio direccionRepositorio;
+    private final TiendaRepository tiendaRepository;
+    private final CadenaRepository cadenaRepository;
+    private final DireccionRepository direccionRepository;
     private final TiendaMapper tiendaMapper;
 
     public List<TiendaDTO> listarTodas() {
-        return tiendaMapper.toDTOList(tiendaRepositorio.findAll());
+        return tiendaMapper.toDTOList(tiendaRepository.findAll());
     }
 
     public TiendaDTO buscarOCrear(Integer id) {
         if (id == null) return new TiendaDTO();
-        Tienda tienda = tiendaRepositorio.findByIdConRelaciones(id).orElse(null);
-        return tiendaMapper.toDTO(tienda);
+        TiendaEntity tiendaEntity = tiendaRepository.findByIdConRelaciones(id).orElse(null);
+        return tiendaMapper.toDTO(tiendaEntity);
     }
 
     public void guardar(TiendaDTO dto, Integer idCadena, Integer idDireccion) {
-        Tienda tienda = (dto.getIdTienda() == null)
-                ? new Tienda()
-                : tiendaRepositorio.findById(dto.getIdTienda()).orElseThrow();
+        TiendaEntity tiendaEntity = (dto.getIdTienda() == null)
+                ? new TiendaEntity()
+                : tiendaRepository.findById(dto.getIdTienda()).orElseThrow();
 
-        tienda.setNombreEstablecimiento(dto.getNombreEstablecimiento());
-        tienda.setDireccionEstablecimiento(dto.getDireccionEstablecimiento());
-        tienda.setFranquicia(dto.getFranquicia());
-        tienda.setLineales(dto.getLineales());
-        tienda.setCp(dto.getCp());
-        tienda.setCadena(cadenaRepositorio.findById(idCadena).orElse(null));
+        tiendaEntity.setNombreEstablecimiento(dto.getNombreEstablecimiento());
+        tiendaEntity.setDireccionEstablecimiento(dto.getDireccionEstablecimiento());
+        tiendaEntity.setFranquicia(dto.getFranquicia());
+        tiendaEntity.setLineales(dto.getLineales());
+        tiendaEntity.setCp(dto.getCp());
+        tiendaEntity.setCadenaEntity(cadenaRepository.findById(idCadena).orElse(null));
 
         if (idDireccion != null) {
-            tienda.setDireccion(direccionRepositorio.findById(idDireccion).orElse(null));
+            tiendaEntity.setDireccionEntity(direccionRepository.findById(idDireccion).orElse(null));
         }
 
-        tiendaRepositorio.save(tienda);
+        tiendaRepository.save(tiendaEntity);
     }
 
     public void borrar(Integer id) {
-        tiendaRepositorio.deleteById(id);
+        tiendaRepository.deleteById(id);
     }
 }

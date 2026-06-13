@@ -1,7 +1,11 @@
-/*
-    Lucas: 90%
-    Laia: 10%
-*/
+/**
+ * Controlador que gestiona los usuarios del sistema (voluntarios, coordinadores, capitanes, administradores).
+ * Proporciona listado, creación, edición y eliminación de usuarios.
+ *
+ * Autores:
+ * - Lucas Díaz Ruiz: 90%
+ * - Laia Díaz: 10%
+ */
 
 package es.uma.tsaw.proyectobancosol.controller;
 
@@ -46,7 +50,7 @@ public class UsuarioController {
     public String listarVoluntarios(Model model) {
         List<UsuarioDTO> voluntarios = this.usuarioService.listarVoluntarios();
         model.addAttribute("voluntarios", voluntarios);
-        return "lista_voluntarios";
+        return "listarVoluntarios";
     }
 
     @GetMapping("/editarCrear")

@@ -1,3 +1,10 @@
+/**
+ * DTO que transfiere los datos de una cadena de tiendas.
+ *
+ * Autores:
+ *  - IA generativa: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.dto;
 import lombok.Data;
 

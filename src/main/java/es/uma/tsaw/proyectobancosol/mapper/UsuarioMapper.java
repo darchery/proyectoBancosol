@@ -1,31 +1,34 @@
-/*
-    Lucas: 100%
-*/
+/**
+ * Mapper que convierte entre entidad Usuario y su DTO.
+ *
+ * Autores:
+ * - Lucas Díaz Ruiz: 100%
+ */
 
 package es.uma.tsaw.proyectobancosol.mapper;
 
 
 import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
-import es.uma.tsaw.proyectobancosol.entity.Usuario;
+import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsuarioMapper extends MapperDTO<UsuarioDTO, Usuario>{
+public class UsuarioMapper extends MapperDTO<UsuarioDTO, UsuarioEntity>{
 
     @Override
-    public UsuarioDTO toDTO(Usuario usuario) {
+    public UsuarioDTO toDTO(UsuarioEntity usuarioEntity) {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
 
-        usuarioDTO.setIdUsuario(usuario.getIdUsuario());
-        usuarioDTO.setNombre(usuario.getNombre());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setTelefono(usuario.getTelefono());
-        usuarioDTO.setContrasenya(usuario.getContrasenya());
-        usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
+        usuarioDTO.setIdUsuario(usuarioEntity.getIdUsuario());
+        usuarioDTO.setNombre(usuarioEntity.getNombre());
+        usuarioDTO.setEmail(usuarioEntity.getEmail());
+        usuarioDTO.setTelefono(usuarioEntity.getTelefono());
+        usuarioDTO.setContrasenya(usuarioEntity.getContrasenya());
+        usuarioDTO.setNombreUsuario(usuarioEntity.getNombreUsuario());
 
-        if (usuario.getRol() != null) {
-            usuarioDTO.setRolId(usuario.getRol().getIdRol());
-            usuarioDTO.setRolNombre(usuario.getRol().getNombreRol());
+        if (usuarioEntity.getRolEntity() != null) {
+            usuarioDTO.setRolId(usuarioEntity.getRolEntity().getIdRol());
+            usuarioDTO.setRolNombre(usuarioEntity.getRolEntity().getNombreRol());
         }
 
         return usuarioDTO;

@@ -1,3 +1,12 @@
+/**
+ * Controlador que gestiona las tiendas.
+ * Permite listar, crear, editar y eliminar tiendas.
+ *
+ * Autores:
+ * - Sergio Aldana: 68%
+ * - Laia Díaz: 32%
+ */
+
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.TiendaDTO;

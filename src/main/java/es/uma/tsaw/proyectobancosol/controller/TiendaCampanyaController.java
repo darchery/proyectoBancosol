@@ -1,7 +1,15 @@
+/**
+ * Controlador que gestiona la relación entre tiendas y campañas.
+ *
+ * Autores:
+ * - Sergio Aldana: 96%
+ * - Lucas Díaz Ruiz: 4%
+ */
+
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepositorio;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepositorio;
+import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepository;
+import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
 import es.uma.tsaw.proyectobancosol.entity.TiendaCampanya;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @AllArgsConstructor
@@ -21,28 +28,28 @@ import java.util.UUID;
 public class TiendaCampanyaController {
 
     @Autowired
-    protected TiendaCampanyaRepositorio tiendaCampanyaRepositorio;
+    protected TiendaCampanyaRepository tiendaCampanyaRepository;
 
     @Autowired
-    protected UsuarioRepositorio usuarioRepositorio;
+    protected UsuarioRepository usuarioRepository;
 
     @PostMapping("/asignar-responsables")
     public String asignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
                                       @RequestParam("idCoordinador") Integer idCoordinador,
                                       @RequestParam("idCapitan") Integer idCapitan) {
 
-        TiendaCampanya tiendaCampanya = tiendaCampanyaRepositorio.findById(idTiendaCampanya).orElse(null);
-        tiendaCampanya.setCoordinador(usuarioRepositorio.findById(idCoordinador).orElse(null));
-        tiendaCampanya.setCapitan(usuarioRepositorio.findById(idCapitan).orElse(null));
+        TiendaCampanya tiendaCampanya = tiendaCampanyaRepository.findById(idTiendaCampanya).orElse(null);
+        tiendaCampanya.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
+        tiendaCampanya.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
 
-        tiendaCampanyaRepositorio.save(tiendaCampanya);
+        tiendaCampanyaRepository.save(tiendaCampanya);
         return "redirect:/tiendas";
     }
 
     @GetMapping("/asignacion-campanya")
     public String verAsignaciones(@RequestParam("idCampanya") Integer idCampanya,
                                   Model model) {
-        List<TiendaCampanya> asignaciones = tiendaCampanyaRepositorio.findByCampanyaIdCampanya(idCampanya);
+        List<TiendaCampanya> asignaciones = tiendaCampanyaRepository.findByCampanyaIdCampanya(idCampanya);
         model.addAttribute("asignaciones", asignaciones);
         return "tiendas_por_campanya";
     }

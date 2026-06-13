@@ -1,11 +1,21 @@
+<%--
+Página JSP que muestra la gestión de campañas de recogida.
+
+Autores:
+- Marina Ruiz: 51%
+- Sergio Aldana: 49%
+
+--%>
+
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.CampanyaDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Cadena" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     List<CampanyaDTO> campanas = (List<CampanyaDTO>) request.getAttribute("campanas");
-    List<Cadena>      cadenas  = (List<Cadena>)      request.getAttribute("cadenas");
+    List<CadenaEntity> cadenaEntities = (List<CadenaEntity>)      request.getAttribute("cadenaEntities");
     String cadenasJson         = (String) request.getAttribute("cadenasJson");
     String campanasJson        = (String) request.getAttribute("campanasJson");
 %>
@@ -15,7 +25,7 @@
     <title>Gestión de Campañas - Bancosol</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
-<body class="page-campanya">
+<body class="page-campanyaEntity">
 
     <header class="main-header">
         <div class="logo-area">
@@ -48,7 +58,7 @@
         <div class="management-container">
 
             <!-- ── COLUMNA IZQUIERDA: TIPO DE CAMPAÑA ── -->
-            <div class="campanya-column">
+            <div class="campanyaEntity-column">
                 <div class="box">
                     <h2>Tipo de campaña</h2>
                     <div class="checkbox-grid" style="grid-template-columns:1fr;">
@@ -74,14 +84,14 @@
             </div>
 
             <!-- ── COLUMNA CENTRAL: CADENAS ── -->
-            <div class="box cadenas-box">
+            <div class="box cadenaEntities-box">
                 <h2>Cadenas
                     <span id="campanaSeleccionadaLabel" style="font-weight:normal;font-size:0.85em;"></span>
                 </h2>
                 <div class="checkbox-grid">
                     <%
-                        if (cadenas != null) {
-                            for (Cadena cad : cadenas) {
+                        if (cadenaEntities != null) {
+                            for (CadenaEntity cad : cadenaEntities) {
                     %>
                     <div class="checkbox-item" id="fila_<%= cad.getIdCadena() %>">
                         <input type="checkbox" name="cadenaIds"
@@ -92,8 +102,8 @@
                                value="<%= cad.getIdCadena() %>"
                                id="borrar_<%= cad.getIdCadena() %>"
                                disabled>
-                        <div class="cadena-btn-group">
-                            <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
+                        <div class="cadenaEntity-btn-group">
+                            <a href="campanas/cadenaEntities/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadenaEntity">Editar</a>
                             <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">Eliminar</button>
                         </div>
                     </div>
@@ -102,8 +112,8 @@
                         }
                     %>
                 </div>
-                <div class="cadenas-actions">
-                    <a href="campanas/cadenas/nueva" class="add-cadena-link">+ Añadir cadena</a>
+                <div class="cadenaEntities-actions">
+                    <a href="campanas/cadenaEntities/nueva" class="add-cadenaEntity-link">+ Añadir cadenaEntity</a>
                 </div>
             </div>
 

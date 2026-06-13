@@ -1,6 +1,10 @@
-/*
-    Proyectos de clase del profesor: 100%
-*/
+/**
+ * Clase abstracta base para todos los mapeadores DTO-Entidad.
+ * Proporciona el método genérico toDTOList() basado en Streams.
+ *
+ * Autores:
+ * - Proyectos de clase del profesor: 100%
+ */
 
 package es.uma.tsaw.proyectobancosol.mapper;
 

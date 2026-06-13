@@ -1,0 +1,29 @@
+/**
+ * Entidad JPA que representa una dirección postal.
+ *
+ * Autores:
+ * - IA generativa: 100%
+ */
+
+package es.uma.tsaw.proyectobancosol.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "direccion", schema = "public")
+public class DireccionEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idDireccion;
+
+    @Column(name = "distrito_local", length = 150)
+    private String distritoLocal;
+
+    @Column(name = "zona_geografica", length = 150)
+    private String zonaGeografica;
+
+    @Column(name = "domicilio", length = 150)
+    private String domicilio;
+}

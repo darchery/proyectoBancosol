@@ -5,7 +5,7 @@ SET search_path TO public;
 -- 1. INSERTAR DIRECCIONES
 -- ==========================================
 -- Variedad: Distintos distritos y zonas geográficas (Málaga capital y provincia)
-INSERT INTO direccion (distrito_local, zona_geografica) VALUES
+INSERT INTO direccionEntity (distrito_local, zona_geografica) VALUES
 ('Centro', 'Málaga Capital'),
 ('Teatinos-Universidad', 'Málaga Capital'),
 ('Carretera de Cádiz', 'Málaga Capital'),
@@ -15,8 +15,8 @@ INSERT INTO direccion (distrito_local, zona_geografica) VALUES
 -- ==========================================
 -- 2. INSERTAR CADENAS
 -- ==========================================
--- Variedad: Supermercados grandes, hipermercados y tiendas de conveniencia
-INSERT INTO cadena (nombre_cadena, resenya_cadena, logo_url) VALUES
+-- Variedad: Supermercados grandes, hipermercados y tiendaEntities de conveniencia
+INSERT INTO cadenaEntity (nombre_cadena, resenya_cadena, logo_url) VALUES
 ('Mercadona', 'Supermercado estándar', 'https://ejemplo.com/logos/mercadona.png'),
 ('Carrefour', 'Hipermercado', 'https://ejemplo.com/logos/carrefour.png'),
 ('Carrefour Express', 'Tienda de conveniencia', 'https://ejemplo.com/logos/carrefour_express.png'),
@@ -28,7 +28,7 @@ INSERT INTO cadena (nombre_cadena, resenya_cadena, logo_url) VALUES
 -- ==========================================
 -- Variedad: Mezcla de franquicias (TRUE/FALSE), diferentes tamaños de lineales y nulos en direcciones.
 -- Asumimos que los IDs de las inserciones anteriores son 1, 2, 3, 4, 5 secuencialmente.
-INSERT INTO tienda (id_cadena, id_direccion, nombre_establecimiento, direccion, franquicia, lineales, cp) VALUES
+INSERT INTO tiendaEntity (id_cadena, id_direccion, nombre_establecimiento, direccionEntity, franquicia, lineales, cp) VALUES
 -- Tienda 1: Mercadona grande en el centro (No franquicia)
 (1, 1, 'Mercadona Atarazanas', 'Calle Mercado 12', FALSE, '15', '29005'),
 
@@ -44,5 +44,5 @@ INSERT INTO tienda (id_cadena, id_direccion, nombre_establecimiento, direccion, 
 -- Tienda 5: Maskom en Ronda (Sin franquicia, probando un CP distinto)
 (5, 5, 'Maskom Ronda Centro', 'Calle Espinel 45', FALSE, '6', '29400'),
 
--- Tienda 6: Ejemplo de tienda a la que le falta la dirección física exacta (para probar fallos/nulos)
+-- Tienda 6: Ejemplo de tiendaEntity a la que le falta la dirección física exacta (para probar fallos/nulos)
 (1, 2, 'Mercadona Campus', NULL, FALSE, '12', '29010');

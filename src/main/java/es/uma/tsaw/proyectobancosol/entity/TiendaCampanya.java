@@ -1,3 +1,10 @@
+/**
+ * Entidad JPA que representa la relación entre una tienda y una campaña.
+ *
+ * Autores:
+ * - IA generativa: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.entity;
 
 import jakarta.persistence.*;
@@ -13,17 +20,17 @@ public class TiendaCampanya {
 
     @ManyToOne
     @JoinColumn(name = "id_tienda", nullable = false)
-    private Tienda tienda;
+    private TiendaEntity tiendaEntity;
 
     @ManyToOne
     @JoinColumn(name = "id_campanya", nullable = false)
-    private Campanya campanya;
+    private CampanyaEntity campanyaEntity;
 
     @ManyToOne
     @JoinColumn(name = "id_coordinador")
-    private Usuario coordinador;
+    private UsuarioEntity coordinador;
 
     @ManyToOne
     @JoinColumn(name = "id_capitan")
-    private Usuario capitan;
+    private UsuarioEntity capitan;
 }

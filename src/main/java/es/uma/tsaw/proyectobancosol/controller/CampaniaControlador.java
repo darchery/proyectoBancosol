@@ -1,7 +1,15 @@
+/**
+ * Controlador que gestiona las campañas de recogida.
+ * Permite listar, crear, editar y eliminar campañas.
+ *
+ * Autores:
+ * - Marina Ruiz: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.CampanyaDTO;
-import es.uma.tsaw.proyectobancosol.entity.Cadena;
+import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
 import es.uma.tsaw.proyectobancosol.service.CampanyaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,7 +36,7 @@ public class CampaniaControlador {
     @GetMapping("/campanas")
     public String listar(Model model) {
         List<CampanyaDTO> campanas = campanyaService.findAll();
-        List<Cadena>      cadenas  = campanyaService.findAllCadenas();
+        List<CadenaEntity> cadenaEntities = campanyaService.findAllCadenas();
 
         // JSON de cadenas por campaña: { "1": [2, 5], "2": [3] }
         StringBuilder sbCadenas = new StringBuilder("{");
@@ -63,7 +71,7 @@ public class CampaniaControlador {
         sbCampanas.append("}");
 
         model.addAttribute("campanas",      campanas);
-        model.addAttribute("cadenas",       cadenas);
+        model.addAttribute("cadenas", cadenaEntities);
         model.addAttribute("cadenasJson",   sbCadenas.toString());
         model.addAttribute("campanasJson",  sbCampanas.toString());
         model.addAttribute("tiposCampanya", TIPOS_CAMPANYA);
@@ -88,14 +96,14 @@ public class CampaniaControlador {
 
     @GetMapping("/campanas/cadenas/nueva")
     public String nuevaCadena(Model model) {
-        model.addAttribute("cadena", new Cadena());
-        return "cadena_form";
+        model.addAttribute("cadena", new CadenaEntity());
+        return "formularioCadena";
     }
 
     @GetMapping("/campanas/cadenas/editar")
     public String editarCadena(@RequestParam("id") Integer id, Model model) {
         model.addAttribute("cadena", campanyaService.findCadenaById(id));
-        return "cadena_form";
+        return "formularioCadena";
     }
 
     @Transactional

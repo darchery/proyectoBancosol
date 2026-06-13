@@ -1,6 +1,9 @@
-/*
-    IA: 100%
-*/
+/**
+ * DTO que transfiere los datos de un rol.
+ *
+ * Autores:
+ * - IA generativa: 100%
+ */
 
 package es.uma.tsaw.proyectobancosol.dto;
 import lombok.Data;

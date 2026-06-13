@@ -1,3 +1,13 @@
+<%--
+Página JSP que muestra la gestión de entidades colaboradoras.
+
+Autores:
+- Sergio Aldana: 84%
+- Marina Ruiz: 9%
+- Daniela Calderón: 7%
+
+--%>
+
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -48,7 +58,7 @@
                     <td><%= e.getZonaGeografica() %></td>
                     <td><%= e.getNombreResponsable() %></td>
                     <td>
-                        <%= (e.getNombreContactoPrincipal() != null ? e.getNombreContactoPrincipal() : "<em class='text-muted'>Sin contacto</em>") %>
+                        <%= (e.getNombreContactoPrincipal() != null ? e.getNombreContactoPrincipal() : "<em class='text-muted'>Sin contactoEntity</em>") %>
                         <%= (e.getTelefonoContactoPrincipal() != null ? "(" + e.getTelefonoContactoPrincipal() + ")" : "") %>
                     </td>
                     <td><%= (e.getObservaciones() != null) ? e.getObservaciones() : "<em class='text-muted'>No hay observaciones</em>" %></td>

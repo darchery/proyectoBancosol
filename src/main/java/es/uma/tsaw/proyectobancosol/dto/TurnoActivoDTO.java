@@ -1,3 +1,10 @@
+/**
+ * DTO que transfiere los datos de un turno activo.
+ *
+ * Autores:
+ * - IA generativa: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.dto;
 import lombok.Data;
 @Data

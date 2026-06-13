@@ -9,12 +9,12 @@ SET search_path TO prueba_s;
 
 -- 1. TABLAS INDEPENDIENTES (Sin claves foráneas)
 
-CREATE TABLE rol (
+CREATE TABLE rolEntity (
     id_rol SERIAL PRIMARY KEY,
     nombre_rol VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE campanya (
+CREATE TABLE campanyaEntity (
     id_campanya SERIAL PRIMARY KEY,
     nombre_campanya VARCHAR(255) NOT NULL,
     fecha_inicio DATE,
@@ -22,14 +22,14 @@ CREATE TABLE campanya (
     estado VARCHAR(50)
 );
 
-CREATE TABLE cadena (
+CREATE TABLE cadenaEntity (
     id_cadena SERIAL PRIMARY KEY,
     nombre_cadena VARCHAR(150) NOT NULL,
 	resenya_cadena VARCHAR(150),
     logo_url VARCHAR(255)
 );
 
-CREATE TABLE direccion (
+CREATE TABLE direccionEntity (
     id_direccion SERIAL PRIMARY KEY,
     distrito_local VARCHAR(150),
     zona_geografica VARCHAR(150)
@@ -44,26 +44,26 @@ CREATE TABLE plantilla_turno (
 -- 2. TABLAS DE PRIMER NIVEL DE DEPENDENCIA
 
 -- UUID conectado a Supabase Auth. Campo 'pwd' eliminado del diagrama por seguridad.
-CREATE TABLE usuario (
+CREATE TABLE usuarioEntity (
     id_usuario UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-    id_rol INT REFERENCES rol(id_rol),
+    id_rol INT REFERENCES rolEntity(id_rol),
     nombre VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     telefono VARCHAR(20)
 );
 
 CREATE TABLE campanya_cadena (
-    id_campanya INT REFERENCES campanya(id_campanya) ON DELETE CASCADE,
-    id_cadena INT REFERENCES cadena(id_cadena) ON DELETE CASCADE,
+    id_campanya INT REFERENCES campanyaEntity(id_campanya) ON DELETE CASCADE,
+    id_cadena INT REFERENCES cadenaEntity(id_cadena) ON DELETE CASCADE,
     PRIMARY KEY (id_campanya, id_cadena)
 );
 
-CREATE TABLE tienda (
+CREATE TABLE tiendaEntity (
     id_tienda SERIAL PRIMARY KEY,
-    id_cadena INT REFERENCES cadena(id_cadena) ON DELETE CASCADE,
-    id_direccion INT REFERENCES direccion(id_direccion),
+    id_cadena INT REFERENCES cadenaEntity(id_cadena) ON DELETE CASCADE,
+    id_direccion INT REFERENCES direccionEntity(id_direccion),
     nombre_establecimiento VARCHAR(255) NOT NULL,
-    direccion VARCHAR(255),
+    direccionEntity VARCHAR(255),
 	franquicia BOOLEAN DEFAULT FALSE,
 	lineales VARCHAR(10),
     cp VARCHAR(10)
@@ -73,7 +73,7 @@ CREATE TABLE tienda (
 
 CREATE TABLE entidad_colaboradora (
     id_entidad SERIAL PRIMARY KEY,
-    id_responsable UUID REFERENCES usuario(id_usuario),
+    id_responsable UUID REFERENCES usuarioEntity(id_usuario),
     nombre_entidad VARCHAR(255) NOT NULL,
     tipo VARCHAR(100),
     ligado_bancosol BOOLEAN DEFAULT FALSE
@@ -81,10 +81,10 @@ CREATE TABLE entidad_colaboradora (
 
 CREATE TABLE tienda_campanya (
     id_tienda_campanya SERIAL PRIMARY KEY,
-    id_tienda INT REFERENCES tienda(id_tienda) ON DELETE CASCADE,
-    id_campanya INT REFERENCES campanya(id_campanya) ON DELETE CASCADE,
-    id_coordinador UUID REFERENCES usuario(id_usuario),
-    id_capitan UUID REFERENCES usuario(id_usuario),
+    id_tienda INT REFERENCES tiendaEntity(id_tienda) ON DELETE CASCADE,
+    id_campanya INT REFERENCES campanyaEntity(id_campanya) ON DELETE CASCADE,
+    id_coordinador UUID REFERENCES usuarioEntity(id_usuario),
+    id_capitan UUID REFERENCES usuarioEntity(id_usuario),
     UNIQUE (id_tienda, id_campanya)
 );
 
@@ -103,7 +103,7 @@ CREATE TABLE turno_activo (
 CREATE TABLE asignacion_voluntario (
     id_asignacion SERIAL PRIMARY KEY,
     id_turno_activo INT REFERENCES turno_activo(id_turno_activo) ON DELETE CASCADE,
-    id_usuario UUID REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    id_usuario UUID REFERENCES usuarioEntity(id_usuario) ON DELETE CASCADE,
     id_entidad INT REFERENCES entidad_colaboradora(id_entidad),
     asistencia BOOLEAN DEFAULT FALSE
 );

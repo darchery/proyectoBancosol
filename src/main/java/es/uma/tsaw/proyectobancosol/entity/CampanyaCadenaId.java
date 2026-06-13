@@ -1,3 +1,10 @@
+/**
+ * Clase que representa la clave compuesta (embeddable) para la entidad CampanyaCadena.
+ *
+ * Autores:
+ * - IA generativa: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.entity;
 
 import java.io.Serializable;

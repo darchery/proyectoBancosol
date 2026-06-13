@@ -1,18 +1,27 @@
+<%--
+Página JSP que permite editar o crear una asignación de voluntario a un turno.
+
+Autores:
+- Sergio Aldana: 51%
+- Laia Díaz: 49%
+
+--%>
+
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.TurnoActivo" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.Tienda" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.TiendaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     Integer idUsuario = (Integer) request.getAttribute("idUsuario");
     String nombreUsuario = (String) request.getAttribute("nombreUsuario");
     AsignacionVoluntarioDTO asignacion = (AsignacionVoluntarioDTO) request.getAttribute("asignacion");
-    List<TurnoActivo> turnos = (List<TurnoActivo>) request.getAttribute("turnos");
-    List<EntidadColaboradora> entidades = (List<EntidadColaboradora>) request.getAttribute("entidades");
+    List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
+    List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
 
-    List<Tienda> tiendas = (List<Tienda>) request.getAttribute("tiendas");
+    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendaEntities");
     boolean esEdicion = (asignacion != null);
 
     // Valores actuales para pre-selección en edición
@@ -52,17 +61,17 @@
     <div class="form-group">
         <label>Tienda:</label>
         <select id="selectTienda" onchange="filtrarTurnos()">
-            <option value="">-- Selecciona una tienda --</option>
+            <option value="">-- Selecciona una tiendaEntity --</option>
             <%
-                for (Tienda tienda : tiendas) {
-                    boolean sel = idTiendaActual != null && idTiendaActual.equals(tienda.getIdTienda());
-                    String localidadTienda = tienda.getDireccion() != null
-                            ? tienda.getDireccion().getZonaGeografica() : "";
+                for (TiendaEntity tiendaEntity : tiendaEntities) {
+                    boolean sel = idTiendaActual != null && idTiendaActual.equals(tiendaEntity.getIdTienda());
+                    String localidadTienda = tiendaEntity.getDireccionEntity() != null
+                            ? tiendaEntity.getDireccionEntity().getZonaGeografica() : "";
             %>
-            <option value="<%= tienda.getIdTienda() %>"
+            <option value="<%= tiendaEntity.getIdTienda() %>"
                     data-localidad="<%= localidadTienda %>"
                     <%= sel ? "selected" : "" %>>
-                <%= tienda.getNombreEstablecimiento() %>
+                <%= tiendaEntity.getNombreEstablecimiento() %>
             </option>
             <%
                 }
@@ -77,25 +86,25 @@
                value="<%= esEdicion && asignacion.getLocalidad() != null ? asignacion.getLocalidad() : "" %>">
     </div>
 
-    <!-- FRANJA (turnos filtrados por tienda) -->
+    <!-- FRANJA (turnos filtrados por tiendaEntity) -->
     <div class="form-group">
         <label>Franja / Turno:</label>
         <select id="selectTurno" onchange="actualizarTurno()" required>
             <%
-                for (TurnoActivo turno : turnos) {
+                for (TurnoActivoEntity turno : turnos) {
                     String dia = "";
                     String franja = "";
-                    if (turno.getPlantillaTurno() != null) {
-                        if (turno.getPlantillaTurno().getDiaSemana() != null)    dia    = turno.getPlantillaTurno().getDiaSemana();
-                        if (turno.getPlantillaTurno().getFranjaHoraria() != null) franja = turno.getPlantillaTurno().getFranjaHoraria();
+                    if (turno.getPlantillaTurnoEntity() != null) {
+                        if (turno.getPlantillaTurnoEntity().getDiaSemana() != null)    dia    = turno.getPlantillaTurnoEntity().getDiaSemana();
+                        if (turno.getPlantillaTurnoEntity().getFranjaHoraria() != null) franja = turno.getPlantillaTurnoEntity().getFranjaHoraria();
                     }
                     String fechaTurno = turno.getFechaExacta() != null ? turno.getFechaExacta().toString() : "";
                     String label = dia + " " + franja + " · " + fechaTurno;
-                    int idTiendaTurno = turno.getTiendaCampanya().getTienda().getIdTienda();
+                    int idTiendaTurno = turno.getTiendaCampanya().getTiendaEntity().getIdTienda();
                     boolean sel = idTurnoActual != null && idTurnoActual.equals(turno.getIdTurnoActivo());
             %>
             <option value="<%= turno.getIdTurnoActivo() %>"
-                    data-tienda="<%= idTiendaTurno %>"
+                    data-tiendaEntity="<%= idTiendaTurno %>"
                     data-fecha="<%= fechaTurno %>"
                     <%= sel ? "selected" : "" %>>
                 <%= label %>
@@ -128,7 +137,7 @@
         <select name="idEntidad" id="selectEntidad" onchange="actualizarIdEntidad()">
             <option value="">-- Sin entidad --</option>
             <%
-                for (EntidadColaboradora entidad : entidades) {
+                for (EntidadColaboradoraEntity entidad : entidades) {
                     boolean sel = idEntidadActual != null && idEntidadActual.equals(entidad.getIdEntidad());
             %>
             <option value="<%= entidad.getIdEntidad() %>" <%= sel ? "selected" : "" %>>
@@ -168,7 +177,7 @@
         actualizarIdEntidad();
     };
 
-    // Filtra los turnos según la tienda seleccionada y actualiza localidad
+    // Filtra los turnos según la tiendaEntity seleccionada y actualiza localidad
     function filtrarTurnos() {
         const selectTienda  = document.getElementById("selectTienda");
         const selectTurno   = document.getElementById("selectTurno");
@@ -188,15 +197,15 @@
             const opt = opciones[i];
             if (opt.value === "") continue; // opción vacía siempre visible
 
-            const visible = !idTiendaSel || opt.dataset.tienda === idTiendaSel;
+            const visible = !idTiendaSel || opt.dataset.tiendaEntity === idTiendaSel;
             opt.style.display = visible ? "" : "none";
 
             if (visible && primerVisible === null) primerVisible = opt;
         }
 
-        // Si el turno actualmente seleccionado no pertenece a esta tienda, limpiar
+        // Si el turno actualmente seleccionado no pertenece a esta tiendaEntity, limpiar
         const turnoActual = selectTurno.options[selectTurno.selectedIndex];
-        if (turnoActual && turnoActual.value !== "" && turnoActual.dataset.tienda !== idTiendaSel) {
+        if (turnoActual && turnoActual.value !== "" && turnoActual.dataset.tiendaEntity !== idTiendaSel) {
             selectTurno.value = "";
             document.getElementById("fecha").value = "";
             document.getElementById("idTurnoHidden").value = "";

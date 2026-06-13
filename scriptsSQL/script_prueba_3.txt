@@ -3,15 +3,15 @@ SET search_path TO public;
 -- ==========================================
 -- 1. INSERTAR EL NUEVO ROL
 -- ==========================================
-INSERT INTO rol (nombre_rol) VALUES ('CoordinadorCapitan');
+INSERT INTO rolEntity (nombre_rol) VALUES ('CoordinadorCapitan');
 
 -- ==========================================
 -- 2. INSERTAR EL NUEVO USUARIO CON ESE ROL
 -- ==========================================
 -- Sin especificar id_usuario, la BD lo auto-genera
 -- Búsqueda automática del id_rol mediante SELECT
-INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES (
-    (SELECT id_rol FROM rol WHERE nombre_rol = 'CoordinadorCapitan'), 
+INSERT INTO usuarioEntity (id_rol, nombre, email, telefono, contrasenya) VALUES (
+    (SELECT id_rol FROM rolEntity WHERE nombre_rol = 'CoordinadorCapitan'),
     'Coordinador y Capitán', 
     'coordinadorcapitan@test.com', 
     '600500500',

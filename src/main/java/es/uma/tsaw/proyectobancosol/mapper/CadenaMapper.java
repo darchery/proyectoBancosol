@@ -1,20 +1,28 @@
+/**
+ * Mapper que convierte entre entidad Cadena y su DTO.
+ *
+ * Autores:
+ * - Sergio Aldana: 50%
+ * - IA generativa: 50%
+ */
+
 package es.uma.tsaw.proyectobancosol.mapper;
 
 import es.uma.tsaw.proyectobancosol.dto.CadenaDTO;
-import es.uma.tsaw.proyectobancosol.entity.Cadena;
+import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CadenaMapper extends MapperDTO<CadenaDTO, Cadena> {
+public class CadenaMapper extends MapperDTO<CadenaDTO, CadenaEntity> {
 
     @Override
-    public CadenaDTO toDTO(Cadena cadena) {
+    public CadenaDTO toDTO(CadenaEntity cadenaEntity) {
         CadenaDTO dto = new CadenaDTO();
 
-        dto.setIdCadena(cadena.getIdCadena());
-        dto.setNombreCadena(cadena.getNombreCadena());
-        dto.setResenyaCadena(cadena.getResenyaCadena());
-        dto.setLogoUrl(cadena.getLogoUrl());
+        dto.setIdCadena(cadenaEntity.getIdCadena());
+        dto.setNombreCadena(cadenaEntity.getNombreCadena());
+        dto.setResenyaCadena(cadenaEntity.getResenyaCadena());
+        dto.setLogoUrl(cadenaEntity.getLogoUrl());
 
         return dto;
     }

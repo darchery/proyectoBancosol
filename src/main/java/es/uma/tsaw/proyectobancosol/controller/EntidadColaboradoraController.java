@@ -1,3 +1,11 @@
+/**
+ * Controlador que gestiona las entidades colaboradoras.
+ * Permite listar, crear, editar y eliminar entidades.
+ *
+ * Autores:
+ * - Daniela Calderón: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;

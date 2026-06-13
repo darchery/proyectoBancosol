@@ -1,3 +1,12 @@
+<%--
+Página JSP que muestra el formulario de inicio de sesión.
+
+Autores:
+- Sergio Aldana: 67%
+- IA generativa: 33%
+
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
@@ -35,7 +44,7 @@
             <form action="/autentica" method="post">
 
                 <label>Usuario</label>
-                <input type="text" name="username" placeholder="Introduce tu usuario" required>
+                <input type="text" name="username" placeholder="Introduce tu usuarioEntity" required>
 
                 <label>Contraseña</label>
                 <input type="password" name="password" placeholder="Introduce tu contraseña" required>

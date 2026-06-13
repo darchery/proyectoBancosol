@@ -1,14 +1,21 @@
+/**
+ * Mapper que convierte entre entidad EntidadColaboradora y su DTO.
+ *
+ * Autores:
+ * - Daniela Calderón: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.mapper;
 
 import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
-import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradora;
+import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EntidadColaboradoraMapper extends MapperDTO<EntidadColaboradoraDTO, EntidadColaboradora> {
+public class EntidadColaboradoraMapper extends MapperDTO<EntidadColaboradoraDTO, EntidadColaboradoraEntity> {
 
     @Override
-    public EntidadColaboradoraDTO toDTO(EntidadColaboradora entidad) {
+    public EntidadColaboradoraDTO toDTO(EntidadColaboradoraEntity entidad) {
         EntidadColaboradoraDTO dto = new EntidadColaboradoraDTO();
         dto.setIdEntidad(entidad.getIdEntidad());
         dto.setNombreEntidad(entidad.getNombreEntidad());
@@ -22,14 +29,14 @@ public class EntidadColaboradoraMapper extends MapperDTO<EntidadColaboradoraDTO,
             dto.setResponsableId(entidad.getResponsable().getIdUsuario());  // ← idUsuario
             dto.setNombreResponsable(entidad.getResponsable().getNombre());
         }
-        if (entidad.getDireccion() != null) {
-            dto.setDireccionId(entidad.getDireccion().getIdDireccion());    // ← idDireccion
-            dto.setDomicilio(entidad.getDireccion().getDomicilio());
-            dto.setDistritoLocal(entidad.getDireccion().getDistritoLocal());
-            dto.setZonaGeografica(entidad.getDireccion().getZonaGeografica());
+        if (entidad.getDireccionEntity() != null) {
+            dto.setDireccionId(entidad.getDireccionEntity().getIdDireccion());    // ← idDireccion
+            dto.setDomicilio(entidad.getDireccionEntity().getDomicilio());
+            dto.setDistritoLocal(entidad.getDireccionEntity().getDistritoLocal());
+            dto.setZonaGeografica(entidad.getDireccionEntity().getZonaGeografica());
         }
-        if (entidad.getContactos() != null) {
-            entidad.getContactos().stream()
+        if (entidad.getContactoEntities() != null) {
+            entidad.getContactoEntities().stream()
                     .filter(c -> Boolean.TRUE.equals(c.getEsPrincipal()))
                     .findFirst()
                     .ifPresent(c -> {

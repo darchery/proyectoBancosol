@@ -1,3 +1,10 @@
+/**
+ * DTO que transfiere los datos de un contacto.
+ *
+ * Autores:
+ * - IA generativa: 100%
+ */
+
 package es.uma.tsaw.proyectobancosol.dto;
 
 import lombok.Data;

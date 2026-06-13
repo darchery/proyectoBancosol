@@ -2,9 +2,9 @@
 -- SCRIPT ÚNICO: CARGA COMPLETA DE DATOS DE PRUEBA
 -- ============================================================
 -- Este script incluye TODOS los inserts de:
--- - script_prueba_1.txt (direcciones, cadenas, tiendas)
--- - script_prueba_2.txt (roles, usuarios, entidades, turnos)
--- - script_prueba_3.txt (rol y usuario adicionales)
+-- - script_prueba_1.txt (direcciones, cadenaEntities, tiendaEntities)
+-- - script_prueba_2.txt (roles, usuarioEntities, entidades, turnos)
+-- - script_prueba_3.txt (rolEntity y usuarioEntity adicionales)
 --
 -- Ejecutar DESPUÉS de modelo_datos_v2.txt
 -- ============================================================
@@ -14,7 +14,7 @@ SET search_path TO public;
 -- ==========================================
 -- FASE 1: INSERTAR DIRECCIONES
 -- ==========================================
-INSERT INTO direccion (distrito_local, zona_geografica) VALUES
+INSERT INTO direccionEntity (distrito_local, zona_geografica) VALUES
 ('Centro', 'Málaga Capital'),
 ('Teatinos-Universidad', 'Málaga Capital'),
 ('Carretera de Cádiz', 'Málaga Capital'),
@@ -24,7 +24,7 @@ INSERT INTO direccion (distrito_local, zona_geografica) VALUES
 -- ==========================================
 -- FASE 2: INSERTAR CADENAS
 -- ==========================================
-INSERT INTO cadena (nombre_cadena, resenya_cadena, logo_url) VALUES
+INSERT INTO cadenaEntity (nombre_cadena, resenya_cadena, logo_url) VALUES
 ('Mercadona', 'Supermercado estándar', 'https://ejemplo.com/logos/mercadona.png'),
 ('Carrefour', 'Hipermercado', 'https://ejemplo.com/logos/carrefour.png'),
 ('Carrefour Express', 'Tienda de conveniencia', 'https://ejemplo.com/logos/carrefour_express.png'),
@@ -34,7 +34,7 @@ INSERT INTO cadena (nombre_cadena, resenya_cadena, logo_url) VALUES
 -- ==========================================
 -- FASE 3: INSERTAR TIENDAS
 -- ==========================================
-INSERT INTO tienda (id_cadena, id_direccion, nombre_establecimiento, direccion, franquicia, lineales, cp) VALUES
+INSERT INTO tiendaEntity (id_cadena, id_direccion, nombre_establecimiento, direccionEntity, franquicia, lineales, cp) VALUES
 (1, 1, 'Mercadona Atarazanas', 'Calle Mercado 12', FALSE, '15', '29005'),
 (3, 2, 'Carrefour Express Bulevar', 'Bulevar Louis Pasteur 33', TRUE, '4', '29010'),
 (2, 3, 'Carrefour Los Patios', 'Av. de Velázquez 241', FALSE, '25', '29004'),
@@ -45,7 +45,7 @@ INSERT INTO tienda (id_cadena, id_direccion, nombre_establecimiento, direccion, 
 -- ==========================================
 -- FASE 4: INSERTAR ROLES
 -- ==========================================
-INSERT INTO rol (nombre_rol) VALUES 
+INSERT INTO rolEntity (nombre_rol) VALUES
 ('Administrador'), 
 ('Coordinador'), 
 ('Capitan'), 
@@ -66,7 +66,7 @@ INSERT INTO plantilla_turno (dia_semana, franja_horaria) VALUES
 -- ==========================================
 -- FASE 6: INSERTAR CAMPAÑAS
 -- ==========================================
-INSERT INTO campanya (nombre_campanya, fecha_inicio, fecha_fin, estado) VALUES
+INSERT INTO campanyaEntity (nombre_campanya, fecha_inicio, fecha_fin, estado) VALUES
 ('Gran Recogida 2023', '2023-11-24', '2023-11-26', 'Finalizada'),
 ('Operación Primavera 2024', '2024-05-10', '2024-05-12', 'Finalizada'),
 ('Gran Recogida 2024', '2024-11-22', '2024-11-24', 'Activa');
@@ -80,7 +80,7 @@ INSERT INTO campanya_cadena (id_campanya, id_cadena) VALUES
 -- ==========================================
 -- FASE 8: INSERTAR USUARIOS (Sin especificar ID, auto-genera)
 -- ==========================================
-INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES
+INSERT INTO usuarioEntity (id_rol, nombre, email, telefono, contrasenya) VALUES
 (1, 'Admin Supremo', 'admin@test.com', '600100100', '1234'),
 (2, 'Coordinador Zona Sur', 'coordinador@test.com', '600200200', 'migato'),
 (3, 'Capitán Mercadona', 'capitan@test.com', '600300300', 'batman'),
@@ -117,13 +117,13 @@ INSERT INTO asignacion_voluntario (id_turno_activo, id_usuario, id_entidad, asis
 -- ==========================================
 -- FASE 13: ROL ADICIONAL (COORDINADOR + CAPITÁN)
 -- ==========================================
-INSERT INTO rol (nombre_rol) VALUES ('CoordinadorCapitan');
+INSERT INTO rolEntity (nombre_rol) VALUES ('CoordinadorCapitan');
 
 -- ==========================================
 -- FASE 14: USUARIO CON ROL ADICIONAL
 -- ==========================================
-INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES (
-    (SELECT id_rol FROM rol WHERE nombre_rol = 'CoordinadorCapitan'), 
+INSERT INTO usuarioEntity (id_rol, nombre, email, telefono, contrasenya) VALUES (
+    (SELECT id_rol FROM rolEntity WHERE nombre_rol = 'CoordinadorCapitan'),
     'Coordinador y Capitán', 
     'coordinadorcapitan@test.com', 
     '600500500',
@@ -135,12 +135,12 @@ INSERT INTO usuario (id_rol, nombre, email, telefono, contrasenya) VALUES (
 -- ============================================================
 -- Resultados esperados:
 -- - 5 direcciones
--- - 5 cadenas
--- - 6 tiendas
+-- - 5 cadenaEntities
+-- - 6 tiendaEntities
 -- - 6 roles
 -- - 6 plantillas de turno
 -- - 3 campañas
--- - 5 usuarios (ids 1-5)
+-- - 5 usuarioEntities (ids 1-5)
 -- - 2 entidades colaboradoras
 -- - 2 tienda_campanya
 -- - 3 turnos activos

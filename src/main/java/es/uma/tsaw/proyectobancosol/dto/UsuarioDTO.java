@@ -1,7 +1,10 @@
-/*
-    IA: 90%
-    Lucas: 10%
-*/
+/**
+ * DTO que transfiere los datos de un usuario.
+ *
+ * Autores:
+ * - IA generativa: 90%
+ * - Lucas Díaz Ruiz: 10%
+ */
 
 package es.uma.tsaw.proyectobancosol.dto;
 import lombok.Data;
