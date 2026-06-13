@@ -13,6 +13,8 @@ import es.uma.tsaw.proyectobancosol.dto.TiendaDTO;
 import es.uma.tsaw.proyectobancosol.service.TiendaService;
 import es.uma.tsaw.proyectobancosol.service.CadenaService;
 import es.uma.tsaw.proyectobancosol.service.DireccionService;
+import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +31,8 @@ public class TiendaController {
     private final DireccionService direccionService;
 
     @GetMapping("")
-    public String doInit(Model model) {
+    public String doInit(Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         model.addAttribute("tiendas", tiendaService.listarTodas());
 
@@ -37,7 +40,8 @@ public class TiendaController {
     }
 
     @GetMapping("/editarCrear")
-    public String doEditarCrear(@RequestParam(required = false) Integer id, Model model) {
+    public String doEditarCrear(@RequestParam(required = false) Integer id, Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         model.addAttribute("tienda", tiendaService.buscarOCrear(id));
         model.addAttribute("cadenas", cadenaService.listarTodas());
@@ -49,7 +53,9 @@ public class TiendaController {
     @PostMapping("/guardar")
     public String doGuardar(@ModelAttribute("tienda") TiendaDTO tiendaDTO,
                             @RequestParam("idCadena") Integer idCadena,
-                            @RequestParam(value = "idDireccion", required = false) Integer idDireccion) {
+                            @RequestParam(value = "idDireccion", required = false) Integer idDireccion,
+                            HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         tiendaService.guardar(tiendaDTO, idCadena, idDireccion);
 
@@ -57,7 +63,8 @@ public class TiendaController {
     }
 
     @GetMapping("/borrar")
-    public String doBorrar(@RequestParam("id") Integer id) {
+    public String doBorrar(@RequestParam("id") Integer id, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         tiendaService.borrar(id);
 

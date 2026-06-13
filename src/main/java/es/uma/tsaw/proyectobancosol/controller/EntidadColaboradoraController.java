@@ -13,6 +13,8 @@ import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
 import es.uma.tsaw.proyectobancosol.service.DireccionService;
 import es.uma.tsaw.proyectobancosol.service.EntidadColaboradoraService;
 import es.uma.tsaw.proyectobancosol.service.UsuarioService;
+import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,20 +32,27 @@ public class EntidadColaboradoraController {
     private final DireccionService direccionService;
 
     @GetMapping("/entidades")
-    public String listar(Model model) {
+    public String listar(Model model, HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         model.addAttribute("entidades", entidadService.listarTodas());
         return "gestionColaboradores";
     }
 
     @GetMapping("/entidades/nueva")
-    public String nueva(Model model) {
+    public String nueva(Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         model.addAttribute("entidad", new EntidadColaboradoraDTO());
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
         return "formularioEntidadColaboradora";
     }
 
     @GetMapping("/entidades/editar")
-    public String editar(@RequestParam("id") Integer id, Model model) {
+    public String editar(@RequestParam("id") Integer id, Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         model.addAttribute("entidad", entidadService.buscarPorId(id));
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
         return "formularioEntidadColaboradora";
@@ -59,7 +68,9 @@ public class EntidadColaboradoraController {
             @RequestParam(value = "direccionId", required = false) Integer direccionId,
             @RequestParam(value = "domicilio", required = false) String domicilio,
             @RequestParam(value = "distritoLocal", required = false) String distritoLocal,
-            @RequestParam(value = "zonaGeografica", required = false) String zonaGeografica) {
+            @RequestParam(value = "zonaGeografica", required = false) String zonaGeografica,
+            HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         entidadService.guardar(idEntidad, nombreEntidad, tipo, ligadoBancosol, responsableId, direccionId);
 
@@ -71,7 +82,9 @@ public class EntidadColaboradoraController {
     }
 
     @GetMapping("/entidades/borrar")
-    public String borrar(@RequestParam("id") Integer id) {
+    public String borrar(@RequestParam("id") Integer id, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         entidadService.borrar(id);
         return "redirect:/entidades";
     }

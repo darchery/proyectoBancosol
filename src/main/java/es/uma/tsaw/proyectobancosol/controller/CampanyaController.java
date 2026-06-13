@@ -11,6 +11,8 @@ package es.uma.tsaw.proyectobancosol.controller;
 import es.uma.tsaw.proyectobancosol.dto.CampanyaDTO;
 import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
 import es.uma.tsaw.proyectobancosol.service.CampanyaService;
+import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,10 @@ public class CampanyaController {
     // ── LISTAR ─────────────────────────────────────────────────────────────
 
     @GetMapping("/campanas")
-    public String listar(Model model) {
+    public String listar(Model model, HttpSession session) {
+        // Sólo accedes si eres admin
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         List<CampanyaDTO> campanas = campanyaService.findAll();
         List<CadenaEntity> cadenaEntities = campanyaService.findAllCadenas();
 
@@ -81,13 +86,17 @@ public class CampanyaController {
     // ── CADENAS ────────────────────────────────────────────────────────────
 
     @GetMapping("/campanas/cadenas/nueva")
-    public String nuevaCadena(Model model) {
+    public String nuevaCadena(Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         model.addAttribute("cadena", new CadenaEntity());
         return "formularioCadena";
     }
 
     @GetMapping("/campanas/cadenas/editar")
-    public String editarCadena(@RequestParam("id") Integer id, Model model) {
+    public String editarCadena(@RequestParam("id") Integer id, Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         model.addAttribute("cadena", campanyaService.findCadenaById(id));
         return "formularioCadena";
     }
@@ -97,14 +106,17 @@ public class CampanyaController {
             @RequestParam(value = "idCadena",      required = false) Integer idCadena,
             @RequestParam("nombreCadena")                             String  nombreCadena,
             @RequestParam(value = "resenyaCadena", required = false) String  resenyaCadena,
-            @RequestParam(value = "logoUrl",       required = false) String  logoUrl) {
+            @RequestParam(value = "logoUrl",       required = false) String  logoUrl,
+            HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         campanyaService.guardarCadena(idCadena, nombreCadena, resenyaCadena, logoUrl);
         return "redirect:/campanas";
     }
 
     @GetMapping("/campanas/cadenas/borrar")
-    public String borrarCadena(@RequestParam("id") Integer id) {
+    public String borrarCadena(@RequestParam("id") Integer id, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
         campanyaService.borrarCadena(id);
         return "redirect:/campanas";
     }
@@ -122,7 +134,9 @@ public class CampanyaController {
             @RequestParam(value = "campanaEstado",      required = false) String        estado,
             @RequestParam(value = "campanaFechaInicio", required = false) String        fechaInicio,
             @RequestParam(value = "campanaFechaFin",    required = false) String        fechaFin,
-            RedirectAttributes redirect) throws Exception {
+            RedirectAttributes redirect,
+            HttpSession session) throws Exception {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         String msg = campanyaService.guardarTodo(
                 campanaId, campanaEditId, cadenaIds, cadenasBorrar,

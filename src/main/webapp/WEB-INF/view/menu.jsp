@@ -2,7 +2,8 @@
 Página JSP que muestra el menú principal de la aplicación con acceso a los distintos módulos.
 
 Autores:
-- Sergio Aldana: 67%
+- Sergio Aldana: 34%
+- Lucas Díaz: 33%
 - IA generativa: 33%
 
 --%>
@@ -30,6 +31,12 @@ Autores:
             <%
                 UsuarioEntity userObj = (UsuarioEntity) session.getAttribute("user");
                 String userName = userObj != null ? userObj.getNombre() : "Usuario";
+
+                int rol = userObj != null && userObj.getRolEntity() != null
+                        ? userObj.getRolEntity().getIdRol() : 0;
+                boolean esAdmin = (rol == 1);
+                boolean esCoord = (rol == 2 || rol == 6);
+
             %>
 
             <div class="panel-control">
@@ -37,11 +44,38 @@ Autores:
             </div>
 
             <section>
-                <a href="/campanas" class="menu-btn">Gestión Campañas</a>
-                <a href="/entidades" class="menu-btn">Gestión Colaboradores</a>
-                <a href="/usuarios/coordinadores-capitanes" class="menu-btn">Gestión Coordinadores-Capitanes</a>
-                <a href="/tiendas" class="menu-btn">Gestión Tiendas</a>
-                <a href="/voluntarios/listar" class="menu-btn">Gestión Voluntarios</a>
+                <%
+                    if (esAdmin) {
+                %>
+                        <a href="/campanas" class="menu-btn">Gestión Campañas</a>
+                <%
+                    }
+                %>
+
+                <%
+                    if (esAdmin || esCoord) {
+                %>
+                        <a href="/entidades" class="menu-btn">Gestión Colaboradores</a>
+                <%
+                    }
+                %>
+
+                <%
+                    if (esAdmin) {
+                %>
+                        <a href="/usuarios/coordinadores-capitanes" class="menu-btn">Gestión Coordinadores-Capitanes</a>
+                        <a href="/tiendas" class="menu-btn">Gestión Tiendas</a>
+                <%
+                    }
+                %>
+
+                <%
+                    if (esAdmin || esCoord) {
+                %>
+                        <a href="/voluntarios/listar" class="menu-btn">Gestión Voluntarios</a>
+                <%
+                    }
+                %>
             </section>
 
             <div class="logout-container">

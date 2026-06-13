@@ -10,6 +10,8 @@ package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dto.ContactoDTO;
 import es.uma.tsaw.proyectobancosol.service.ContactoService;
+import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,14 +25,20 @@ public class ContactoController {
     private final ContactoService contactoService;
 
     @GetMapping("/entidades/{idEntidad}/contactos")
-    public String listar(@PathVariable Integer idEntidad, Model model) {
+    public String listar(@PathVariable Integer idEntidad, Model model, HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         model.addAttribute("contactos", contactoService.listarPorEntidad(idEntidad));
         model.addAttribute("idEntidad", idEntidad);
         return "formularioContactos";
     }
 
     @GetMapping("/entidades/{idEntidad}/contactos/nuevo")
-    public String nuevo(@PathVariable Integer idEntidad, Model model) {
+    public String nuevo(@PathVariable Integer idEntidad, Model model, HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         model.addAttribute("contacto", new ContactoDTO());
         model.addAttribute("idEntidad", idEntidad);
         return "formularioContacto";
@@ -43,7 +51,10 @@ public class ContactoController {
             @RequestParam("nombre") String nombre,
             @RequestParam("email") String email,
             @RequestParam("telefono") String telefono,
-            @RequestParam(value = "esPrincipal", required = false) Boolean esPrincipal) {
+            @RequestParam(value = "esPrincipal", required = false) Boolean esPrincipal,
+            HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
 
         contactoService.guardar(idContacto, idEntidad, nombre, email, telefono, esPrincipal);
         return "redirect:/entidades/" + idEntidad + "/contactos";
@@ -51,7 +62,11 @@ public class ContactoController {
 
     @GetMapping("/entidades/{idEntidad}/contactos/editar")
     public String editar(@PathVariable Integer idEntidad,
-                         @RequestParam("id") Integer id, Model model) {
+                         @RequestParam("id") Integer id, Model model,
+                         HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         model.addAttribute("contacto", contactoService.buscarPorId(id));
         model.addAttribute("idEntidad", idEntidad);
         return "formularioContacto";
@@ -59,7 +74,11 @@ public class ContactoController {
 
     @GetMapping("/entidades/{idEntidad}/contactos/borrar")
     public String borrar(@PathVariable Integer idEntidad,
-                         @RequestParam("id") Integer id) {
+                         @RequestParam("id") Integer id,
+                         HttpSession session) {
+        // Sólo admin
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         contactoService.borrar(id);
         return "redirect:/entidades/" + idEntidad + "/contactos";
     }

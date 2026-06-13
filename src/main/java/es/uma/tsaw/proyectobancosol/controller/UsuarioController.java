@@ -12,6 +12,8 @@ package es.uma.tsaw.proyectobancosol.controller;
 import es.uma.tsaw.proyectobancosol.dto.RolDTO;
 import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
 import es.uma.tsaw.proyectobancosol.service.UsuarioService;
+import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Controller;
@@ -33,7 +35,9 @@ public class UsuarioController {
 
 
     @GetMapping("/coordinadores-capitanes")
-    public String listarCoordinadores(Model model) {
+    public String listarCoordinadores(Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         List<UsuarioDTO> coordinadores = this.usuarioService.listarCoordinadoresCapitanes(2);
         List<UsuarioDTO> capitanes = this.usuarioService.listarCoordinadoresCapitanes(3);
         List<UsuarioDTO> coordinadoresCapitanes = this.usuarioService.listarCoordinadoresCapitanes(6);
@@ -47,7 +51,10 @@ public class UsuarioController {
     }
 
     @GetMapping("/voluntarios")
-    public String listarVoluntarios(Model model) {
+    public String listarVoluntarios(Model model, HttpSession session) {
+        // Sólo acceden => admin, coordinador y coordinador-capitan
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         List<UsuarioDTO> voluntarios = this.usuarioService.listarVoluntarios();
         model.addAttribute("voluntarios", voluntarios);
         return "listarVoluntarios";
@@ -56,7 +63,10 @@ public class UsuarioController {
     @GetMapping("/editarCrear")
     public String editarCrearUsuario(@RequestParam(value = "id", required = false) Integer id,
                                     @RequestParam(value = "idRol", required = true) Integer idRol,
-                                   Model model) {
+                                   Model model,
+                                   HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+
         RolDTO rolDTO = this.usuarioService.buscarRol(idRol);
         model.addAttribute("rol", rolDTO);
 
@@ -67,7 +77,6 @@ public class UsuarioController {
         return "editarCrearUsuario";
     }
 
-    // Sólo para coordinadores, coordinadoresCapitanes y Capitanes
     @PostMapping("/guardar")
     public String guardarUsuario(@RequestParam(value = "id", required = false) Integer id,
                                  @RequestParam(value = "idRol", required = true) Integer idRol,
@@ -75,7 +84,10 @@ public class UsuarioController {
                                  @RequestParam(value = "email", required = false) String email,
                                  @RequestParam(value = "telefono", required = false) String telefono,
                                  @RequestParam(value = "contrasenya", required = false) String contrasenya,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes,
+                                 HttpSession session) {
+        // Sólo administradores
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         if (this.usuarioService.existeEmail(email, id)) {
             redirectAttributes.addFlashAttribute("error", "email_duplicado");
@@ -94,7 +106,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/borrar")
-    public String borrarUsuario(@RequestParam(value = "id", required = true) Integer id) {
+    public String borrarUsuario(@RequestParam(value = "id", required = true) Integer id, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
         this.usuarioService.borrar(id);
 
         // PROVISIONAL - Debe redirigir a la página del rol

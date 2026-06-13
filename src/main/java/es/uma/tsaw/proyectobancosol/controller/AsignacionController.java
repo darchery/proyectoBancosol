@@ -14,6 +14,8 @@ import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
 import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
 import es.uma.tsaw.proyectobancosol.service.AsignacionVoluntarioService;
 import es.uma.tsaw.proyectobancosol.service.UsuarioService;
+import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +32,10 @@ public class AsignacionController {
     private final UsuarioService usuarioService;
 
     @GetMapping("/listar")
-    public String listar(@RequestParam(required = false) Integer idUsuario, Model model) {
+    public String listar(@RequestParam(required = false) Integer idUsuario, Model model, HttpSession session) {
+        // Acceden coordinadores y admins
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         if (idUsuario == null) {
             return "redirect:/usuarios/voluntarios";
         }
@@ -43,7 +48,13 @@ public class AsignacionController {
         return "gestionVoluntarios";
     }
 
-    private String editarCrear(Integer idUsuario, Integer id, Model model) {
+    @GetMapping("/edit")
+    public String editarCrear(@RequestParam Integer idUsuario,
+                              @RequestParam(required = false) Integer id,
+                              Model model, HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         UsuarioDTO usuarioDTO = usuarioService.buscarOCrear(idUsuario);
 
         model.addAttribute("idUsuario", idUsuario);
@@ -60,26 +71,27 @@ public class AsignacionController {
         return "editarAsignacionVoluntario";
     }
 
-    @GetMapping("/edit")
-    public String doEdit(@RequestParam Integer idUsuario,
-                         @RequestParam(required = false) Integer id,
-                         Model model) {
-        return this.editarCrear(idUsuario, id, model);
-    }
-
     @PostMapping("/guardar")
     public String doGuardar(@RequestParam Integer idUsuario,
                             @RequestParam(required = false) Integer id,
                             @RequestParam Integer idTurno,
                             @RequestParam(required = false) Integer idEntidad,
-                            @RequestParam(required = false) Boolean asistencia) {
+                            @RequestParam(required = false) Boolean asistencia,
+                            HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         asignacionVoluntarioService.guardar(idUsuario, id, idTurno, idEntidad, asistencia);
         return "redirect:/voluntarios/listar?idUsuario=" + idUsuario;
     }
 
     @GetMapping("/borrar")
     public String borrar(@RequestParam Integer id,
-                         @RequestParam Integer idUsuario) {
+                         @RequestParam Integer idUsuario,
+                         HttpSession session) {
+        // Acceden admins y coordinadores
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+
         asignacionVoluntarioService.borrar(id);
         return "redirect:/voluntarios/listar?idUsuario=" + idUsuario;
     }

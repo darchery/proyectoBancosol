@@ -10,6 +10,8 @@
 package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.service.TiendaCampanyaService;
+import es.uma.tsaw.proyectobancosol.util.SecurityUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,9 @@ public class TiendaCampanyaController {
     @PostMapping("/asignar-responsables")
     public String asignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
                                       @RequestParam("idCoordinador") Integer idCoordinador,
-                                      @RequestParam("idCapitan") Integer idCapitan) {
+                                      @RequestParam("idCapitan") Integer idCapitan,
+                                      HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
 
         tiendaCampanyaService.asignarResponsables(idTiendaCampanya, idCoordinador, idCapitan);
         return "redirect:/tiendas";
