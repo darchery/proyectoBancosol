@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface AsignacionVoluntarioRepository extends JpaRepository<AsignacionVoluntarioEntity, Integer> {
 
-    List<AsignacionVoluntarioEntity> findByTurnoActivoIdTurnoActivo(Integer idTurnoActivo);
+    List<AsignacionVoluntarioEntity> findByTurnoActivoEntityIdTurnoActivo(Integer idTurnoActivo);
 
-    List<AsignacionVoluntarioEntity> findByUsuario(UsuarioEntity usuarioEntity);
+    List<AsignacionVoluntarioEntity> findByUsuarioEntity(UsuarioEntity usuarioEntity);
 }

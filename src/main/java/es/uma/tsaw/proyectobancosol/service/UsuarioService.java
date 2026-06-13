@@ -9,10 +9,7 @@
 
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.AsignacionVoluntarioRepository;
-import es.uma.tsaw.proyectobancosol.dao.RolRepository;
-import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepository;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
+import es.uma.tsaw.proyectobancosol.dao.*;
 import es.uma.tsaw.proyectobancosol.dto.RolDTO;
 import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
 import es.uma.tsaw.proyectobancosol.entity.*;
@@ -61,14 +58,14 @@ public class UsuarioService {
     private UsuarioDTO enriquecerCoordinadorCapitan(UsuarioEntity usuarioEntity) {
         UsuarioDTO dto = this.usuarioMapper.toDTO(usuarioEntity);
 
-        List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuario(usuarioEntity);
+        List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuarioEntity(usuarioEntity);
         if (!asignaciones.isEmpty() && asignaciones.get(0).getEntidadColaboradoraEntity() != null) {
             dto.setEntidad(asignaciones.get(0).getEntidadColaboradoraEntity().getNombreEntidad());
         } else {
             dto.setEntidad("-");
         }
 
-        List<TiendaCampanya> tiendas = this.tiendaCampanyaRepository.findByCoordinador(usuarioEntity);
+        List<TiendaCampanyaEntity> tiendas = this.tiendaCampanyaRepository.findByCoordinador(usuarioEntity);
         dto.setNumTiendas(tiendas.size());
 
         if (!tiendas.isEmpty() && tiendas.get(0).getTiendaEntity().getDireccionEntity() != null) {
@@ -150,14 +147,14 @@ public class UsuarioService {
 
         if (usuarioEntity != null) {
             // 1. Desvincular tiendas donde es coordinador
-            List<TiendaCampanya> tiendas = this.tiendaCampanyaRepository.findByCoordinador(usuarioEntity);
-            for (TiendaCampanya tc : tiendas) {
+            List<TiendaCampanyaEntity> tiendas = this.tiendaCampanyaRepository.findByCoordinador(usuarioEntity);
+            for (TiendaCampanyaEntity tc : tiendas) {
                 tc.setCoordinador(null);
                 this.tiendaCampanyaRepository.save(tc);
             }
 
             // 2. Borrar asignaciones de voluntario
-            List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuario(usuarioEntity);
+            List<AsignacionVoluntarioEntity> asignaciones = this.asignacionVoluntarioRepository.findByUsuarioEntity(usuarioEntity);
             this.asignacionVoluntarioRepository.deleteAll(asignaciones);
 
             // 3. Borrar usuario

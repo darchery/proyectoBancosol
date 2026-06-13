@@ -44,7 +44,7 @@ Autores:
             <form action="/autentica" method="post">
 
                 <label>Usuario</label>
-                <input type="text" name="username" placeholder="Introduce tu usuarioEntity" required>
+                <input type="text" name="username" placeholder="Introduce tu usuario" required>
 
                 <label>Contraseña</label>
                 <input type="password" name="password" placeholder="Introduce tu contraseña" required>

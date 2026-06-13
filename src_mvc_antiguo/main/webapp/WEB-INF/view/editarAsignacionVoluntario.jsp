@@ -1,6 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntarioEntity" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -16,7 +14,7 @@
     UsuarioEntity usuarioEntity = (UsuarioEntity) request.getAttribute("usuarioEntity");
     AsignacionVoluntarioEntity asignacion = (AsignacionVoluntarioEntity) request.getAttribute("asignacion");
     List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
-    List<es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
+    List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
     boolean esEdicion = (asignacion != null);
 %>
 
@@ -50,7 +48,7 @@
                     }
                 }
 
-                String tiendaEntity = turno.getTiendaCampanya()
+                String tiendaEntity = turno.getTiendaCampanyaEntity()
                         .getTiendaEntity()
                         .getNombreEstablecimiento();
 

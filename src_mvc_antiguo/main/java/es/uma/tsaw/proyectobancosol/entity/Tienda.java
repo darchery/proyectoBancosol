@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "tienda", schema = "public")
-public class Tienda {
+public class TiendaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +20,11 @@ public class Tienda {
 
     @ManyToOne
     @JoinColumn(name = "id_cadena", nullable = false)
-    private Cadena cadena;
+    private CadenaEntity cadenaEntity;
 
     @ManyToOne
     @JoinColumn(name = "id_direccion")
-    private Direccion direccion;
+    private DireccionEntity direccionEntity;
 
     @Column(name = "nombre_establecimiento", nullable = false)
     private String nombreEstablecimiento;
@@ -43,6 +43,6 @@ public class Tienda {
 
     // --- RELACIONES BIDIRECCIONALES (Opcionales pero útiles) ---
     // Si quieres saber desde una Tienda en qué campañas participa:
-    @OneToMany(mappedBy = "tienda")
-    private List<TiendaCampanya> tiendaCampanyasList;
+    @OneToMany(mappedBy = "tiendaEntity")
+    private List<TiendaCampanyaEntity> tiendaCampanyasListEntity;
 }

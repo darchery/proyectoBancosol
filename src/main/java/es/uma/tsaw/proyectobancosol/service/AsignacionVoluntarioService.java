@@ -7,15 +7,9 @@
 
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.AsignacionVoluntarioRepository;
-import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepository;
-import es.uma.tsaw.proyectobancosol.dao.TurnoActivoRepository;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
+import es.uma.tsaw.proyectobancosol.dao.*;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
-import es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntarioEntity;
-import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity;
-import es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity;
-import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
+import es.uma.tsaw.proyectobancosol.entity.*;
 import es.uma.tsaw.proyectobancosol.mapper.AsignacionVoluntarioMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +29,7 @@ public class AsignacionVoluntarioService {
     public List<AsignacionVoluntarioDTO> findByUsuario(Integer idUsuario) {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElseThrow();
         return asignacionVoluntarioMapper.toDTOList(
-                asignacionVoluntarioRepository.findByUsuario(usuarioEntity));
+                asignacionVoluntarioRepository.findByUsuarioEntity(usuarioEntity));
     }
 
     public AsignacionVoluntarioDTO findById(Integer id) {

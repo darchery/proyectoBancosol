@@ -22,7 +22,7 @@ public class TurnoActivoEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_tienda_campanya", nullable = false)
-    private TiendaCampanya tiendaCampanya;
+    private TiendaCampanyaEntity tiendaCampanyaEntity;
 
     @ManyToOne
     @JoinColumn(name = "id_plantilla", nullable = false)

@@ -8,18 +8,18 @@ import java.time.LocalTime;
 @Data
 @Entity
 @Table(name = "turno_activo", schema = "public")
-public class TurnoActivo {
+public class TurnoActivoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTurnoActivo;
 
     @ManyToOne
     @JoinColumn(name = "id_tienda_campanya", nullable = false)
-    private TiendaCampanya tiendaCampanya;
+    private TiendaCampanyaEntity tiendaCampanyaEntity;
 
     @ManyToOne
     @JoinColumn(name = "id_plantilla", nullable = false)
-    private PlantillaTurno plantillaTurno;
+    private PlantillaTurnoEntity plantillaTurnoEntity;
 
     @Column(name = "fecha_exacta", nullable = false)
     private LocalDate fechaExacta;

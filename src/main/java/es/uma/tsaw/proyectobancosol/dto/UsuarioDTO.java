@@ -26,7 +26,7 @@ public class UsuarioDTO {
     private String area;
     private Integer numTiendas;
 
-    public String tranformarContrasenya(String contrasenya) {
+    public String transformarContrasenya(String contrasenya) {
         String res = "";
         for (Character c : contrasenya.toCharArray()) {
             res += "*";

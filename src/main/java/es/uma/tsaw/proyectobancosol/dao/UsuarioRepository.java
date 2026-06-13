@@ -18,7 +18,7 @@ import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer> {
     @Query("select u from UsuarioEntity u " +
-            "where u.rol.idRol = :rolID")
+            "where u.rolEntity.idRol = :rolID")
     List<UsuarioEntity> findUsuarioByRolID(Integer rolID);
 
     @Query("select u from UsuarioEntity u where u.nombreUsuario = :nombreUsuario and u.contrasenya = :contrasenya")

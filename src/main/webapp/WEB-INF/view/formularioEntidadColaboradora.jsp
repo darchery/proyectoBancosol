@@ -13,7 +13,7 @@ Autores:
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     EntidadColaboradoraDTO entidad = (EntidadColaboradoraDTO) request.getAttribute("entidad");
-    List<UsuarioDTO> usuarioEntities = (List<UsuarioDTO>) request.getAttribute("usuarioEntities");
+    List<UsuarioDTO> usuarios = (List<UsuarioDTO>) request.getAttribute("usuarios");
     boolean esEdicion = (entidad.getIdEntidad() != null);
 %>
 <html>
@@ -74,7 +74,7 @@ Autores:
                     <select name="responsableId">
                         <option value="">-- Sin asignar --</option>
                         <%
-                            for (UsuarioDTO u : usuarioEntities) {
+                            for (UsuarioDTO u : usuarios) {
                                 String selected = "";
                                 if (esEdicion && entidad.getResponsableId() != null &&
                                         u.getIdUsuario().equals(entidad.getResponsableId())) {

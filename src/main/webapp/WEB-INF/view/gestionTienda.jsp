@@ -1,5 +1,5 @@
 <%--
-Página JSP que muestra la gestión de tiendaEntities.
+Página JSP que muestra la gestión de tienda.
 
 Autores:
 - Sergio Aldana: 93%
@@ -45,7 +45,7 @@ Autores:
                 </thead>
                 <tbody>
                     <%
-                        List<TiendaDTO> tiendaEntities = (List<TiendaDTO>) request.getAttribute("tiendaEntities");
+                        List<TiendaDTO> tiendaEntities = (List<TiendaDTO>) request.getAttribute("tiendas");
                         if (tiendaEntities != null) {
                             for(TiendaDTO tiendaEntity : tiendaEntities) {
                     %>
@@ -57,10 +57,10 @@ Autores:
                         <td><%= tiendaEntity.getLineales() %></td>
                         <td><%= tiendaEntity.getCp() %></td>
                         <td class="text-center">
-                            <a href="/tiendaEntities/editarCrear?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="/tiendas/editarCrear?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-warning">Editar</a>
                         </td>
                         <td class="text-center">
-                            <a href="/tiendaEntities/borrar?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-danger">Eliminar</a>
+                            <a href="/tiendas/borrar?id=<%=tiendaEntity.getIdTienda()%>" class="btn btn-sm btn-danger">Eliminar</a>
                         </td>
                     </tr>
                     <%
@@ -68,7 +68,7 @@ Autores:
                         } else {
                     %>
                     <tr>
-                        <td colspan="8" class="text-center">No hay tiendaEntities registradas</td>
+                        <td colspan="8" class="text-center">No hay tiendas registradas</td>
                     </tr>
                     <%
                         }
@@ -77,7 +77,7 @@ Autores:
             </table>
 
             <div class="mt-20">
-                <a href="/tiendaEntities/editarCrear" class="btn btn-success">Añadir nueva tiendaEntity</a>
+                <a href="/tiendas/editarCrear" class="btn btn-success">Añadir nueva tienda</a>
             </div>
         </section>
 
@@ -92,7 +92,7 @@ Autores:
                 <div class="detail-row"><span>CP:</span><strong>---</strong></div>
             </div>
             <div class="action-buttons mt-10">
-                <a href="/tiendaEntities/editarCrear" class="btn-volver-menu">Añadir tiendaEntity</a>
+                <a href="/tiendas/editarCrear" class="btn-volver-menu">Añadir tienda</a>
                 <a href="/menu" class="btn-volver-menu" style="grid-column:1/-1;">Menú Principal</a>
             </div>
         </aside>

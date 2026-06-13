@@ -30,12 +30,15 @@ public class AsignacionVoluntarioMapper extends MapperDTO<AsignacionVoluntarioDT
         if (plantilla != null) {
             voluntario.setDiaFranja(plantilla.getDiaSemana() + " " + plantilla.getFranjaHoraria());
         }
+        if (asigVol.getTurnoActivoEntity().getFechaExacta() != null) {
+            voluntario.setFecha(asigVol.getTurnoActivoEntity().getFechaExacta().toString());
+        }
 
         // Tienda
-        voluntario.setIdTienda(asigVol.getTurnoActivoEntity().getTiendaCampanya().getTiendaEntity().getIdTienda());
-        voluntario.setNombreTienda(asigVol.getTurnoActivoEntity().getTiendaCampanya().getTiendaEntity().getNombreEstablecimiento());
-        voluntario.setLocalidad(asigVol.getTurnoActivoEntity().getTiendaCampanya().getTiendaEntity().getDireccionEntity() != null
-                ? asigVol.getTurnoActivoEntity().getTiendaCampanya().getTiendaEntity().getDireccionEntity().getZonaGeografica()
+        voluntario.setIdTienda(asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getIdTienda());
+        voluntario.setNombreTienda(asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getNombreEstablecimiento());
+        voluntario.setLocalidad(asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getDireccionEntity() != null
+                ? asigVol.getTurnoActivoEntity().getTiendaCampanyaEntity().getTiendaEntity().getDireccionEntity().getZonaGeografica()
                 : null);
 
         // Entidad colaboradora

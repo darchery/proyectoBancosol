@@ -39,7 +39,7 @@ Autores:
         List<AsignacionVoluntarioDTO> asignaciones = (List<AsignacionVoluntarioDTO>) request.getAttribute("asignaciones");
     %>
 
-    <p class="usuarioEntity-badge">
+    <p class="usuario-badge">
         Voluntario: <strong><%= nombreUsuario %></strong>
         &nbsp;|&nbsp; ID: <%= idUsuario %>
     </p>

@@ -9,10 +9,7 @@
 
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepository;
-import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
-import es.uma.tsaw.proyectobancosol.dao.TurnoActivoRepository;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
+import es.uma.tsaw.proyectobancosol.dao.*;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
 import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
 import es.uma.tsaw.proyectobancosol.service.AsignacionVoluntarioService;

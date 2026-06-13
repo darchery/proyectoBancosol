@@ -15,7 +15,7 @@ Autores:
 
 <%
     List<CampanyaDTO> campanas = (List<CampanyaDTO>) request.getAttribute("campanas");
-    List<CadenaEntity> cadenaEntities = (List<CadenaEntity>)      request.getAttribute("cadenaEntities");
+    List<CadenaEntity> cadenaEntities = (List<CadenaEntity>)      request.getAttribute("cadenas");
     String cadenasJson         = (String) request.getAttribute("cadenasJson");
     String campanasJson        = (String) request.getAttribute("campanasJson");
 %>
@@ -25,7 +25,7 @@ Autores:
     <title>Gestión de Campañas - Bancosol</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
-<body class="page-campanyaEntity">
+<body class="page-campanya">
 
     <header class="main-header">
         <div class="logo-area">
@@ -58,7 +58,7 @@ Autores:
         <div class="management-container">
 
             <!-- ── COLUMNA IZQUIERDA: TIPO DE CAMPAÑA ── -->
-            <div class="campanyaEntity-column">
+            <div class="campanya-column">
                 <div class="box">
                     <h2>Tipo de campaña</h2>
                     <div class="checkbox-grid" style="grid-template-columns:1fr;">
@@ -84,7 +84,7 @@ Autores:
             </div>
 
             <!-- ── COLUMNA CENTRAL: CADENAS ── -->
-            <div class="box cadenaEntities-box">
+            <div class="box cadenas-box">
                 <h2>Cadenas
                     <span id="campanaSeleccionadaLabel" style="font-weight:normal;font-size:0.85em;"></span>
                 </h2>
@@ -102,8 +102,8 @@ Autores:
                                value="<%= cad.getIdCadena() %>"
                                id="borrar_<%= cad.getIdCadena() %>"
                                disabled>
-                        <div class="cadenaEntity-btn-group">
-                            <a href="campanas/cadenaEntities/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadenaEntity">Editar</a>
+                        <div class="cadena-btn-group">
+                            <a href="campanas/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
                             <button type="button" onclick="marcarParaBorrar(<%= cad.getIdCadena() %>)">Eliminar</button>
                         </div>
                     </div>
@@ -112,8 +112,8 @@ Autores:
                         }
                     %>
                 </div>
-                <div class="cadenaEntities-actions">
-                    <a href="campanas/cadenaEntities/nueva" class="add-cadenaEntity-link">+ Añadir cadenaEntity</a>
+                <div class="cadenas-actions">
+                    <a href="campanas/cadenas/nueva" class="add-cadena-link">+ Añadir cadena</a>
                 </div>
             </div>
 

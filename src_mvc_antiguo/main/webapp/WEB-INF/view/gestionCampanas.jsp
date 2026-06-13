@@ -2,7 +2,6 @@
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.CadenaEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.CampanyaEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%

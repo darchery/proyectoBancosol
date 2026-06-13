@@ -10,7 +10,7 @@ package es.uma.tsaw.proyectobancosol.controller;
 
 import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepository;
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
-import es.uma.tsaw.proyectobancosol.entity.TiendaCampanya;
+import es.uma.tsaw.proyectobancosol.entity.TiendaCampanyaEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @AllArgsConstructor
@@ -38,18 +39,18 @@ public class TiendaCampanyaController {
                                       @RequestParam("idCoordinador") Integer idCoordinador,
                                       @RequestParam("idCapitan") Integer idCapitan) {
 
-        TiendaCampanya tiendaCampanya = tiendaCampanyaRepository.findById(idTiendaCampanya).orElse(null);
-        tiendaCampanya.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
-        tiendaCampanya.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
+        TiendaCampanyaEntity tiendaCampanyaEntity = tiendaCampanyaRepository.findById(idTiendaCampanya).orElse(null);
+        tiendaCampanyaEntity.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
+        tiendaCampanyaEntity.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
 
-        tiendaCampanyaRepository.save(tiendaCampanya);
+        tiendaCampanyaRepository.save(tiendaCampanyaEntity);
         return "redirect:/tiendas";
     }
 
     @GetMapping("/asignacion-campanya")
     public String verAsignaciones(@RequestParam("idCampanya") Integer idCampanya,
                                   Model model) {
-        List<TiendaCampanya> asignaciones = tiendaCampanyaRepository.findByCampanyaIdCampanya(idCampanya);
+        List<TiendaCampanyaEntity> asignaciones = tiendaCampanyaRepository.findByCampanyaEntityIdCampanya(idCampanya);
         model.addAttribute("asignaciones", asignaciones);
         return "tiendas_por_campanya";
     }

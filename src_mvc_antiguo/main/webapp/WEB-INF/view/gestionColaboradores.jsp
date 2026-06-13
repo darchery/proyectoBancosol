@@ -1,8 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.DireccionEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.DireccionEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

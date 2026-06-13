@@ -9,9 +9,7 @@ Autores:
 
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity" %>
-<%@ page import="es.uma.tsaw.proyectobancosol.entity.TiendaEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -21,7 +19,7 @@ Autores:
     List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
     List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
 
-    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendaEntities");
+    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendas");
     boolean esEdicion = (asignacion != null);
 
     // Valores actuales para pre-selección en edición
@@ -61,7 +59,7 @@ Autores:
     <div class="form-group">
         <label>Tienda:</label>
         <select id="selectTienda" onchange="filtrarTurnos()">
-            <option value="">-- Selecciona una tiendaEntity --</option>
+            <option value="">-- Selecciona una tienda... --</option>
             <%
                 for (TiendaEntity tiendaEntity : tiendaEntities) {
                     boolean sel = idTiendaActual != null && idTiendaActual.equals(tiendaEntity.getIdTienda());
@@ -100,11 +98,11 @@ Autores:
                     }
                     String fechaTurno = turno.getFechaExacta() != null ? turno.getFechaExacta().toString() : "";
                     String label = dia + " " + franja + " · " + fechaTurno;
-                    int idTiendaTurno = turno.getTiendaCampanya().getTiendaEntity().getIdTienda();
+                    int idTiendaTurno = turno.getTiendaCampanyaEntity().getTiendaEntity().getIdTienda();
                     boolean sel = idTurnoActual != null && idTurnoActual.equals(turno.getIdTurnoActivo());
             %>
             <option value="<%= turno.getIdTurnoActivo() %>"
-                    data-tiendaEntity="<%= idTiendaTurno %>"
+                    data-tienda="<%= idTiendaTurno %>"
                     data-fecha="<%= fechaTurno %>"
                     <%= sel ? "selected" : "" %>>
                 <%= label %>
@@ -197,7 +195,7 @@ Autores:
             const opt = opciones[i];
             if (opt.value === "") continue; // opción vacía siempre visible
 
-            const visible = !idTiendaSel || opt.dataset.tiendaEntity === idTiendaSel;
+            const visible = !idTiendaSel || opt.dataset.tienda === idTiendaSel;
             opt.style.display = visible ? "" : "none";
 
             if (visible && primerVisible === null) primerVisible = opt;
@@ -205,7 +203,7 @@ Autores:
 
         // Si el turno actualmente seleccionado no pertenece a esta tiendaEntity, limpiar
         const turnoActual = selectTurno.options[selectTurno.selectedIndex];
-        if (turnoActual && turnoActual.value !== "" && turnoActual.dataset.tiendaEntity !== idTiendaSel) {
+        if (turnoActual && turnoActual.value !== "" && turnoActual.dataset.tienda !== idTiendaSel) {
             selectTurno.value = "";
             document.getElementById("fecha").value = "";
             document.getElementById("idTurnoHidden").value = "";

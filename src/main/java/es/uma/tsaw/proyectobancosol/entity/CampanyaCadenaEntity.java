@@ -23,12 +23,18 @@ import java.io.Serializable;
 public class CampanyaCadenaEntity implements Serializable {
 
     @Id
+    private Integer campanya;
+
+    @Id
+    private Integer cadena;
+
     @ManyToOne
+    @MapsId("campanya")
     @JoinColumn(name = "id_campanya", nullable = false)
     private CampanyaEntity campanyaEntity;
 
-    @Id
     @ManyToOne
+    @MapsId("cadena")
     @JoinColumn(name = "id_cadena", nullable = false)
     private CadenaEntity cadenaEntity;
 }

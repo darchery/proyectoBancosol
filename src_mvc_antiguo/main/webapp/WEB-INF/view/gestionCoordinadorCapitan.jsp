@@ -44,7 +44,7 @@
         <td><%= c.getEmail() %></td>
         <td><%= request.getAttribute("tiendas_" + c.getIdUsuario())%></td>
         <td><%= c.getIdUsuario()%></td>
-        <td><%= c.tranformarContrasenya(c.getContrasenya())%></td>
+        <td><%= c.transformarContrasenya(c.getContrasenya())%></td>
         <td><a href="/usuarioEntities/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRolEntity().getIdRol()%>">Editar</a></td>
         <td><a href="/usuarioEntities/borrar?id=<%= c.getIdUsuario()%>">Borrar</a></td>
     </tr>
@@ -67,7 +67,7 @@
         <td><%= cap.getEmail() %></td>
         <td><%= request.getAttribute("tiendas_" + cap.getIdUsuario())%></td>
         <td><%= cap.getIdUsuario()%></td>
-        <td><%= cap.tranformarContrasenya(cap.getContrasenya())%></td>
+        <td><%= cap.transformarContrasenya(cap.getContrasenya())%></td>
         <td><a href="/usuarioEntities/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRolEntity().getIdRol()%>">Editar</a></td>
         <td><a href="/usuarioEntities/borrar?id=<%= cap.getIdUsuario()%>">Borrar</a></td>
     </tr>
@@ -89,7 +89,7 @@
         <td><%= cc.getEmail() %></td>
         <td><%= request.getAttribute("tiendas_" + cc.getIdUsuario())%></td>
         <td><%= cc.getIdUsuario()%></td>
-        <td><%= cc.tranformarContrasenya(cc.getContrasenya())%></td>
+        <td><%= cc.transformarContrasenya(cc.getContrasenya())%></td>
         <td><a href="/usuarioEntities/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRolEntity().getIdRol()%>">Editar</a></td>
         <td><a href="/usuarioEntities/borrar?id=<%= cc.getIdUsuario()%>">Borrar</a></td>
     </tr>

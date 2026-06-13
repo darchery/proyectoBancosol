@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "tienda_campanya", schema = "public")
-public class TiendaCampanya {
+public class TiendaCampanyaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTiendaCampanya;

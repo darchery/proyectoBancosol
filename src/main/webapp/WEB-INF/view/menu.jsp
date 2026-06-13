@@ -9,6 +9,8 @@ Autores:
 
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
+<%@ page import="es.uma.tsaw.proyectobancosol.entity.UsuarioEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
@@ -40,8 +42,8 @@ Autores:
             <section>
                 <a href="/campanas" class="menu-btn">Gestión Campañas</a>
                 <a href="/entidades" class="menu-btn">Gestión Colaboradores</a>
-                <a href="/usuarioEntities/coordinadores-capitanes" class="menu-btn">Gestión Coordinadores-Capitanes</a>
-                <a href="/tiendaEntities" class="menu-btn">Gestión Tiendas</a>
+                <a href="/usuarios/coordinadores-capitanes" class="menu-btn">Gestión Coordinadores-Capitanes</a>
+                <a href="/tiendas" class="menu-btn">Gestión Tiendas</a>
                 <a href="/voluntarios/listar" class="menu-btn">Gestión Voluntarios</a>
             </section>
 

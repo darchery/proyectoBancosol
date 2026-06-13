@@ -12,16 +12,22 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "campanya_cadena", schema = "public")
-@IdClass(CampanyaCadenaId.class)
-public class CampanyaCadena implements Serializable {
+@IdClass(CampanyaCadenaIdEntity.class)
+public class CampanyaCadenaEntity implements Serializable {
 
     @Id
+    private Integer campanya;
+
+    @Id
+    private Integer cadena;
+
     @ManyToOne
+    @MapsId("campanya")
     @JoinColumn(name = "id_campanya", nullable = false)
-    private Campanya campanya;
+    private CampanyaEntity campanyaEntity;
 
-    @Id
     @ManyToOne
+    @MapsId("cadena")
     @JoinColumn(name = "id_cadena", nullable = false)
-    private Cadena cadena;
+    private CadenaEntity cadenaEntity;
 }
