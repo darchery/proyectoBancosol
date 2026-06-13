@@ -8,9 +8,17 @@
 
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.*;
+import es.uma.tsaw.proyectobancosol.dao.AsignacionVoluntarioRepository;
+import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepository;
+import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
+import es.uma.tsaw.proyectobancosol.dao.TurnoActivoRepository;
+import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
-import es.uma.tsaw.proyectobancosol.entity.*;
+import es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntarioEntity;
+import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity;
+import es.uma.tsaw.proyectobancosol.entity.TiendaEntity;
+import es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity;
+import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
 import es.uma.tsaw.proyectobancosol.mapper.AsignacionVoluntarioMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +34,7 @@ public class AsignacionVoluntarioService {
     private final UsuarioRepository usuarioRepository;
     private final TurnoActivoRepository turnoActivoRepository;
     private final EntidadColaboradoraRepository entidadColaboradoraRepository;
+    private final TiendaRepository tiendaRepository;
 
     public List<AsignacionVoluntarioDTO> findByUsuario(Integer idUsuario) {
         UsuarioEntity usuario = usuarioRepository.findById(idUsuario).orElseThrow();
@@ -68,5 +77,17 @@ public class AsignacionVoluntarioService {
 
     public void borrar(Integer id) {
         asignacionVoluntarioRepository.deleteById(id);
+    }
+
+    public List<TurnoActivoEntity> findAllTurnosActivos() {
+        return turnoActivoRepository.findAll();
+    }
+
+    public List<EntidadColaboradoraEntity> findAllEntidadesColaboradoras() {
+        return entidadColaboradoraRepository.findAll();
+    }
+
+    public List<TiendaEntity> findAllTiendas() {
+        return tiendaRepository.findAll();
     }
 }

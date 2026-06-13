@@ -1,7 +1,6 @@
 package es.uma.tsaw.proyectobancosol.dao;
 
 import es.uma.tsaw.proyectobancosol.entity.CampanyaCadena;
-import es.uma.tsaw.proyectobancosol.entity.CampanyaCadenaId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -22,8 +22,6 @@ public class EntidadColaboradoraMapper extends MapperDTO<EntidadColaboradoraDTO,
         dto.setNombreEntidad(entidad.getNombreEntidad());
         dto.setTipo(entidad.getTipo());
         dto.setLigadoBancosol(entidad.getLigadoBancosol());
-        dto.setCodigoColaborador(entidad.getCodigoColaborador());
-        dto.setEstadoAprobacion(entidad.getEstadoAprobacion());
         dto.setObservaciones(entidad.getObservaciones());
 
         if (entidad.getResponsable() != null) {

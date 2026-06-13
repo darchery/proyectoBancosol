@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "contacto", schema = "public")
 public class ContactoEntity {

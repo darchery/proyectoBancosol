@@ -8,8 +8,8 @@
 
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
 import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
+import es.uma.tsaw.proyectobancosol.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpSession;
 @AllArgsConstructor
 public class AutenticaController {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/")
     public String doLogin () {
@@ -40,7 +40,7 @@ public class AutenticaController {
                                @RequestParam("password") String password,
                                HttpSession session,
                                Model model) {
-        UsuarioEntity editor = this.usuarioRepository.autheticate(username, password);
+        UsuarioEntity editor = this.usuarioService.autenticar(username, password);
         if (editor == null) {
             model.addAttribute("error", "Usuario no encontrado o error de autenticación");
             return "login";

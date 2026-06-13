@@ -14,9 +14,6 @@ public class EntidadColaboradoraDTO {
     private String nombreEntidad;
     private String tipo;
     private Boolean ligadoBancosol;
-    private String codigoColaborador;
-    private String fechaAlta;
-    private Boolean estadoAprobacion;
     private String observaciones;
     private Integer responsableId;
     private String nombreResponsable;

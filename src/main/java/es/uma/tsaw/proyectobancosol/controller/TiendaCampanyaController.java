@@ -6,13 +6,11 @@
  * - Lucas Díaz Ruiz: 4%
  */
 
+
 package es.uma.tsaw.proyectobancosol.controller;
 
-import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepository;
-import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
-import es.uma.tsaw.proyectobancosol.entity.TiendaCampanyaEntity;
+import es.uma.tsaw.proyectobancosol.service.TiendaCampanyaService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,22 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/tiendacampanya")
 public class TiendaCampanyaController {
 
-    @Autowired
-    protected TiendaCampanyaRepository tiendaCampanyaRepository;
-
-    @Autowired
-    protected UsuarioRepository usuarioRepository;
+    private final TiendaCampanyaService tiendaCampanyaService;
 
     @PostMapping("/asignar-responsables")
     public String asignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
                                       @RequestParam("idCoordinador") Integer idCoordinador,
                                       @RequestParam("idCapitan") Integer idCapitan) {
 
-        TiendaCampanyaEntity tiendaCampanyaEntity = tiendaCampanyaRepository.findById(idTiendaCampanya).orElse(null);
-        tiendaCampanyaEntity.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
-        tiendaCampanyaEntity.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
-
-        tiendaCampanyaRepository.save(tiendaCampanyaEntity);
+        tiendaCampanyaService.asignarResponsables(idTiendaCampanya, idCoordinador, idCapitan);
         return "redirect:/tiendas";
     }
 

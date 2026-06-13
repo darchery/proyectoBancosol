@@ -9,7 +9,10 @@
 
 package es.uma.tsaw.proyectobancosol.service;
 
-import es.uma.tsaw.proyectobancosol.dao.*;
+import es.uma.tsaw.proyectobancosol.dao.AsignacionVoluntarioRepository;
+import es.uma.tsaw.proyectobancosol.dao.RolRepository;
+import es.uma.tsaw.proyectobancosol.dao.TiendaCampanyaRepository;
+import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
 import es.uma.tsaw.proyectobancosol.dto.RolDTO;
 import es.uma.tsaw.proyectobancosol.dto.UsuarioDTO;
 import es.uma.tsaw.proyectobancosol.entity.*;
@@ -32,13 +35,6 @@ public class UsuarioService {
 
     private final AsignacionVoluntarioRepository asignacionVoluntarioRepository;
     private final TiendaCampanyaRepository tiendaCampanyaRepository;
-
-    // Listar usuarios por rol
-    public List<UsuarioDTO> listarPorRol(Integer rolId) {
-        List<UsuarioEntity> usuarioEntities = this.usuarioRepository.findUsuarioByRolID(rolId);
-
-        return  this.usuarioMapper.toDTOList(usuarioEntities);
-    }
 
     // Listar coordinadores/capitanes con datos enriquecidos
     //    (entidad, area, numTiendas)
@@ -177,6 +173,10 @@ public class UsuarioService {
         coordinadores.addAll(this.usuarioRepository.findUsuarioByRolID(2));  // Coordinador
         coordinadores.addAll(this.usuarioRepository.findUsuarioByRolID(6));  // CoordinadorCapitan
         return this.usuarioMapper.toDTOList(coordinadores);
+    }
+
+    public UsuarioEntity autenticar(String username, String password) {
+        return this.usuarioRepository.autenticar(username, password);
     }
 
     public boolean existeEmail(String email, Integer idUsuario) {

@@ -25,7 +25,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-public class CampaniaControlador {
+public class CampanyaController {
 
     private final CampanyaService campanyaService;
 
@@ -92,7 +92,6 @@ public class CampaniaControlador {
         return "formularioCadena";
     }
 
-    @Transactional
     @PostMapping("/campanas/cadenas/guardar")
     public String guardarCadena(
             @RequestParam(value = "idCadena",      required = false) Integer idCadena,
@@ -112,7 +111,6 @@ public class CampaniaControlador {
 
     // ── GUARDAR TODO ───────────────────────────────────────────────────────
 
-    @Transactional
     @PostMapping("/campanas/guardarTodo")
     public String guardarTodo(
             @RequestParam(value = "campanaId",         required = false) Integer       campanaId,

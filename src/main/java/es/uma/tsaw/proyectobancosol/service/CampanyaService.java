@@ -13,6 +13,7 @@ import es.uma.tsaw.proyectobancosol.dto.CampanyaDTO;
 import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
 import es.uma.tsaw.proyectobancosol.entity.CampanyaEntity;
 import es.uma.tsaw.proyectobancosol.mapper.CampanyaMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,34 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CampanyaService {
 
     private final CampanyaRepository campanyaRepository;
     private final CadenaRepository cadenaRepository;
     private final CampanyaMapper campanyaMapper;
 
-    public CampanyaService(CampanyaRepository campanyaRepository,
-                           CadenaRepository cadenaRepository,
-                           CampanyaMapper campanyaMapper) {
-        this.campanyaRepository = campanyaRepository;
-        this.cadenaRepository = cadenaRepository;
-        this.campanyaMapper      = campanyaMapper;
-    }
-
-
-
     public List<CampanyaDTO> findAll() {
         return campanyaMapper.toDTOList(campanyaRepository.findAll());
     }
 
-    public CampanyaDTO findById(Integer id) {
-        return campanyaRepository.findById(id)
-                .map(campanyaMapper::toDTO)
-                .orElse(null);
-    }
-
-
-    @Transactional
     public String guardarTodo(Integer campanaId,
                               Integer campanaEditId,
                               List<Integer> cadenaIds,
@@ -121,13 +105,6 @@ public class CampanyaService {
         return null;
     }
 
-
-    @Transactional
-    public void borrarCampana(Integer id) {
-        campanyaRepository.deleteById(id);
-    }
-
-
     public List<CadenaEntity> findAllCadenas() {
         return cadenaRepository.findAll();
     }
@@ -137,7 +114,6 @@ public class CampanyaService {
                 .orElseThrow(() -> new IllegalArgumentException("Cadena no encontrada: " + id));
     }
 
-    @Transactional
     public void guardarCadena(Integer idCadena, String nombre, String resenya, String logoUrl) {
         CadenaEntity cadenaEntity = (idCadena == null)
                 ? new CadenaEntity()
@@ -149,7 +125,6 @@ public class CampanyaService {
         cadenaRepository.save(cadenaEntity);
     }
 
-    @Transactional
     public void borrarCadena(Integer id) {
         cadenaRepository.deleteById(id);
     }

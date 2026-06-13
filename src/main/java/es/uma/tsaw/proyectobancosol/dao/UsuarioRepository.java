@@ -22,7 +22,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     List<UsuarioEntity> findUsuarioByRolID(Integer rolID);
 
     @Query("select u from UsuarioEntity u where u.nombreUsuario = :nombreUsuario and u.contrasenya = :contrasenya")
-    public UsuarioEntity autheticate (@Param("nombreUsuario")String nombreUsuario, @Param("contrasenya") String contrasenya);
+    public UsuarioEntity autenticar(@Param("nombreUsuario")String nombreUsuario, @Param("contrasenya") String contrasenya);
 
     UsuarioEntity findByEmail(String email);
 }

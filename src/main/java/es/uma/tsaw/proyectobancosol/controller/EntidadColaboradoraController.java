@@ -13,22 +13,21 @@ import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
 import es.uma.tsaw.proyectobancosol.service.DireccionService;
 import es.uma.tsaw.proyectobancosol.service.EntidadColaboradoraService;
 import es.uma.tsaw.proyectobancosol.service.UsuarioService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@AllArgsConstructor
 public class EntidadColaboradoraController {
 
-    @Autowired
-    private EntidadColaboradoraService entidadService;
+    private final EntidadColaboradoraService entidadService;
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
-    @Autowired
-    private DireccionService direccionService;
+    private final DireccionService direccionService;
 
     @GetMapping("/entidades")
     public String listar(Model model) {
@@ -40,7 +39,6 @@ public class EntidadColaboradoraController {
     public String nueva(Model model) {
         model.addAttribute("entidad", new EntidadColaboradoraDTO());
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
-        model.addAttribute("direcciones", direccionService.listarTodas());
         return "formularioEntidadColaboradora";
     }
 
@@ -48,7 +46,6 @@ public class EntidadColaboradoraController {
     public String editar(@RequestParam("id") Integer id, Model model) {
         model.addAttribute("entidad", entidadService.buscarPorId(id));
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
-        model.addAttribute("direcciones", direccionService.listarTodas());
         return "formularioEntidadColaboradora";
     }
 
