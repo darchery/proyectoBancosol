@@ -92,7 +92,6 @@ public class CampanyaController {
         return "formularioCadena";
     }
 
-    @Transactional
     @PostMapping("/campanas/cadenas/guardar")
     public String guardarCadena(
             @RequestParam(value = "idCadena",      required = false) Integer idCadena,
@@ -112,7 +111,6 @@ public class CampanyaController {
 
     // ── GUARDAR TODO ───────────────────────────────────────────────────────
 
-    @Transactional
     @PostMapping("/campanas/guardarTodo")
     public String guardarTodo(
             @RequestParam(value = "campanaId",         required = false) Integer       campanaId,

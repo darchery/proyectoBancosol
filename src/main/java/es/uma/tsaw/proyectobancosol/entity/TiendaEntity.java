@@ -15,8 +15,6 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tienda", schema = "public")
 public class TiendaEntity {
