@@ -2,7 +2,8 @@
  * Servicio que implementa la lógica de negocio para las asignaciones de voluntarios a turnos.
  *
  * Autores:
- * - Laia Díaz: 100%
+ * - Laia Díaz: 70%
+ * - IA Generativa: 30%
  */
 
 package es.uma.tsaw.proyectobancosol.service;
@@ -27,9 +28,10 @@ public class AsignacionVoluntarioService {
     private final EntidadColaboradoraRepository entidadColaboradoraRepository;
 
     public List<AsignacionVoluntarioDTO> findByUsuario(Integer idUsuario) {
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).orElseThrow();
-        return asignacionVoluntarioMapper.toDTOList(
-                asignacionVoluntarioRepository.findByUsuarioEntity(usuarioEntity));
+        UsuarioEntity usuario = usuarioRepository.findById(idUsuario).orElseThrow();
+        List<AsignacionVoluntarioEntity> asignaciones = asignacionVoluntarioRepository.findByUsuarioEntity(usuario);
+
+        return asignacionVoluntarioMapper.toDTOList(asignaciones);
     }
 
     public AsignacionVoluntarioDTO findById(Integer id) {
@@ -44,7 +46,9 @@ public class AsignacionVoluntarioService {
 
         if (id == null) {
             asignacion = new AsignacionVoluntarioEntity();
-            asignacion.setUsuarioEntity(usuarioRepository.findById(idUsuario).orElseThrow());
+            UsuarioEntity usuario = usuarioRepository.findById(idUsuario).orElseThrow();
+
+            asignacion.setUsuarioEntity(usuario);
         } else {
             asignacion = asignacionVoluntarioRepository.findById(id).orElseThrow();
         }
@@ -52,8 +56,10 @@ public class AsignacionVoluntarioService {
         TurnoActivoEntity turno = turnoActivoRepository.findById(idTurno).orElseThrow();
         asignacion.setTurnoActivoEntity(turno);
 
-        EntidadColaboradoraEntity entidad = idEntidad != null
-                ? entidadColaboradoraRepository.findById(idEntidad).orElse(null) : null;
+        EntidadColaboradoraEntity entidad = null;
+        if (idEntidad != null){
+            entidad = entidadColaboradoraRepository.findById(idEntidad).orElse(null);
+        }
         asignacion.setEntidadColaboradoraEntity(entidad);
 
         asignacion.setAsistencia(Boolean.TRUE.equals(asistencia));
