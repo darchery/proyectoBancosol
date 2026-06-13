@@ -1,5 +1,5 @@
 /**
- * Entidad JPA que representa una campaña de recogida de alimentos.
+ * Entidad JPA que representa una campaña de recogida de alimentos (GR / Primavera). Una cadena participa en muchas campañas.
  *
  * Autores:
  * - IA generativa: 100%
@@ -14,11 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * Campaña de recogida (GR / Primavera). Una cadena participa en muchas campañas.
- * @author bancosol
- */
 @Entity
 @Data
 @Table(name = "campanya", schema = "public")

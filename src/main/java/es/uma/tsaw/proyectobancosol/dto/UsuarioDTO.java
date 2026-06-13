@@ -18,7 +18,7 @@ public class UsuarioDTO {
     private String nombreUsuario;
 
     private Integer rolId;
-    // posbile modificacion
+    // posbile modificación
     private String rolNombre;
 
     // Sólo son usados por listarCoordinadoresCapitanes

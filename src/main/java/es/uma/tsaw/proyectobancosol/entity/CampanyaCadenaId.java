@@ -10,10 +10,6 @@ package es.uma.tsaw.proyectobancosol.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * Clase para la clave primaria compuesta de CampanyaCadena
- * @author bancosol
- */
 public class CampanyaCadenaId implements Serializable {
 
     private Integer campanya;
