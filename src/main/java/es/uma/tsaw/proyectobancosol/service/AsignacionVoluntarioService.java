@@ -14,12 +14,13 @@ import es.uma.tsaw.proyectobancosol.dao.TiendaRepository;
 import es.uma.tsaw.proyectobancosol.dao.TurnoActivoRepository;
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
 import es.uma.tsaw.proyectobancosol.dto.AsignacionVoluntarioDTO;
+import es.uma.tsaw.proyectobancosol.dto.TiendaDTO;
 import es.uma.tsaw.proyectobancosol.entity.AsignacionVoluntarioEntity;
 import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity;
-import es.uma.tsaw.proyectobancosol.entity.TiendaEntity;
 import es.uma.tsaw.proyectobancosol.entity.TurnoActivoEntity;
 import es.uma.tsaw.proyectobancosol.entity.UsuarioEntity;
 import es.uma.tsaw.proyectobancosol.mapper.AsignacionVoluntarioMapper;
+import es.uma.tsaw.proyectobancosol.mapper.TiendaMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class AsignacionVoluntarioService {
     private final TurnoActivoRepository turnoActivoRepository;
     private final EntidadColaboradoraRepository entidadColaboradoraRepository;
     private final TiendaRepository tiendaRepository;
+    private final TiendaMapper tiendaMapper;
 
     public List<AsignacionVoluntarioDTO> findByUsuario(Integer idUsuario) {
         UsuarioEntity usuario = usuarioRepository.findById(idUsuario).orElseThrow();
@@ -87,7 +89,7 @@ public class AsignacionVoluntarioService {
         return entidadColaboradoraRepository.findAll();
     }
 
-    public List<TiendaEntity> findAllTiendas() {
-        return tiendaRepository.findAll();
+    public List<TiendaDTO> findAllTiendas() {
+        return tiendaMapper.toDTOList(tiendaRepository.findAll());
     }
 }

@@ -13,7 +13,6 @@ import es.uma.tsaw.proyectobancosol.entity.CadenaEntity;
 import es.uma.tsaw.proyectobancosol.service.CampanyaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +27,6 @@ import java.util.List;
 public class CampanyaController {
 
     private final CampanyaService campanyaService;
-
-    private static final List<String> TIPOS_CAMPANYA = Arrays.asList("GR", "primavera");
 
     // ── LISTAR ─────────────────────────────────────────────────────────────
 
@@ -74,7 +71,6 @@ public class CampanyaController {
         model.addAttribute("cadenas", cadenaEntities);
         model.addAttribute("cadenasJson",   sbCadenas.toString());
         model.addAttribute("campanasJson",  sbCampanas.toString());
-        model.addAttribute("tiposCampanya", TIPOS_CAMPANYA);
         return "gestionCampanas";
     }
 

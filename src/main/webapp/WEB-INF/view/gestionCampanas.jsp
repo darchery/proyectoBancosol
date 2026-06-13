@@ -14,9 +14,9 @@ Autores:
 
 <%
     List<CampanyaDTO> campanas = (List<CampanyaDTO>) request.getAttribute("campanas");
-    List<CadenaEntity> cadenas = (List<CadenaEntity>)      request.getAttribute("cadenas");
-    String cadenasJson         = (String) request.getAttribute("cadenasJson");
-    String campanasJson        = (String) request.getAttribute("campanasJson");
+    List<CadenaEntity> cadenas = (List<CadenaEntity>) request.getAttribute("cadenas");
+    String cadenasJson = (String) request.getAttribute("cadenasJson");
+    String campanasJson = (String) request.getAttribute("campanasJson");
 %>
 
 <html>
@@ -47,12 +47,12 @@ Autores:
 
 <form method="post" action="campanas/guardarTodo">
 
-    <input type="hidden" name="campanaEditId"      id="campanaEditId"      value="">
-    <input type="hidden" name="campanaNombre"       id="campanaNombre"      value="">
-    <input type="hidden" name="campanaEstado"       id="campanaEstado"      value="">
-    <input type="hidden" name="campanaTipo"         id="campanaTipo"        value="">
-    <input type="hidden" name="campanaFechaInicio"  id="campanaFechaInicio" value="">
-    <input type="hidden" name="campanaFechaFin"     id="campanaFechaFin"    value="">
+    <input type="hidden" name="campanaEditId" id="campanaEditId" value="">
+    <input type="hidden" name="campanaNombre" id="campanaNombre" value="">
+    <input type="hidden" name="campanaEstado" id="campanaEstado" value="">
+    <input type="hidden" name="campanaTipo" id="campanaTipo" value="">
+    <input type="hidden" name="campanaFechaInicio" id="campanaFechaInicio" value="">
+    <input type="hidden" name="campanaFechaFin" id="campanaFechaFin" value="">
 
     <div class="management-container">
 
