@@ -46,7 +46,7 @@ Autores:
                         <th>TELÉFONO</th>
                         <th>CORREO</th>
                         <th>TIENDAS</th>
-                        <th>ID</th>
+                        <th>USUARIO</th>
                         <th>CONTRASEÑA</th>
                         <th colspan="2">ACCIONES</th>
                     </tr>
@@ -64,7 +64,7 @@ Autores:
                     <td><%= (c.getTelefono() != null) ? c.getTelefono() : "-" %></td>
                     <td><%= c.getEmail() %></td>
                     <td><%= c.getNumTiendas()%></td>
-                    <td><%= c.getIdUsuario()%></td>
+                    <td><%= c.getNombreUsuario()%></td>
                     <td><%= c.transformarContrasenya(c.getContrasenya())%></td>
                     <td><a href="/usuarios/editarCrear?id=<%= c.getIdUsuario()%>&idRol=<%= c.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
                     <td><a href="/usuarios/borrar?id=<%= c.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
