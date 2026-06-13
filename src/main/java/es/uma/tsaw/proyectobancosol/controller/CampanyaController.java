@@ -28,21 +28,23 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/campanas")
+@RequestMapping("/campanyas")
 public class CampanyaController {
 
     private final CampanyaService campanyaService;
     private final CadenaService cadenaService;
 
     @GetMapping("")
-    public String doInit(Model model) {
+    public String doInit(Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
         model.addAttribute("campanas", campanyaService.listarTodas());
         model.addAttribute("cadenas", cadenaService.listarTodas());
         return "gestionCampanyas";
     }
 
-    @GetMapping("/editar")
-    public String doEditarCrear(@RequestParam(required = false) Integer id, Model model) {
+    @GetMapping("/generarCampanya")
+    public String doGenerarCampanya(@RequestParam(required = false) Integer id, Model model, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
         model.addAttribute("campana", campanyaService.buscarOCrear(id));
         model.addAttribute("cadenas", cadenaService.listarTodas());
         return "formularioCampanya";
@@ -51,7 +53,9 @@ public class CampanyaController {
     @PostMapping("/guardar")
     public String doGuardar(@ModelAttribute("campana") CampanyaDTO campana,
                             @RequestParam(value = "cadenasBorrar", required = false) List<Integer> cadenasBorrar,
-                            RedirectAttributes redirect) {
+                            RedirectAttributes redirect,
+                            HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
         try {
             if (cadenasBorrar != null && !cadenasBorrar.isEmpty()) {
                 campanyaService.borrarCadenas(cadenasBorrar);
@@ -65,12 +69,13 @@ public class CampanyaController {
         } catch (IllegalArgumentException e) {
             redirect.addFlashAttribute("msg", "error:" + e.getMessage());
         }
-        return "redirect:/campanas";
+        return "redirect:/campanyas";
     }
 
     @GetMapping("/borrar")
-    public String doBorrar(@RequestParam("id") Integer id) {
+    public String doBorrar(@RequestParam("id") Integer id, HttpSession session) {
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
         campanyaService.borrar(id);
-        return "redirect:/campanas";
+        return "redirect:/campanyas";
     }
 }

@@ -28,14 +28,14 @@ Autores:
     <div class="logo-area">
         <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
         <div>
-            <h1>EDITAR CAMPAÑA</h1>
+            <h1>GENERAR CAMPAÑA DESDE CERO</h1>
         </div>
     </div>
 </header>
 
 <main class="container">
     <div class="form-container">
-        <form method="post" action="${pageContext.request.contextPath}/campanas/guardar">
+        <form method="post" action="${pageContext.request.contextPath}/campanyas/guardar">
 
             <input type="hidden" name="idCampanya" value="<%= campana.getIdCampanya() %>">
 
@@ -101,7 +101,7 @@ Autores:
 
             <div class="actions-row">
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <a href="${pageContext.request.contextPath}/campanas" class="btn btn-secondary">Cancelar</a>
+                <a href="${pageContext.request.contextPath}/campanyas" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>

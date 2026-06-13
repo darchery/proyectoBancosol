@@ -35,6 +35,11 @@ public class AutenticaController {
         return "menu";
     }
 
+    @GetMapping("/sinPermisos")
+    public String doSinPermisos () {
+        return "sinPermisos";
+    }
+
     @PostMapping("/autentica")
     public String doAutentica (@RequestParam("username") String username,
                                @RequestParam("password") String password,

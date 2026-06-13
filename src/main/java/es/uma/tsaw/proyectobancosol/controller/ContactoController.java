@@ -26,7 +26,7 @@ public class ContactoController {
     @GetMapping("/entidades/{idEntidad}/contactos")
     public String listar(@PathVariable Integer idEntidad, Model model, HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         model.addAttribute("contactos", contactoService.listarPorEntidad(idEntidad));
         model.addAttribute("idEntidad", idEntidad);
@@ -36,7 +36,7 @@ public class ContactoController {
     @GetMapping("/entidades/{idEntidad}/contactos/nuevo")
     public String nuevo(@PathVariable Integer idEntidad, Model model, HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         model.addAttribute("contacto", new ContactoDTO());
         model.addAttribute("idEntidad", idEntidad);
@@ -53,7 +53,7 @@ public class ContactoController {
             @RequestParam(value = "esPrincipal", required = false) Boolean esPrincipal,
             HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         contactoService.guardar(idContacto, idEntidad, nombre, email, telefono, esPrincipal);
         return "redirect:/entidades/" + idEntidad + "/contactos";
@@ -64,7 +64,7 @@ public class ContactoController {
                          @RequestParam("id") Integer id, Model model,
                          HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         model.addAttribute("contacto", contactoService.buscarPorId(id));
         model.addAttribute("idEntidad", idEntidad);
@@ -76,7 +76,7 @@ public class ContactoController {
                          @RequestParam("id") Integer id,
                          HttpSession session) {
         // Sólo admin
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         contactoService.borrar(id);
         return "redirect:/entidades/" + idEntidad + "/contactos";

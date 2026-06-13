@@ -54,7 +54,6 @@ Autores:
 
     <div class="management-container">
 
-        <!-- ── COLUMNA IZQUIERDA: TIPO DE CAMPAÑA ── -->
         <div class="campanya-column">
             <div class="box">
                 <h2>Tipo de campaña</h2>
@@ -73,14 +72,13 @@ Autores:
             </div>
 
             <div class="actions-frame">
-                <button type="button" onclick="generarCampana()">Generar campaña</button>
+                <button type="button" onclick="generarCampana()">Generar campaña con los datos seleccionados</button>
+                <a href="/campanyas/generarCampanya" class="btn btn-primary">Generar campaña desde cero</a>
                 <button type="button" onclick="verHistorial()">Ver historial</button>
-                <button type="submit">Guardar cambios</button>
                 <a href="/menu" class="btn-volver-menu">Menú Principal</a>
             </div>
         </div>
 
-        <!-- ── COLUMNA CENTRAL: CADENAS ── -->
         <div class="box cadenas-box">
             <h2>Cadenas</h2>
             <div class="checkbox-grid">
@@ -110,7 +108,6 @@ Autores:
             </div>
         </div>
 
-        <!-- ── COLUMNA DERECHA: ACCIONES ADICIONALES ── -->
         <div class="right-column">
             <div class="character-container">
                 <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL.png" alt="Bancosol">
@@ -119,7 +116,6 @@ Autores:
 
     </div>
 
-    <!-- ── HISTORIAL (oculto por defecto) ── -->
     <div id="divHistorial" class="modal-overlay">
         <div class="modal-content modal-historial">
             <div class="modal-header">
@@ -147,7 +143,6 @@ Autores:
         </div>
     </div>
 
-    <!-- ── FORMULARIO NUEVA CAMPAÑA ── -->
     <div id="modalFechas" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -282,7 +277,7 @@ Autores:
                     '<td>' + (c.estado      || '') + '</td>' +
                     '<td>' + (c.fechaInicio || '') + '</td>' +
                     '<td>' + (c.fechaFin    || '') + '</td>' +
-                    '<td><a href="editar?id=' + c.id + '" class="btn-editar-historial">Editar</a></td>';
+                    '<td><a href="/campanyas/generarCampanya?id=' + c.id + '" class="btn-editar-historial">Editar</a></td>';
                 tbody.appendChild(tr);
             });
         }

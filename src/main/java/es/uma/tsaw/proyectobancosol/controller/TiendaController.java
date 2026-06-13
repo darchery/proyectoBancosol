@@ -32,7 +32,7 @@ public class TiendaController {
 
     @GetMapping("")
     public String doInit(Model model, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("tiendas", tiendaService.listarTodas());
 
@@ -41,7 +41,7 @@ public class TiendaController {
 
     @GetMapping("/editarCrear")
     public String doEditarCrear(@RequestParam(required = false) Integer id, Model model, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("tienda", tiendaService.buscarOCrear(id));
         model.addAttribute("cadenas", cadenaService.listarTodas());
@@ -55,7 +55,7 @@ public class TiendaController {
                             @RequestParam("idCadena") Integer idCadena,
                             @RequestParam(value = "idDireccion", required = false) Integer idDireccion,
                             HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         tiendaService.guardar(tiendaDTO, idCadena, idDireccion);
 
@@ -64,7 +64,7 @@ public class TiendaController {
 
     @GetMapping("/borrar")
     public String doBorrar(@RequestParam("id") Integer id, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         tiendaService.borrar(id);
 

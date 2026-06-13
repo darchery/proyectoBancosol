@@ -36,7 +36,7 @@ public class UsuarioController {
 
     @GetMapping("/coordinadores-capitanes")
     public String listarCoordinadores(Model model, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         List<UsuarioDTO> coordinadores = this.usuarioService.listarCoordinadoresCapitanes(2);
         List<UsuarioDTO> capitanes = this.usuarioService.listarCoordinadoresCapitanes(3);
@@ -53,7 +53,7 @@ public class UsuarioController {
     @GetMapping("/voluntarios")
     public String listarVoluntarios(Model model, HttpSession session) {
         // Sólo acceden => admin, coordinador y coordinador-capitan
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         List<UsuarioDTO> voluntarios = this.usuarioService.listarVoluntarios();
         model.addAttribute("voluntarios", voluntarios);
@@ -65,7 +65,7 @@ public class UsuarioController {
                                     @RequestParam(value = "idRol", required = true) Integer idRol,
                                    Model model,
                                    HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         RolDTO rolDTO = this.usuarioService.buscarRol(idRol);
         model.addAttribute("rol", rolDTO);
@@ -87,7 +87,7 @@ public class UsuarioController {
                                  RedirectAttributes redirectAttributes,
                                  HttpSession session) {
         // Sólo administradores
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         if (this.usuarioService.existeEmail(email, id)) {
             redirectAttributes.addFlashAttribute("error", "email_duplicado");
@@ -107,7 +107,7 @@ public class UsuarioController {
 
     @GetMapping("/borrar")
     public String borrarUsuario(@RequestParam(value = "id", required = true) Integer id, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
         this.usuarioService.borrar(id);
 
         // PROVISIONAL - Debe redirigir a la página del rol

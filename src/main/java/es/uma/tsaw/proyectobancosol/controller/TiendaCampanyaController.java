@@ -30,7 +30,7 @@ public class TiendaCampanyaController {
                                       @RequestParam("idCoordinador") Integer idCoordinador,
                                       @RequestParam("idCapitan") Integer idCapitan,
                                       HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         tiendaCampanyaService.asignarResponsables(idTiendaCampanya, idCoordinador, idCapitan);
         return "redirect:/tiendas";

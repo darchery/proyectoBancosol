@@ -47,7 +47,7 @@ Autores:
                 <%
                     if (esAdmin) {
                 %>
-                        <a href="/campanas" class="menu-btn">Gestión Campañas</a>
+                        <a href="/campanyas" class="menu-btn">Gestión Campañas</a>
                 <%
                     }
                 %>

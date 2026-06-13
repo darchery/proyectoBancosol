@@ -42,13 +42,13 @@ public class CadenaController {
     @PostMapping("/guardar")
     public String doGuardar(@ModelAttribute("cadena") CadenaDTO cadena) {
         cadenaService.guardar(cadena);
-        return "redirect:/campanas";
+        return "redirect:/campanyas";
     }
 
     @GetMapping("/borrar")
     public String doBorrar(@RequestParam("id") Integer id, RedirectAttributes redirect) {
         cadenaService.borrar(id);
         redirect.addFlashAttribute("msg", "ok:Cadena eliminada correctamente.");
-        return "redirect:/campanas";
+        return "redirect:/campanyas";
     }
 }

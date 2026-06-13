@@ -55,7 +55,7 @@ Autores:
 
                 <div class="actions-row">
                     <button type="submit" class="btn btn-primary">Guardar</button>
-                    <a href="<%= ctx %>/campanas" class="btn btn-secondary">Cancelar</a>
+                    <a href="<%= ctx %>/campanyas" class="btn btn-secondary">Cancelar</a>
                 </div>
 
             </form>

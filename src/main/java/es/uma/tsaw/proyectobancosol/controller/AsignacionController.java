@@ -32,7 +32,7 @@ public class AsignacionController {
     @GetMapping("/listar")
     public String listar(@RequestParam(required = false) Integer idUsuario, Model model, HttpSession session) {
         // Acceden coordinadores y admins
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         if (idUsuario == null) {
             return "redirect:/usuarios/voluntarios";
@@ -49,7 +49,7 @@ public class AsignacionController {
                               @RequestParam(required = false) Integer id,
                               Model model, HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         model.addAttribute("idUsuario", idUsuario);
         model.addAttribute("turnos", asignacionVoluntarioService.findAllTurnosActivos());
@@ -72,7 +72,7 @@ public class AsignacionController {
                             @RequestParam(required = false) Boolean asistencia,
                             HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         asignacionVoluntarioService.guardar(idUsuario, id, idTurno, idEntidad, asistencia);
         return "redirect:/voluntarios/listar?idUsuario=" + idUsuario;
@@ -83,7 +83,7 @@ public class AsignacionController {
                          @RequestParam Integer idUsuario,
                          HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         asignacionVoluntarioService.borrar(id);
         return "redirect:/voluntarios/listar?idUsuario=" + idUsuario;

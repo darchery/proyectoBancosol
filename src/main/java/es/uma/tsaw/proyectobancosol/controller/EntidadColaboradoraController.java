@@ -33,7 +33,7 @@ public class EntidadColaboradoraController {
     @GetMapping("/entidades")
     public String listar(Model model, HttpSession session) {
         // Acceden admins y coordinadores
-        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
         model.addAttribute("entidades", entidadService.listarTodas());
         return "gestionColaboradores";
@@ -41,7 +41,7 @@ public class EntidadColaboradoraController {
 
     @GetMapping("/entidades/nueva")
     public String nueva(Model model, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("entidad", new EntidadColaboradoraDTO());
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
@@ -50,7 +50,7 @@ public class EntidadColaboradoraController {
 
     @GetMapping("/entidades/editar")
     public String editar(@RequestParam("id") Integer id, Model model, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("entidad", entidadService.buscarPorId(id));
         model.addAttribute("usuarios", usuarioService.listarCoordinadores());
@@ -69,7 +69,7 @@ public class EntidadColaboradoraController {
             @RequestParam(value = "distritoLocal", required = false) String distritoLocal,
             @RequestParam(value = "zonaGeografica", required = false) String zonaGeografica,
             HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         entidadService.guardar(idEntidad, nombreEntidad, tipo, ligadoBancosol, responsableId, direccionId);
 
@@ -82,7 +82,7 @@ public class EntidadColaboradoraController {
 
     @GetMapping("/entidades/borrar")
     public String borrar(@RequestParam("id") Integer id, HttpSession session) {
-        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/menu";
+        if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         entidadService.borrar(id);
         return "redirect:/entidades";
