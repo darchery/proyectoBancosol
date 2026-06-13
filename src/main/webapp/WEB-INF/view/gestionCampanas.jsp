@@ -14,7 +14,7 @@ Autores:
 
 <%
     List<CampanyaDTO> campanas = (List<CampanyaDTO>) request.getAttribute("campanas");
-    List<CadenaEntity> cadenaEntities = (List<CadenaEntity>)      request.getAttribute("cadenas");
+    List<CadenaEntity> cadenas = (List<CadenaEntity>)      request.getAttribute("cadenas");
     String cadenasJson         = (String) request.getAttribute("cadenasJson");
     String campanasJson        = (String) request.getAttribute("campanasJson");
 %>
@@ -89,8 +89,8 @@ Autores:
             </h2>
             <div class="checkbox-grid">
                 <%
-                    if (cadenaEntities != null) {
-                        for (CadenaEntity cad : cadenaEntities) {
+                    if (cadenas != null) {
+                        for (CadenaEntity cad : cadenas) {
                 %>
                 <div class="checkbox-item" id="fila_<%= cad.getIdCadena() %>">
                     <input type="checkbox" name="cadenaIds"

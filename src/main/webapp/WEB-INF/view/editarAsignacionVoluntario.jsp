@@ -14,12 +14,11 @@ Autores:
 
 <%
     Integer idUsuario = (Integer) request.getAttribute("idUsuario");
-    String nombreUsuario = (String) request.getAttribute("nombreUsuario");
     AsignacionVoluntarioDTO asignacion = (AsignacionVoluntarioDTO) request.getAttribute("asignacion");
     List<TurnoActivoEntity> turnos = (List<TurnoActivoEntity>) request.getAttribute("turnos");
     List<EntidadColaboradoraEntity> entidades = (List<EntidadColaboradoraEntity>) request.getAttribute("entidades");
 
-    List<TiendaEntity> tiendaEntities = (List<TiendaEntity>) request.getAttribute("tiendas");
+    List<TiendaEntity> tiendas = (List<TiendaEntity>) request.getAttribute("tiendas");
     boolean esEdicion = (asignacion != null);
 
     // Valores actuales para pre-selección en edición
@@ -68,7 +67,7 @@ Autores:
 
                     <select id="selectTienda" onchange="filtrarTurnos()">
                         <%
-                            for (TiendaEntity tienda : tiendaEntities) {
+                            for (TiendaEntity tienda : tiendas) {
                         %>
 
                         <option value="<%= tienda.getIdTienda() %>"

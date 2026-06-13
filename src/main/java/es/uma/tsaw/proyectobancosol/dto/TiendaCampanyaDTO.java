@@ -2,7 +2,8 @@
  * DTO que transfiere los datos de la relación tienda-campaña.
  *
  * Autores:
- * - IA generativa: 100%
+ * - IA generativa: 70%
+ * - Lucas Díaz Ruiz: 30%
  */
 
 package es.uma.tsaw.proyectobancosol.dto;

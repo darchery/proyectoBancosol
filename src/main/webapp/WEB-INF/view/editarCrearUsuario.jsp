@@ -13,13 +13,13 @@ Autores:
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    RolDTO rolEntity = (RolDTO) request.getAttribute("rol");
+    RolDTO rol = (RolDTO) request.getAttribute("rol");
     UsuarioDTO usuario = (UsuarioDTO) request.getAttribute("usuario");
 %>
 
 <html>
 <head>
-    <title><%= usuario == null ? "Añadir" : "Editar"%> <%= rolEntity.getNombreRol()%></title>
+    <title><%= usuario == null ? "Añadir" : "Editar"%> <%= rol.getNombreRol()%></title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style_bancosol.css">
 </head>
 <body>
@@ -27,7 +27,7 @@ Autores:
         <div class="logo-area">
             <img src="${pageContext.request.contextPath}/images/LOGO_BANCOSOL_FOOTER.png" alt="Bancosol Logo">
             <div>
-                <h1><%= usuario == null ? "AÑADIR" : "EDITAR"%> <%= rolEntity.getNombreRol().toUpperCase()%></h1>
+                <h1><%= usuario == null ? "AÑADIR" : "EDITAR"%> <%= rol.getNombreRol().toUpperCase()%></h1>
             </div>
         </div>
     </header>
@@ -52,7 +52,7 @@ Autores:
                     }
                 %>
 
-                <input type="hidden" name="idRol" value="<%= rolEntity.getIdRol()%>">
+                <input type="hidden" name="idRol" value="<%= rol.getIdRol()%>">
 
                 <div class="form-group">
                     <label>Nombre:</label>

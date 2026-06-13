@@ -33,7 +33,6 @@ Autores:
 
     <%
         Integer idUsuario = (Integer) request.getAttribute("idUsuario");
-        String nombreUsuario = (String) request.getAttribute("nombreUsuario");
         List<AsignacionVoluntarioDTO> asignaciones = (List<AsignacionVoluntarioDTO>) request.getAttribute("asignaciones");
     %>
 
