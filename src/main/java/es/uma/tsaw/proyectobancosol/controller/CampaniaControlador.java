@@ -78,13 +78,6 @@ public class CampaniaControlador {
         return "gestionCampanas";
     }
 
-
-    @GetMapping("/campanas/borrar")
-    public String borrarCampana(@RequestParam("id") Integer id) {
-        campanyaService.borrarCampana(id);
-        return "redirect:/campanas";
-    }
-
     // ── CADENAS ────────────────────────────────────────────────────────────
 
     @GetMapping("/campanas/cadenas/nueva")
