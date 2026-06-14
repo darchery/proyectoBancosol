@@ -88,4 +88,17 @@ public class AsignacionController {
         asignacionVoluntarioService.borrar(id);
         return "redirect:/voluntarios/listar?idUsuario=" + idUsuario;
     }
+
+    @GetMapping("/misAsignaciones")
+    public String doMisAsignaciones(@RequestParam Integer idUsuario,
+                                    Model model, HttpSession session) {
+        // Acceden voluntarios
+        if (!SecurityUtil.tieneRol(session, 4)) return "redirect:/sinPermisos";
+
+        List<AsignacionVoluntarioDTO> asignaciones =
+                asignacionVoluntarioService.findByUsuario(idUsuario);
+
+        model.addAttribute("asignaciones", asignaciones);
+        return "misAsignaciones";
+    }
 }

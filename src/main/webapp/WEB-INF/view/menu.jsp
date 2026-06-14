@@ -36,6 +36,7 @@ Autores:
                         ? userObj.getRolEntity().getIdRol() : 0;
                 boolean esAdmin = (rol == 1);
                 boolean esCoord = (rol == 2 || rol == 6);
+                boolean esVolun = (rol == 4);
 
             %>
 
@@ -73,6 +74,14 @@ Autores:
                     if (esAdmin || esCoord) {
                 %>
                         <a href="/voluntarios/listar" class="menu-btn">Gestión Voluntarios</a>
+                <%
+                    }
+                %>
+
+                <%
+                    if (esVolun) {
+                %>
+                        <a href="/voluntarios/misAsignaciones?idUsuario=<%= userObj.getIdUsuario() %>" class="menu-btn">Ver mis asignaciones</a>
                 <%
                     }
                 %>
