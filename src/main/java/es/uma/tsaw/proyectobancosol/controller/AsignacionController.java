@@ -3,8 +3,10 @@
  * Permite listar, crear, editar y eliminar asignaciones.
  *
  * Autores:
- * - Laia Díaz: 95%
- * - Sergio Aldana: 5%
+ * - Laia Díaz: 50%
+ * - Lucas Díaz: 25%
+ * - Daniela Calderón: 15%
+ * - Sergio Aldana: 10%
  */
 
 

@@ -26,9 +26,13 @@ public class TiendaCampanyaService {
 
         TiendaCampanyaEntity tiendaCampanyaEntity = tiendaCampanyaRepository.findById(idTiendaCampanya).orElse(null);
 
-        tiendaCampanyaEntity.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
-        tiendaCampanyaEntity.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
+        if(tiendaCampanyaEntity != null){
 
-        tiendaCampanyaRepository.save(tiendaCampanyaEntity);
+            tiendaCampanyaEntity.setCoordinador(usuarioRepository.findById(idCoordinador).orElse(null));
+            tiendaCampanyaEntity.setCapitan(usuarioRepository.findById(idCapitan).orElse(null));
+
+            tiendaCampanyaRepository.save(tiendaCampanyaEntity);
+        }
+        
     }
 }

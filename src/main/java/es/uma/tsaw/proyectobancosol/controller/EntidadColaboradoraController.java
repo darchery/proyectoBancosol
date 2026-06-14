@@ -3,8 +3,9 @@
  * Permite listar, crear, editar y eliminar entidades.
  *
  * Autores:
- * - Daniela Calderón: 95%
- * - IA generativa: 5%
+ * - Daniela Calderón: 60%
+ * - Sergio Aldana: 20%
+ * - Lucas Díaz: 20%
  */
 
 package es.uma.tsaw.proyectobancosol.controller;

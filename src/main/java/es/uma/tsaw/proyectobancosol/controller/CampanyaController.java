@@ -3,8 +3,8 @@
  * Permite listar, crear, editar y eliminar campañas.
  *
  * Autores:
- * - Marina Ruiz: 90 %
- * - Sergio Aldana: 10 %
+ * - Marina Ruiz: 70 %
+ * - Sergio Aldana: 30 %
  */
 
 package es.uma.tsaw.proyectobancosol.controller;

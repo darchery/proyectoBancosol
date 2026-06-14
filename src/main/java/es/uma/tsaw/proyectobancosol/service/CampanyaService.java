@@ -2,8 +2,8 @@
  * Servicio que implementa la lógica de negocio para las campañas de recogida.
  *
  * Autores:
- * - Marina Ruiz: 90 %
- * - Sergio Aldana: 10 %
+ * - Marina Ruiz: 70 %
+ * - Sergio Aldana: 30 %
  */
 
 package es.uma.tsaw.proyectobancosol.service;

@@ -3,8 +3,9 @@
  * Proporciona listado, creación, edición y eliminación de usuarios.
  *
  * Autores:
- * - Lucas Díaz Ruiz: 90%
- * - Laia Díaz: 10%
+ * - Lucas Díaz Ruiz: 73%
+ * - Laia Díaz: 15%
+ * - Sergio Aldana: 12%
  */
 
 package es.uma.tsaw.proyectobancosol.controller;
