@@ -31,7 +31,7 @@ public class EntidadColaboradoraController {
     private final DireccionService direccionService;
 
     @GetMapping("/entidades")
-    public String listar(Model model, HttpSession session) {
+    public String doListar(Model model, HttpSession session) {
         // Acceden admins y coordinadores
         if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
@@ -40,7 +40,7 @@ public class EntidadColaboradoraController {
     }
 
     @GetMapping("/entidades/nueva")
-    public String nueva(Model model, HttpSession session) {
+    public String doNueva(Model model, HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("entidad", new EntidadColaboradoraDTO());
@@ -49,7 +49,7 @@ public class EntidadColaboradoraController {
     }
 
     @GetMapping("/entidades/editar")
-    public String editar(@RequestParam("id") Integer id, Model model, HttpSession session) {
+    public String doEditar(@RequestParam("id") Integer id, Model model, HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         model.addAttribute("entidad", entidadService.buscarPorId(id));
@@ -58,30 +58,33 @@ public class EntidadColaboradoraController {
     }
 
     @PostMapping("/entidades/guardar")
-    public String guardar(
+    public String doGuardar(
             @RequestParam(value = "idEntidad", required = false) Integer idEntidad,
             @RequestParam("nombreEntidad") String nombreEntidad,
             @RequestParam("tipo") String tipo,
-            @RequestParam("ligadoBancosol") Boolean ligadoBancosol,
+            @RequestParam(value = "ligadoBancosol", required = false) Boolean ligadoBancosol,
             @RequestParam(value = "responsableId", required = false) Integer responsableId,
             @RequestParam(value = "direccionId", required = false) Integer direccionId,
             @RequestParam(value = "domicilio", required = false) String domicilio,
             @RequestParam(value = "distritoLocal", required = false) String distritoLocal,
             @RequestParam(value = "zonaGeografica", required = false) String zonaGeografica,
+            @RequestParam(value = "observaciones", required = false) String observaciones,
             HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
-        entidadService.guardar(idEntidad, nombreEntidad, tipo, ligadoBancosol, responsableId, direccionId);
-
-        if (direccionId != null) {
+        if (direccionId == null && domicilio != null && !domicilio.trim().isEmpty()) {
+            direccionId = direccionService.crear(domicilio, distritoLocal, zonaGeografica);
+        } else if (direccionId != null) {
             direccionService.actualizar(direccionId, domicilio, distritoLocal, zonaGeografica);
         }
+
+        entidadService.guardar(idEntidad, nombreEntidad, tipo, ligadoBancosol, responsableId, direccionId, observaciones);
 
         return "redirect:/entidades";
     }
 
     @GetMapping("/entidades/borrar")
-    public String borrar(@RequestParam("id") Integer id, HttpSession session) {
+    public String doBorrar(@RequestParam("id") Integer id, HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         entidadService.borrar(id);

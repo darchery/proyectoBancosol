@@ -37,16 +37,19 @@ public class TiendaService {
         return tiendaMapper.toDTO(tiendaEntity);
     }
 
-    public void guardar(TiendaDTO dto, Integer idCadena, Integer idDireccion) {
-        TiendaEntity tiendaEntity = (dto.getIdTienda() == null)
-                ? new TiendaEntity()
-                : tiendaRepository.findById(dto.getIdTienda()).orElseThrow();
+    public void guardar(Integer idTienda, String nombreEstablecimiento, String direccionEstablecimiento,
+                        Boolean franquicia, String lineales, String cp,
+                        Integer idCadena, Integer idDireccion) {
 
-        tiendaEntity.setNombreEstablecimiento(dto.getNombreEstablecimiento());
-        tiendaEntity.setDireccionEstablecimiento(dto.getDireccionEstablecimiento());
-        tiendaEntity.setFranquicia(dto.getFranquicia());
-        tiendaEntity.setLineales(dto.getLineales());
-        tiendaEntity.setCp(dto.getCp());
+        TiendaEntity tiendaEntity = (idTienda == null)
+                ? new TiendaEntity()
+                : tiendaRepository.findById(idTienda).orElseThrow();
+
+        tiendaEntity.setNombreEstablecimiento(nombreEstablecimiento);
+        tiendaEntity.setDireccionEstablecimiento(direccionEstablecimiento);
+        tiendaEntity.setFranquicia(franquicia);
+        tiendaEntity.setLineales(lineales);
+        tiendaEntity.setCp(cp);
         tiendaEntity.setCadenaEntity(cadenaRepository.findById(idCadena).orElse(null));
 
         if (idDireccion != null) {

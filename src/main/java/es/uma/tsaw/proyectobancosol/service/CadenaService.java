@@ -35,14 +35,14 @@ public class CadenaService {
         return cadenaMapper.toDTO(cadenaRepository.findById(id).orElse(null));
     }
 
-    public void guardar(CadenaDTO dto) {
-        CadenaEntity entity = (dto.getIdCadena() == null)
+    public void guardar(Integer idCadena, String nombreCadena, String resenyaCadena, String logoUrl) {
+        CadenaEntity entity = (idCadena == null)
                 ? new CadenaEntity()
-                : cadenaRepository.findById(dto.getIdCadena())
-                    .orElseThrow(() -> new IllegalArgumentException("Cadena no encontrada: " + dto.getIdCadena()));
-        entity.setNombreCadena(dto.getNombreCadena());
-        entity.setResenyaCadena(dto.getResenyaCadena());
-        entity.setLogoUrl(dto.getLogoUrl());
+                : cadenaRepository.findById(idCadena)
+                    .orElseThrow(() -> new IllegalArgumentException("Cadena no encontrada: " + idCadena));
+        entity.setNombreCadena(nombreCadena);
+        entity.setResenyaCadena(resenyaCadena);
+        entity.setLogoUrl(logoUrl);
         cadenaRepository.save(entity);
     }
 

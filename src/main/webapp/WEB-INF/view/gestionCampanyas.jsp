@@ -99,9 +99,8 @@ Autores:
                     <label for="cad_<%= cad.getIdCadena() %>"><%= cad.getNombreCadena() %></label>
 
                     <div class="cadena-btn-group">
-                        <a href="/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn-edit-cadena">Editar</a>
-                        <a href="/cadenas/borrar?id=<%= cad.getIdCadena() %>"
-                               class="btn btn-sm btn-danger">Eliminar</a>
+                        <a href="/cadenas/editar?id=<%= cad.getIdCadena() %>" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="/cadenas/borrar?id=<%= cad.getIdCadena() %>" class="btn btn-sm btn-danger">Eliminar</a>
                     </div>
                 </div>
                 <%

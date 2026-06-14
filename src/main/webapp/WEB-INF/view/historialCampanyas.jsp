@@ -58,7 +58,7 @@ Autores:
             <td><%= estado %></td>
             <td><%= fi %></td>
             <td><%= ff %></td>
-            <td><a href="/campanyas/generarCampanya?id=<%= c.getIdCampanya() %>" class="btn-editar-historial">Editar</a></td>
+            <td><a href="/campanyas/generarCampanya?id=<%= c.getIdCampanya() %>" class="btn btn-sm btn-warning">Editar</a></td>
         </tr>
         <%
                 }

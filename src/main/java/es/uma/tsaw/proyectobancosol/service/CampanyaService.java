@@ -39,31 +39,31 @@ public class CampanyaService {
                 .orElse(null);
     }
 
-    public void guardar(CampanyaDTO dto) {
+    public void guardar(Integer idCampanya, String nombreCampanya, String tipoCampanya, String estado,
+                        String fechaInicio, String fechaFin, List<Integer> cadenaIds) {
         CampanyaEntity campana;
-        if (dto.getIdCampanya() == null) {
-            List<CampanyaEntity> existentes = campanyaRepository.findByNombreCampanya(dto.getNombreCampanya().trim());
+        if (idCampanya == null) {
+            List<CampanyaEntity> existentes = campanyaRepository.findByNombreCampanya(nombreCampanya.trim());
             if (!existentes.isEmpty()) {
-                throw new IllegalArgumentException("Ya existe una campaña llamada \"" + dto.getNombreCampanya().trim() + "\".");
+                throw new IllegalArgumentException("Ya existe una campaña llamada \"" + nombreCampanya.trim() + "\".");
             }
             campana = new CampanyaEntity();
-            campana.setNombreCampanya(dto.getNombreCampanya().trim());
+            campana.setNombreCampanya(nombreCampanya.trim());
         } else {
-            campana = campanyaRepository.findById(dto.getIdCampanya())
-                    .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + dto.getIdCampanya()));
-            if (dto.getNombreCampanya() != null && !dto.getNombreCampanya().trim().isEmpty()) {
-                campana.setNombreCampanya(dto.getNombreCampanya().trim());
+            campana = campanyaRepository.findById(idCampanya)
+                    .orElseThrow(() -> new IllegalArgumentException("Campaña no encontrada: " + idCampanya));
+            if (nombreCampanya != null && !nombreCampanya.trim().isEmpty()) {
+                campana.setNombreCampanya(nombreCampanya.trim());
             }
         }
 
-        if (dto.getTipoCampanya() != null) campana.setTipoCampanya(dto.getTipoCampanya());
-        if (dto.getEstado() != null) campana.setEstado(dto.getEstado());
-        if (dto.getFechaInicio() != null && !dto.getFechaInicio().isEmpty())
-            campana.setFechaInicio(java.sql.Date.valueOf(LocalDate.parse(dto.getFechaInicio())));
-        if (dto.getFechaFin() != null && !dto.getFechaFin().isEmpty())
-            campana.setFechaFin(java.sql.Date.valueOf(LocalDate.parse(dto.getFechaFin())));
+        if (tipoCampanya != null) campana.setTipoCampanya(tipoCampanya);
+        if (estado != null) campana.setEstado(estado);
+        if (fechaInicio != null && !fechaInicio.isEmpty())
+            campana.setFechaInicio(java.sql.Date.valueOf(LocalDate.parse(fechaInicio)));
+        if (fechaFin != null && !fechaFin.isEmpty())
+            campana.setFechaFin(java.sql.Date.valueOf(LocalDate.parse(fechaFin)));
 
-        List<Integer> cadenaIds = dto.getCadenaIds();
         List<CadenaEntity> cadenas = (cadenaIds == null || cadenaIds.isEmpty())
                 ? List.of()
                 : cadenaRepository.findAllById(cadenaIds);

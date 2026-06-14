@@ -51,13 +51,18 @@ public class TiendaController {
     }
 
     @PostMapping("/guardar")
-    public String doGuardar(@ModelAttribute("tienda") TiendaDTO tiendaDTO,
+    public String doGuardar(@RequestParam(value = "idTienda", required = false) Integer idTienda,
+                            @RequestParam("nombreEstablecimiento") String nombreEstablecimiento,
+                            @RequestParam("direccionEstablecimiento") String direccionEstablecimiento,
+                            @RequestParam("franquicia") Boolean franquicia,
+                            @RequestParam("lineales") String lineales,
+                            @RequestParam("cp") String cp,
                             @RequestParam("idCadena") Integer idCadena,
                             @RequestParam(value = "idDireccion", required = false) Integer idDireccion,
                             HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
-        tiendaService.guardar(tiendaDTO, idCadena, idDireccion);
+        tiendaService.guardar(idTienda, nombreEstablecimiento, direccionEstablecimiento, franquicia, lineales, cp, idCadena, idDireccion);
 
         return "redirect:/tiendas";
     }

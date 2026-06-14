@@ -86,7 +86,7 @@ Autores:
                     <td><%= (cap.getTelefono() != null) ? cap.getTelefono() : "-" %></td>
                     <td><%= cap.getEmail() %></td>
                     <td><%= cap.getNumTiendas()%></td>
-                    <td><%= cap.getIdUsuario()%></td>
+                    <td><%= cap.getNombreUsuario()%></td>
                     <td><%= cap.transformarContrasenya(cap.getContrasenya())%></td>
                     <td><a href="/usuarios/editarCrear?id=<%= cap.getIdUsuario()%>&idRol=<%= cap.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
                     <td><a href="/usuarios/borrar?id=<%= cap.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>
@@ -108,7 +108,7 @@ Autores:
                     <td><%= (cc.getTelefono() != null) ? cc.getTelefono() : "-" %></td>
                     <td><%= cc.getEmail() %></td>
                     <td><%= cc.getNumTiendas()%></td>
-                    <td><%= cc.getIdUsuario()%></td>
+                    <td><%= cc.getNombreUsuario()%></td>
                     <td><%= cc.transformarContrasenya(cc.getContrasenya())%></td>
                     <td><a href="/usuarios/editarCrear?id=<%= cc.getIdUsuario()%>&idRol=<%= cc.getRolId()%>" class="btn btn-sm btn-warning">Editar</a></td>
                     <td><a href="/usuarios/borrar?id=<%= cc.getIdUsuario()%>" class="btn btn-sm btn-danger">Borrar</a></td>

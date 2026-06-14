@@ -48,8 +48,18 @@ Autores:
 
             <div class="form-group">
                 <label>Tipo de campaña:</label>
-                <input type="text" name="tipoCampanya"
-                       value="<%= campana.getTipoCampanya() != null ? campana.getTipoCampanya() : "" %>">
+                <select name="tipoCampanya">
+                    <%
+                        String tipoActual = campana.getTipoCampanya() != null ? campana.getTipoCampanya() : "";
+                        String[] tipos = { "GR", "PRIMAVERA" };
+                        for (String t : tipos) {
+                            String selected = t.equals(tipoActual) ? "selected" : "";
+                    %>
+                            <option value="<%= t %>" <%= selected %>><%= t %></option>
+                    <%
+                        }
+                    %>
+                </select>
             </div>
 
             <div class="form-group">

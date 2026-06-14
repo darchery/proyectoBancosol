@@ -36,7 +36,7 @@ Autores:
             <form action="/entidades/guardar" method="post">
                 <% if (esEdicion) { %>
                 <input type="hidden" name="idEntidad" value="<%= entidad.getIdEntidad() %>">
-                <input type="hidden" name="direccionId" value="<%= entidad.getDireccionId() %>">
+                <input type="hidden" name="direccionId" value="<%= entidad.getDireccionId() != null ? entidad.getDireccionId() : "" %>">
                 <% } %>
 
                 <div class="form-group">
@@ -92,6 +92,11 @@ Autores:
                         <option value="true" <%= (esEdicion && Boolean.TRUE.equals(entidad.getLigadoBancosol())) ? "selected" : "" %>>Sí</option>
                         <option value="false" <%= (esEdicion && !Boolean.TRUE.equals(entidad.getLigadoBancosol())) ? "selected" : "" %>>No</option>
                     </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Observaciones:</label>
+                    <textarea name="observaciones" rows="4"><%= (esEdicion && entidad.getObservaciones() != null ? entidad.getObservaciones() : "") %></textarea>
                 </div>
 
                 <div class="actions-row">

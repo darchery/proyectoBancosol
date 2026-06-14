@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,10 +45,14 @@ public class CadenaController {
     }
 
     @PostMapping("/guardar")
-    public String doGuardar(@ModelAttribute("cadena") CadenaDTO cadena, HttpSession session) {
+    public String doGuardar(@RequestParam(value = "idCadena", required = false) Integer idCadena,
+                            @RequestParam("nombreCadena") String nombreCadena,
+                            @RequestParam("resenyaCadena") String resenyaCadena,
+                            @RequestParam("logoUrl") String logoUrl,
+                            HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
-        cadenaService.guardar(cadena);
+        cadenaService.guardar(idCadena, nombreCadena, resenyaCadena, logoUrl);
         return "redirect:/campanyas";
     }
 

@@ -24,7 +24,7 @@ public class ContactoController {
     private final ContactoService contactoService;
 
     @GetMapping("/entidades/{idEntidad}/contactos")
-    public String listar(@PathVariable Integer idEntidad, Model model, HttpSession session) {
+    public String doListar(@PathVariable Integer idEntidad, Model model, HttpSession session) {
         // Acceden admins y coordinadores
         if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
@@ -34,7 +34,7 @@ public class ContactoController {
     }
 
     @GetMapping("/entidades/{idEntidad}/contactos/nuevo")
-    public String nuevo(@PathVariable Integer idEntidad, Model model, HttpSession session) {
+    public String doNuevo(@PathVariable Integer idEntidad, Model model, HttpSession session) {
         // Acceden admins y coordinadores
         if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
@@ -44,7 +44,7 @@ public class ContactoController {
     }
 
     @PostMapping("/entidades/{idEntidad}/contactos/guardar")
-    public String guardar(
+    public String doGuardar(
             @PathVariable Integer idEntidad,
             @RequestParam(value = "idContacto", required = false) Integer idContacto,
             @RequestParam("nombre") String nombre,
@@ -60,7 +60,7 @@ public class ContactoController {
     }
 
     @GetMapping("/entidades/{idEntidad}/contactos/editar")
-    public String editar(@PathVariable Integer idEntidad,
+    public String doEditar(@PathVariable Integer idEntidad,
                          @RequestParam("id") Integer id, Model model,
                          HttpSession session) {
         // Acceden admins y coordinadores
@@ -72,7 +72,7 @@ public class ContactoController {
     }
 
     @GetMapping("/entidades/{idEntidad}/contactos/borrar")
-    public String borrar(@PathVariable Integer idEntidad,
+    public String doBorrar(@PathVariable Integer idEntidad,
                          @RequestParam("id") Integer id,
                          HttpSession session) {
         // Sólo admin

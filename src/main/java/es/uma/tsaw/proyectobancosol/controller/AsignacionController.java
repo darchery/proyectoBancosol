@@ -30,7 +30,7 @@ public class AsignacionController {
     private final AsignacionVoluntarioService asignacionVoluntarioService;
 
     @GetMapping("/listar")
-    public String listar(@RequestParam(required = false) Integer idUsuario, Model model, HttpSession session) {
+    public String doListar(@RequestParam(required = false) Integer idUsuario, Model model, HttpSession session) {
         // Acceden coordinadores y admins
         if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
@@ -45,7 +45,7 @@ public class AsignacionController {
     }
 
     @GetMapping("/edit")
-    public String editarCrear(@RequestParam Integer idUsuario,
+    public String doEditarCrear(@RequestParam Integer idUsuario,
                               @RequestParam(required = false) Integer id,
                               Model model, HttpSession session) {
         // Acceden admins y coordinadores
@@ -79,7 +79,7 @@ public class AsignacionController {
     }
 
     @GetMapping("/borrar")
-    public String borrar(@RequestParam Integer id,
+    public String doBorrar(@RequestParam Integer id,
                          @RequestParam Integer idUsuario,
                          HttpSession session) {
         // Acceden admins y coordinadores

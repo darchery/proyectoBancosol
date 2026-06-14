@@ -26,7 +26,7 @@ public class TiendaCampanyaController {
     private final TiendaCampanyaService tiendaCampanyaService;
 
     @PostMapping("/asignar-responsables")
-    public String asignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
+    public String doAsignarResponsables(@RequestParam("idTiendaCampanya") Integer idTiendaCampanya,
                                       @RequestParam("idCoordinador") Integer idCoordinador,
                                       @RequestParam("idCapitan") Integer idCapitan,
                                       HttpSession session) {

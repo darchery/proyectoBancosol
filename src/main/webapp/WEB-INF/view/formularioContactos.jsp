@@ -52,7 +52,7 @@ Autores:
                     <td><%= c.getNombre() %></td>
                     <td><%= c.getEmail() != null ? c.getEmail() : "" %></td>
                     <td><%= c.getTelefono() != null ? c.getTelefono() : "" %></td>
-                    <td><%= Boolean.TRUE.equals(c.getEsPrincipal()) ? "✓" : "" %></td>
+                    <td><%= Boolean.TRUE.equals(c.getEsPrincipal()) ? "Sí" : "No" %></td>
                     <td class="text-center">
                         <a href="/entidades/<%= idEntidad %>/contactos/editar?id=<%= c.getIdContacto() %>" class="btn btn-sm btn-warning">Editar</a>
                     </td>

@@ -12,12 +12,13 @@ import es.uma.tsaw.proyectobancosol.dao.DireccionRepository;
 import es.uma.tsaw.proyectobancosol.dao.EntidadColaboradoraRepository;
 import es.uma.tsaw.proyectobancosol.dao.UsuarioRepository;
 import es.uma.tsaw.proyectobancosol.dto.EntidadColaboradoraDTO;
+import es.uma.tsaw.proyectobancosol.entity.ContactoEntity;
 import es.uma.tsaw.proyectobancosol.entity.EntidadColaboradoraEntity;
 import es.uma.tsaw.proyectobancosol.mapper.EntidadColaboradoraMapper;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -37,7 +38,8 @@ public class EntidadColaboradoraService {
     }
 
     public void guardar(Integer idEntidad, String nombreEntidad, String tipo,
-                        Boolean ligadoBancosol, Integer responsableId, Integer direccionId) {
+                        Boolean ligadoBancosol, Integer responsableId, Integer direccionId,
+                        String observaciones) {
 
         EntidadColaboradoraEntity entidad = (idEntidad == null)
                 ? new EntidadColaboradoraEntity()
@@ -46,12 +48,25 @@ public class EntidadColaboradoraService {
         entidad.setNombreEntidad(nombreEntidad);
         entidad.setTipo(tipo);
         entidad.setLigadoBancosol(ligadoBancosol);
+        entidad.setObservaciones(observaciones);
 
         if (responsableId != null) {
             entidad.setResponsable(usuarioRepo.findById(responsableId).get());
         }
         if (direccionId != null) {
             entidad.setDireccionEntity(direccionRepo.findById(direccionId).get());
+        }
+
+        if (idEntidad == null && responsableId != null) {
+            var responsable = usuarioRepo.findById(responsableId).get();
+            ContactoEntity contacto = new ContactoEntity();
+
+            contacto.setEntidad(entidad);
+            contacto.setNombre(responsable.getNombre());
+            contacto.setEmail(responsable.getEmail());
+            contacto.setTelefono(responsable.getTelefono());
+            contacto.setEsPrincipal(true);
+            entidad.setContactoEntities(List.of(contacto));
         }
 
         entidadRepo.save(entidad);

@@ -35,7 +35,7 @@ public class UsuarioController {
 
 
     @GetMapping("/coordinadores-capitanes")
-    public String listarCoordinadores(Model model, HttpSession session) {
+    public String doListarCoordinadores(Model model, HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
 
         List<UsuarioDTO> coordinadores = this.usuarioService.listarCoordinadoresCapitanes(2);
@@ -51,7 +51,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/voluntarios")
-    public String listarVoluntarios(Model model, HttpSession session) {
+    public String doListarVoluntarios(Model model, HttpSession session) {
         // Sólo acceden => admin, coordinador y coordinador-capitan
         if (!SecurityUtil.tieneRol(session, 1, 2, 6)) return "redirect:/sinPermisos";
 
@@ -61,7 +61,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/editarCrear")
-    public String editarCrearUsuario(@RequestParam(value = "id", required = false) Integer id,
+    public String doEditarCrearUsuario(@RequestParam(value = "id", required = false) Integer id,
                                     @RequestParam(value = "idRol", required = true) Integer idRol,
                                    Model model,
                                    HttpSession session) {
@@ -78,7 +78,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardarUsuario(@RequestParam(value = "id", required = false) Integer id,
+    public String doGuardarUsuario(@RequestParam(value = "id", required = false) Integer id,
                                  @RequestParam(value = "idRol", required = true) Integer idRol,
                                  @RequestParam(value = "nombre", required = false) String nombre,
                                  @RequestParam(value = "email", required = false) String email,
@@ -106,7 +106,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/borrar")
-    public String borrarUsuario(@RequestParam(value = "id", required = true) Integer id, HttpSession session) {
+    public String doBorrarUsuario(@RequestParam(value = "id", required = true) Integer id, HttpSession session) {
         if (!SecurityUtil.tieneRol(session, 1)) return "redirect:/sinPermisos";
         this.usuarioService.borrar(id);
 

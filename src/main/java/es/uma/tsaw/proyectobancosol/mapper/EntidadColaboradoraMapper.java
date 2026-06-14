@@ -43,6 +43,10 @@ public class EntidadColaboradoraMapper extends MapperDTO<EntidadColaboradoraDTO,
                         dto.setTelefonoContactoPrincipal(c.getTelefono());
                     });
         }
+        if (dto.getNombreContactoPrincipal() == null && entidad.getResponsable() != null) {
+            dto.setNombreContactoPrincipal(entidad.getResponsable().getNombre());
+            dto.setTelefonoContactoPrincipal(entidad.getResponsable().getTelefono());
+        }
         return dto;
     }
 }

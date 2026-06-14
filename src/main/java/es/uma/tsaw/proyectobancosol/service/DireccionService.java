@@ -25,6 +25,17 @@ public class DireccionService {
         return direccionMapper.toDTOList(direccionRepository.findAll());
     }
 
+    public Integer crear(String domicilio, String distritoLocal, String zonaGeografica) {
+
+        DireccionEntity direccionEntity = new DireccionEntity();
+
+        direccionEntity.setDomicilio(domicilio);
+        direccionEntity.setDistritoLocal(distritoLocal);
+        direccionEntity.setZonaGeografica(zonaGeografica);
+
+        return direccionRepository.save(direccionEntity).getIdDireccion();
+    }
+
     public void actualizar(Integer idDireccion, String domicilio, String distritoLocal, String zonaGeografica) {
         DireccionEntity direccionEntity = direccionRepository.findById(idDireccion).orElse(null);
         if (direccionEntity != null) {
