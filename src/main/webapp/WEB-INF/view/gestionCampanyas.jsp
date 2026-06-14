@@ -3,7 +3,8 @@ Página JSP que muestra la gestión de campañas de recogida.
 
 Autores:
 - Marina Ruiz: 50%
-- Sergio Aldana: 50%
+- Sergio Aldana: 40%
+- IA Generativa: 10%
 
 --%>
 

@@ -2,8 +2,8 @@
  * Controlador que gestiona la las cadenas.
  *
  * Autores:
- * - Sergio Aldana: 90%
- * - IA: 10 %
+ * - Sergio Aldana: 80%
+ * - IA: 20 %
  */
 
 package es.uma.tsaw.proyectobancosol.controller;

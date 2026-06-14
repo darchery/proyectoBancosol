@@ -3,7 +3,7 @@
  *
  * Autores:
  * - Daniela Calderón: 50%
- * - Daniela Calderón: 50%
+ * - Lucas Díaz: 50%
  */
 
 package es.uma.tsaw.proyectobancosol.service;

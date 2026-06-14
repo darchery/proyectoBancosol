@@ -1,5 +1,5 @@
 /**
- * Repositorio JPA para la entidad CampanyaCadena.
+ * Repositorio JPA para la entidad CampanyaRepository.
  *
  * Autores:
  * - Lucas Díaz Ruiz: 100%
