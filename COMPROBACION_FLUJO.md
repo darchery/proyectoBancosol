@@ -317,8 +317,8 @@ Basadas en los scripts SQL de seed (`usuario_rows.sql`, `rol_rows.sql`):
 | Paso | Acción | Resultado esperado |
 |------|--------|--------------------|
 | 1 | En `/entidades`, hacer clic en "Añadir Entidad" | Navega a `/entidades/nueva` |
-| 2 | Rellenar: nombre entidad, tipo, domicilio, distrito, zona, responsable (desplegable), ligado a Bancosol (sí/no) | — |
-| 3 | Hacer clic en "Guardar" | Redirige a `/entidades`, nueva entidad visible en la tabla |
+| 2 | Rellenar: nombre entidad, tipo, domicilio, distrito, zona, responsable (desplegable), ligado a Bancosol (sí/no), observaciones | — |
+| 3 | Hacer clic en "Guardar" | Redirige a `/entidades`, nueva entidad visible en la tabla con su contacto principal y dirección creados automáticamente |
 
 ### 7.3 Editar entidad existente
 
@@ -354,6 +354,7 @@ Basadas en los scripts SQL de seed (`usuario_rows.sql`, `rol_rows.sql`):
 | 1 | En `/entidades`, hacer clic en "Ver Contactos" en cualquier fila | Navega a `/entidades/{id}/contactos` |
 | 2 | Ver tabla con: Nombre, Email, Teléfono, Principal, Acciones (Editar, Borrar) | — |
 | 3 | Ver botones: "Añadir Contacto", "Volver a Entidades" | — |
+| 4 | Si la entidad se acaba de crear, verificar que ya existe un contacto principal auto-generado con los datos del responsable | — |
 
 ### 8.2 Crear nuevo contacto
 

@@ -45,6 +45,12 @@ Control de acceso por roles mediante `SecurityUtil.tieneRol(session, roles...)` 
 | 5 | Entidad |
 | 6 | CoordinadorCapitán |
 
+### Convenciones de código
+
+- **Prefijo `do`:** Todos los métodos de controlador llevan el prefijo `do` (ej. `doGuardar`, `doListar`, `doBorrar`) para distinguirlos de métodos de utilidad.
+- **`@RequestParam`:** Los controladores reciben parámetros individuales con `@RequestParam`, no DTOs completos con `@ModelAttribute`.
+- **Sin JavaScript:** Todo el dinamismo se resuelve en servidor; las vistas JSP no contienen etiquetas `<script>`.
+
 ## Estructura del proyecto
 
 ```
