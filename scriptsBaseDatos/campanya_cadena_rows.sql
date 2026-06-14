@@ -1,9 +1,9 @@
 INSERT INTO "public"."campanya_cadena" ("id_campanya", "id_cadena")
-VALUES (8, 1),
-       (8, 2),
-       (8, 3),
-       (8, 4),
-       (8, 5),
+VALUES (1, 1),
+       (1, 2),
        (10, 1),
        (10, 2),
-       (10, 5);
+       (10, 5),
+       (24, 1),
+       (25, 2),
+       (25, 3);

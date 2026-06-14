@@ -1,4 +1,4 @@
-INSERT INTO "public"."rolEntity" ("id_rol", "nombre_rol")
+INSERT INTO "public"."rol" ("id_rol", "nombre_rol")
 VALUES (1, 'Administrador'),
        (2, 'Coordinador'),
        (3, 'Capitan'),
